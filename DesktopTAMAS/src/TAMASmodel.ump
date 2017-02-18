@@ -1,0 +1,98 @@
+namespace ecse321.group12.tamas.model;
+
+class User
+{
+  name;
+  id; 
+}
+
+class Applicant
+{
+  isA User;
+  cGPA;
+  skills;  
+  Boolean isGraduate;
+  
+  1 applicant <@>- 0..3 Application applications;
+  1 applicant <@>- 0..3 Assignment assignments;
+}
+
+class Instructor
+{
+  isA User;
+}
+
+class Department
+{
+  isA User;
+}
+
+class Assignment
+{
+  autounique id;
+  feedback;  
+}
+
+class Application 
+{
+  autounique id;
+  Boolean isAccepted;
+  experience;
+  courseGPA;
+}
+
+class Job
+{
+  Integer maxHours;
+  Integer wage;
+  Date deadline;
+  requiredSkills;
+  requiredCourseGPA;
+  requiredCGPA;
+  requiredExperience;
+  1 job <@>- 0..1 Assignment assignment;
+  1 job <@>- * Application applications;
+}
+
+class TAjob
+{
+  isA Job;
+  Integer minHours;
+  Boolean isLab;
+}
+
+class GraderJob
+{
+  isA Job;
+}
+
+class Course
+{
+  name;
+  Integer numTutorialSections;
+  Integer numLabSections;
+  
+  1 <@>- * Hours contactTimes;
+  * courses -- 0..4 Instructor instructors;
+  1 course <@>- * Job jobs;
+}
+
+class Hours
+{
+  Date date;
+  Time startTime;
+  Time endTime;
+}
+
+class ResourceManager
+{
+ singleton;
+ 1 -> * Applicant applicants;
+ 1 -> * Instructor instructors;
+ 1 -> 1 Department department;
+ 1 -> 1 User loggedIn;
+ 1 -> * Application applications;
+ 1 -> * Job jobs;
+ 1 -> * Course courses;
+ 1 -> * Assignment assignments;
+}
