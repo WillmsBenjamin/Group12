@@ -38,23 +38,36 @@ public class TestPersistence {
 	    comp250.addContactTime(date, time, time);
 	    comp250.addInstructor(i);
 	    
-	    //create job
+	    //create jobs
 	    TAjob j = new TAjob(31, 31, date, "We don't care!", "3.00", "3.00", "who cares", comp250, 20, false);
+	    GraderJob j2 = new GraderJob(15, 15, date, "Nothing.", "2.50", "2.80", "nope", comp250);
 	    
 	    //create applications
 	    Application app = new Application(false, "nothing", "3.10", a, j);
-	    Application app2 = new Application(false, "nothing", "3.11", a2, j);
+	    Application app2 = new Application(false, "nothing", "3.11", a2, j2);
 
-	    // register participants to event
-	    Registration re = new Registration(pa, ev);
-	    Registration re2 = new Registration(pa2, ev);
+	    //create department
+	    Department d = new Department("ECSE", "01");
+	    
+	    // Assign applicants to jobs
+	    Assignment assign = new Assignment("", a, j);
+	    Assignment assign2 = new Assignment("", a2, j2);
+	    app.setIsAccepted(true);
+	    app2.setIsAccepted(true);
 
-	    // manage registrations
-	    rm.addRegistration(re);
-	    rm.addRegistration(re2);
-	    rm.addEvent(ev);
-	    rm.addParticipant(pa);
-	    rm.addParticipant(pa2);
+	    // manage everything
+	    rm.addApplicant(a);
+	    rm.addApplicant(a2);
+	    rm.addInstructor(i);
+	    rm.addCourse(comp250);
+	    rm.addJob(j);
+	    rm.addJob(j2);
+	    rm.addApplication(app);
+	    rm.addApplication(app2);
+	    rm.setDepartment(d);
+	    rm.addAssignment(assign);
+	    rm.addAssignment(assign2);
+	    rm.setLoggedIn(d);
 	}
 
 	@After
@@ -67,42 +80,70 @@ public class TestPersistence {
 		// initialize model file
 	    PersistenceXStream.initializeModelManager("output"+File.separator+"data.xml");
 	    // save model that is loaded during test setup
-	    if (!PersistenceXStream.saveToXMLwithXStream(rm))
+	    if (!PersistenceXStream.saveToXMLwithXStream(rm)) {
 	        fail("Could not save file.");
-
+	    }
+	    
 	    // clear the model in memory
 	    rm.delete();
-	    assertEquals(0, rm.getParticipants().size());
-	    assertEquals(0, rm.getEvents().size());
-	    assertEquals(0, rm.getRegistrations().size());
+	    assertEquals(0, rm.getApplicants().size());
+	    assertEquals(0, rm.getInstructors().size());
+	    assertEquals(0, rm.getCourses().size());
+	    assertEquals(0, rm.getJobs().size());
+	    assertEquals(0, rm.getApplications().size());
+	    assertEquals(null, rm.getDepartment());
+	    assertEquals(0, rm.getAssignments().size());
+	    assertEquals(null, rm.getLoggedIn());
 
 	    // load model
 	    rm = (ResourceManager) PersistenceXStream.loadFromXMLwithXStream();
-	    if (rm == null)
+	    if (rm == null) {
 	        fail("Could not load file.");
-
-	    // check participants
-	    assertEquals(2, rm.getParticipants().size());
-	    assertEquals("Martin", rm.getParticipant(0).getName());
-	    assertEquals("Jennifer", rm.getParticipant(1).getName());
-	    // check event
-	    assertEquals(1, rm.getEvents().size());
-	    assertEquals("Concert", rm.getEvent(0).getName());
+	    }
+	    
+	    // check applicants
+	    assertEquals(2, rm.getApplicants().size());
+	    assertEquals("Roger", rm.getApplicant(0).getName());
+	    assertEquals("Jennifer", rm.getApplicant(1).getName());
+	    
+	    // check instructor
+	    assertEquals(1, rm.getInstructors().size());
+	    assertEquals("Donald Davis", rm.getInstructor(0).getName());
+	    
+	    //check course
+	    assertEquals(1, rm.getCourses().size());
+	    assertEquals("Comp 250", rm.getCourse(0).getName());
+	    
 	    Calendar c = Calendar.getInstance();
 	    c.set(2015,Calendar.SEPTEMBER,15,8,30,0);
-	    Date eventDate = new Date(c.getTimeInMillis());
-	    Time startTime = new Time(c.getTimeInMillis());
-	    c.set(2015,Calendar.SEPTEMBER,15,10,0,0);
-	    Time endTime = new Time(c.getTimeInMillis());
-	    assertEquals(eventDate.toString(), rm.getEvent(0).getEventDate().toString());
-	    assertEquals(startTime.toString(), rm.getEvent(0).getStartTime().toString());
-	    assertEquals(endTime.toString(), rm.getEvent(0).getEndTime().toString());
-	    // check registrations
-	    assertEquals(2, rm.getRegistrations().size());
-	    assertEquals(rm.getEvent(0), rm.getRegistration(0).getEvent());
-	    assertEquals(rm.getParticipant(0), rm.getRegistration(0).getParticipant());
-	    assertEquals(rm.getEvent(0), rm.getRegistration(1).getEvent());
-	    assertEquals(rm.getParticipant(1), rm.getRegistration(1).getParticipant());
+	    Date date = new Date(c.getTimeInMillis());
+	    Time time = new Time(c.getTimeInMillis());
+	
+	    assertEquals(date.toString(), rm.getCourse(0).getContactTime(0).getDate().toString());
+	    assertEquals(time.toString(), rm.getCourse(0).getContactTime(0).getStartTime().toString());
+	    assertEquals(time.toString(), rm.getCourse(0).getContactTime(0).getEndTime().toString());
+	    
+	    //check jobs
+	    assertEquals(2, rm.getJobs().size());
+	    assertEquals("3.00", rm.getJob(0).getRequiredCGPA());
+	    assertEquals("2.80", rm.getJob(1).getRequiredCGPA());
+	    
+	    //check applications
+	    assertEquals(2, rm.getApplications().size());
+	    assertEquals("3.10", rm.getApplication(0).getCourseGPA());
+	    assertEquals("3.11", rm.getApplication(1).getCourseGPA());
+	    
+	    //check department
+	    assertEquals("ECSE", rm.getDepartment().getName());
+	    
+	    //check assignments
+	    assertEquals(2, rm.getAssignments().size());
+	    assertEquals(rm.getApplicant(0), rm.getAssignment(0).getApplicant());
+	    assertEquals(rm.getApplicant(1), rm.getAssignment(1).getApplicant());
+	    
+	    //check loggedIn
+	    assertEquals("ECSE", rm.getLoggedIn().getName());
+	    
 	}
 
 }
