@@ -175,7 +175,6 @@ public class RegisterStudentPage extends JFrame {
 		// error
 	    errorMessage.setText(error);
 	    if (error == null || error.length() == 0) {
-	        // participant
 	        nameTextField.setText("");
 	        idTextField.setText("");
 	        cGPATextField.setText("");

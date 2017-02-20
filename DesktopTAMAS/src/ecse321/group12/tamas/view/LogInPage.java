@@ -7,6 +7,9 @@ import ecse321.group12.tamas.controller.TamasController;
 import ecse321.group12.tamas.controller.DepartmentRegisteredException;
 import ecse321.group12.tamas.controller.InvalidInputException;
 import ecse321.group12.tamas.controller.UserType;
+import ecse321.group12.tamas.model.Applicant;
+import ecse321.group12.tamas.model.Department;
+import ecse321.group12.tamas.model.Instructor;
 import ecse321.group12.tamas.model.ResourceManager;
 
 import javax.swing.JLabel;
@@ -141,16 +144,23 @@ public class LogInPage extends JFrame {
 	}
 
 	protected void registerDepartmentButtonActionPerformed() {
-		// create and call the controller
-//		TamasController tc = new TamasController(rm);
-//		error = null;
-//		try {
-//			tc.chooseRegisterView(UserType.DEPARTMENT);
-//		} catch (DepartmentRegisteredException e) {
-//			error = e.getMessage();
-//		}
-//		//update visuals
-//		refreshData();
+		// create and call the controller 
+		TamasController tc = new TamasController(rm);
+		error = null;
+		try {
+			tc.checkDepartmentExistence();
+		} catch (DepartmentRegisteredException e) {
+			error = e.getMessage();
+		}
+		//update visuals if there is an error
+		if(error != null) {
+			refreshData();
+			return;
+		} else {
+			RegisterDepartmentPage rdp = new RegisterDepartmentPage(rm);
+			this.dispose();
+			rdp.setVisible(true);
+		}
 	}
 
 	protected void logInButtonActionPerformed() {
@@ -163,8 +173,20 @@ public class LogInPage extends JFrame {
 		} catch (InvalidInputException e) {
 			error = e.getMessage();
 		}
-		//update visuals
-		refreshData();
+		//update visuals if there is an error
+		if(error != null) {
+			refreshData();
+			return;
+		} else if(rm.getLoggedIn() instanceof Department){
+			//TODO: Go to department view
+			return;
+		} else if(rm.getLoggedIn() instanceof Instructor){
+			//TODO: Go to instructor view
+			return;
+		} else if(rm.getLoggedIn() instanceof Applicant){
+			//TODO: Go to applicant view
+			return;
+		}
 	}
 
 	private void refreshData() {

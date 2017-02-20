@@ -19,14 +19,15 @@ import java.awt.Color;
 import java.awt.event.ItemEvent;
 
 import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
 import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
 
-public class RegisterInstructorPage extends JFrame {
-	
+public class RegisterDepartmentPage extends JFrame{
+
 	private ResourceManager rm;
 
-	public RegisterInstructorPage(ResourceManager rm) {
+	public RegisterDepartmentPage(ResourceManager rm) {
 		this.rm = rm;
 	}
 
