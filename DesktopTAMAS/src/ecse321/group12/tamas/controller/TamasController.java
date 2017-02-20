@@ -45,10 +45,16 @@ public class TamasController {
 				PersistenceXStream.saveToXMLwithXStream(rm);
 				return;
 			}
+		} else {
+			throw new InvalidInputException("Id doesn't match a registered user!");
 		}
-		throw new InvalidInputException("Id doesn't match a registered user!");
 	}
 
+	public void logOut() {
+		rm.setLoggedIn(null);
+		PersistenceXStream.saveToXMLwithXStream(rm);
+	}
+	
 	public void registerApplicant(String name, String id, String cGPA, String skills, Boolean isGraduate) throws InvalidInputException {
 		if (name == null || name.trim().length() == 0) {
 			throw new InvalidInputException("Student name cannot be empty!");
@@ -82,14 +88,33 @@ public class TamasController {
 		Applicant a = new Applicant(name, id, cGPA, skills, isGraduate);
 		rm.addApplicant(a);
 		PersistenceXStream.saveToXMLwithXStream(rm);
-		
 	}
 	
-
-	public void checkDepartmentExistence() throws DepartmentRegisteredException{
+	public void checkDepartmentExistence() throws DepartmentRegisteredException {
 		if(rm.getDepartment() instanceof Department) {
 			throw new DepartmentRegisteredException("A department exists. No more can be added!");
 		}
+	}
+
+	public void registerDepartment(String name, String id) throws InvalidInputException {
+		if (name == null || name.trim().length() == 0) {
+			throw new InvalidInputException("Department name cannot be empty!");
+		}
+		if (id == null || id.trim().length() == 0) {
+			throw new InvalidInputException("Department id cannot be empty!");
+		}
+		if(id.length() != 9) {
+			throw new InvalidInputException("Department id must be 9 numbers long!");
+		} else {
+			for(int i = 0; i < 9; i++) {
+				if(id.charAt(i) < 48 || id.charAt(i) > 57) {
+					throw new InvalidInputException("Department id must be all numbers!");
+				}
+			}
+		}
+		Department d = new Department(name, id);
+		rm.setDepartment(d);
+		PersistenceXStream.saveToXMLwithXStream(rm);
 	}
 	
 }

@@ -47,7 +47,7 @@ public class RegisterStudentPage extends JFrame {
 	private String error = null;
 	private JLabel errorMessage;
 	
-	/** Creates new form ParticipantPage */
+	/** Creates new form RegisterStudentPage */
 	public RegisterStudentPage(ResourceManager rm) {
 	    this.rm = rm;
 	    initComponents();

@@ -40,7 +40,7 @@ public class LogInPage extends JFrame {
 	private String error = null;
 	private JLabel errorMessage;
 	
-	/** Creates new form ParticipantPage */
+	/** Creates new form LogInPage */
 	public LogInPage(ResourceManager rm) {
 	    this.rm = rm;
 	    initComponents();
