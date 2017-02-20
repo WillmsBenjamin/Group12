@@ -4,11 +4,13 @@ import javax.swing.JFrame;
 import javax.swing.JTextField;
 
 import ecse321.group12.tamas.controller.TamasController;
+import ecse321.group12.tamas.controller.DepartmentRegisteredException;
 import ecse321.group12.tamas.controller.InvalidInputException;
-import ecse321.group12.tamas.controller.UserTypes;
+import ecse321.group12.tamas.controller.UserType;
 import ecse321.group12.tamas.model.ResourceManager;
 
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JButton;
 
 import java.awt.Color;
@@ -16,17 +18,19 @@ import java.awt.Color;
 import javax.swing.GroupLayout;
 import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
+import javax.swing.GroupLayout.Alignment;
 
 
 public class LogInPage extends JFrame {
 
 	private static final long serialVersionUID = -3813819647258555349L;
-	
-	private JTextField userNameTextField;
+
 	private JTextField logInIdTextField;
-	private JLabel userNameLabel;
 	private JLabel logInIdLabel;
-	private JButton registerUserButton;
+	private JButton registerDepartmentButton;
+	private JButton registerInstructorButton;
+	private JButton registerStudentButton;
+	private JButton logInButton;
 	
 	private ResourceManager rm;
 	
@@ -40,10 +44,13 @@ public class LogInPage extends JFrame {
 	}
 	
 	private void initComponents() {
-	    // elements for Registering
-	    userNameTextField = new JTextField();
-	    userNameLabel = new JLabel();
-	    registerUserButton = new JButton();
+	    // elements for logging in and switching to register views
+		logInIdTextField = new JTextField();
+		logInIdLabel = new JLabel();
+		registerDepartmentButton = new JButton();
+		registerInstructorButton = new JButton();
+		registerStudentButton = new JButton();
+		logInButton = new JButton();
 	    
 	    // elements for error message
 	    errorMessage = new JLabel();
@@ -51,10 +58,13 @@ public class LogInPage extends JFrame {
 
 	    // global settings and listeners
 	    setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-	    setTitle("TAMAS LOGIN/REGISTER");
+	    setTitle("TAMAS LOGIN");
 
-	    userNameLabel.setText("Name:");
-	    registerUserButton.setText("Sign-up");
+	    logInIdLabel.setText("Id:");
+	    registerDepartmentButton.setText("Register Department");
+	    registerInstructorButton.setText("Register Instructor");
+	    registerStudentButton.setText("Register Student");
+	    logInButton.setText("Sign In");
 
 	    // layout
 	    GroupLayout layout = new GroupLayout(getContentPane());
@@ -66,48 +76,90 @@ public class LogInPage extends JFrame {
 	    	layout.createParallelGroup()
 	        .addComponent(errorMessage)
 	        .addGroup(layout.createSequentialGroup()
-	        .addComponent(participantNameLabel)
-	        .addGroup(layout.createParallelGroup()
-	        	.addComponent(participantNameTextField, 200, 200, 400)
-	        	.addComponent(addParticipantButton))
+	        	.addComponent(logInIdLabel)
+	        	.addGroup(layout.createParallelGroup()
+	        		.addComponent(logInIdTextField, 200, 200, 400)
+	        		.addComponent(logInButton))
+	        	.addGroup(layout.createParallelGroup()
+	        		.addComponent(registerDepartmentButton)
+	        		.addComponent(registerInstructorButton)
+	        		.addComponent(registerStudentButton))
 	        ));
 
-	    layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {addParticipantButton, participantNameTextField});
+	    layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {registerDepartmentButton, logInIdTextField, registerInstructorButton, logInButton, registerStudentButton});
 
 	    layout.setVerticalGroup(
 	    	layout.createSequentialGroup()
-	        .addComponent(errorMessage)
+	    	.addComponent(errorMessage)
 	        .addGroup(layout.createParallelGroup()
-	        	.addComponent(participantNameLabel)
-	        	.addComponent(participantNameTextField))
-	        .addComponent(addParticipantButton)
-	        );
+	        	.addComponent(logInIdLabel)
+	        	.addGroup(layout.createSequentialGroup()
+	        		.addComponent(logInIdTextField)
+	        		.addComponent(logInButton))
+	        	.addGroup(layout.createSequentialGroup()
+	        		.addComponent(registerDepartmentButton)
+	        		.addComponent(registerInstructorButton)
+	        		.addComponent(registerStudentButton))
+	        ));
 
 	    pack();
 	    
-	    addParticipantButton.addActionListener(new java.awt.event.ActionListener() {
+	    logInButton.addActionListener(new java.awt.event.ActionListener() {
 	        public void actionPerformed(java.awt.event.ActionEvent evt) {
-	            addParticipantButtonActionPerformed();
+	            logInButtonActionPerformed();
+	        }
+	    });
+	    registerDepartmentButton.addActionListener(new java.awt.event.ActionListener() {
+	        public void actionPerformed(java.awt.event.ActionEvent evt) {
+	            registerDepartmentButtonActionPerformed();
+	        }
+	    });
+	    registerInstructorButton.addActionListener(new java.awt.event.ActionListener() {
+	        public void actionPerformed(java.awt.event.ActionEvent evt) {
+	            registerInstructorButtonActionPerformed();
+	        }
+	    });
+	    registerStudentButton.addActionListener(new java.awt.event.ActionListener() {
+	        public void actionPerformed(java.awt.event.ActionEvent evt) {
+	            registerStudentButtonActionPerformed();
 	        }
 	    });
 	}
 	
-	private void refreshData() {
-		// error
-	    errorMessage.setText(error);
-	    if (error == null || error.length() == 0) {
-	        // participant
-	        participantNameTextField.setText("");
-	    }
-	    pack();
+	protected void registerStudentButtonActionPerformed() {
+		error = null;
+		RegisterStudentPage rsp = new RegisterStudentPage(rm);
+		this.dispose();
+		rsp.setVisible(true);
 	}
-	
-	private void addParticipantButtonActionPerformed() {
+
+	protected void registerInstructorButtonActionPerformed() {
+		error = null;
+		RegisterInstructorPage rip = new RegisterInstructorPage(rm);
+		this.dispose();
+		rip.setVisible(true);
+	}
+
+	protected void registerDepartmentButtonActionPerformed() {
 		// create and call the controller
-		EventRegistrationController erc = new EventRegistrationController(rm);
+//		TamasController tc = new TamasController(rm);
+//		error = null;
+//		try {
+//			tc.chooseRegisterView(UserType.DEPARTMENT);
+//		} catch (DepartmentRegisteredException e) {
+//			error = e.getMessage();
+//		}
+//		//update visuals
+//		refreshData();
+	}
+
+	protected void logInButtonActionPerformed() {
+		// TODO Auto-generated method stub
+		// create and call the controller
+		TamasController tc = new TamasController(rm);
 		error = null;
 		try {
-		    erc.createParticipant(participantNameTextField.getText());
+			tc.logIn(logInIdTextField.getText());
 		} catch (InvalidInputException e) {
 			error = e.getMessage();
 		}
@@ -115,4 +167,13 @@ public class LogInPage extends JFrame {
 		refreshData();
 	}
 
+	private void refreshData() {
+		// error
+	    errorMessage.setText(error);
+	    if (error == null || error.length() == 0) {
+	        // participant
+	        logInIdTextField.setText("");
+	    }
+	    pack();
+	}
 }
