@@ -1,22 +1,18 @@
 <manager id="1">
-  <applicants id="2">
-    <applicant id="3">
-      <name>Tim</name>
-      <id>234234234</id>
-      <cGPA>4.00</cGPA>
-      <skills>I suck at everything!</skills>
-      <isGraduate>true</isGraduate>
-      <applications id="4"/>
-      <assignments id="5"/>
-    </applicant>
-  </applicants>
-  <instructors id="6"/>
-  <department id="7">
+  <applicants id="2"/>
+  <instructors id="3">
+    <instructor id="4">
+      <name>Donald Davis</name>
+      <id>000000666</id>
+      <courses id="5"/>
+    </instructor>
+  </instructors>
+  <department id="6">
     <name>ECSE</name>
     <id>260690005</id>
   </department>
-  <applications id="8"/>
-  <jobs id="9"/>
-  <courses id="10"/>
-  <assignments id="11"/>
+  <applications id="7"/>
+  <jobs id="8"/>
+  <courses id="9"/>
+  <assignments id="10"/>
 </manager>

@@ -1,6 +1,9 @@
 package ecse321.group12.tamas.controller;
 
 import ecse321.group12.tamas.controller.InvalidInputException;
+
+import java.sql.Date;
+
 import ecse321.group12.tamas.controller.DepartmentRegisteredException;
 import ecse321.group12.tamas.model.*;
 import ecse321.group12.tamas.persistence.PersistenceXStream;
@@ -26,21 +29,21 @@ public class TamasController {
 			}
 		}
 		for(Applicant a : rm.getApplicants()) {
-			if(a.getId() == id) {
+			if(a.getId().equals(id)) {
 				rm.setLoggedIn(a);
 				PersistenceXStream.saveToXMLwithXStream(rm);
 				return;
 			}
 		}
 		for(Instructor i : rm.getInstructors()) {
-			if(i.getId() == id) {
+			if(i.getId().equals(id)) {
 				rm.setLoggedIn(i);
 				PersistenceXStream.saveToXMLwithXStream(rm);
 				return;
 			}
 		}
 		if(rm.getDepartment() != null) {
-			if(rm.getDepartment().getId() == id) {
+			if(rm.getDepartment().getId().equals(id)) {
 				rm.setLoggedIn(rm.getDepartment());
 				PersistenceXStream.saveToXMLwithXStream(rm);
 				return;
@@ -137,5 +140,16 @@ public class TamasController {
 		PersistenceXStream.saveToXMLwithXStream(rm);
 		
 	}
-	
+
+	public void postTAJob(int aMaxHours, double aWage, Date aDeadline, String aRequiredSkills, String aRequiredCourseGPA,
+			String aRequiredCGPA, String aRequiredExperience, Course aCourse, int aMinHours, boolean aIsLab) throws InvalidInputException {
+		//TODO: Error checking, functionality, and persistence
+		
+	}
+
+	public void postGraderJob(int aMaxHours, double aWage, Date aDeadline, String aRequiredSkills, String aRequiredCourseGPA,
+			String aRequiredCGPA, String aRequiredExperience, Course aCourse) throws InvalidInputException {
+		//TODO: Error checking, functionality, and persistence
+		
+	}
 }

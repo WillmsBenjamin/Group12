@@ -126,6 +126,12 @@ public class RegisterDepartmentPage extends JFrame{
 			error = e.getMessage();
 		}
 		//update visuals
+		if(error == null) {
+			LogInPage lip = new LogInPage(rm);
+			this.dispose();
+			lip.setVisible(true);
+			return;
+		}
 		refreshData();
 	}
 	

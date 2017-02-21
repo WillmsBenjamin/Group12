@@ -10,6 +10,7 @@ import ecse321.group12.tamas.controller.DepartmentRegisteredException;
 import ecse321.group12.tamas.controller.InvalidInputException;
 import ecse321.group12.tamas.controller.UserType;
 import ecse321.group12.tamas.model.Applicant;
+import ecse321.group12.tamas.model.Course;
 import ecse321.group12.tamas.model.Department;
 import ecse321.group12.tamas.model.Instructor;
 import ecse321.group12.tamas.model.ResourceManager;
@@ -24,6 +25,12 @@ import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.util.Date;
 import java.util.Properties;
 
 import javax.swing.ButtonGroup;
@@ -35,6 +42,7 @@ import javax.swing.GroupLayout.Alignment;
 import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.SqlDateModel;
+
 
 
 public class PostJobPage extends JFrame {
@@ -74,7 +82,11 @@ public class PostJobPage extends JFrame {
 	private String error = null;
 	private JLabel errorMessage;
 	
-	private Integer selectedCourse = -1;
+	private int selectedCourse = -1;
+	private String buttonState = "";
+	private boolean isLabChecked = false;
+	
+	private GroupLayout layout;
 	
 	/** Creates new form PostJobPage */
 	public PostJobPage(ResourceManager rm) {
@@ -96,12 +108,17 @@ public class PostJobPage extends JFrame {
 		courseLabel = new JLabel("Course:");
 		
 		isLabCheckBox = new JCheckBox("Lab Session?");
+		isLabCheckBox.setSelected(false);
 		
 		TAJobRadioButton = new JRadioButton("TA Job");
+		TAJobRadioButton.setActionCommand("TA");
 		graderJobRadioButton = new JRadioButton("Grader Job");
+		graderJobRadioButton.setActionCommand("Grader");
 		jobTypeSelection = new ButtonGroup();
 		jobTypeSelection.add(TAJobRadioButton);
 		jobTypeSelection.add(graderJobRadioButton);
+		jobTypeSelection.setSelected(TAJobRadioButton.getModel(), true);
+		buttonState = "TA";
 		
 		postJobButton = new JButton("Post Job");
 		backButton = new JButton("Back");
@@ -133,11 +150,17 @@ public class PostJobPage extends JFrame {
 	    errorMessage.setForeground(Color.RED);
 
 	    // global settings and listeners
-	    setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+	    setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+	    this.addWindowListener(new WindowAdapter() {
+	        @Override
+	        public void windowClosing(WindowEvent event) {
+	            exitProcedure();
+	        }
+	    });
 	    setTitle("TAMAS: POST JOB");
 
 	    // layout
-	    GroupLayout layout = new GroupLayout(getContentPane());
+	    layout = new GroupLayout(getContentPane());
 	    getContentPane().setLayout(layout);
 	    layout.setAutoCreateGaps(true);
 	    layout.setAutoCreateContainerGaps(true);
@@ -147,37 +170,43 @@ public class PostJobPage extends JFrame {
 	    	layout.createParallelGroup()
 	        .addComponent(errorMessage)
 	        .addGroup(layout.createSequentialGroup()
-	        	.addComponent(courseLabel)
-	        	.addComponent(courseList)
-	        	.addComponent(TAJobRadioButton)
-	        	.addComponent(graderJobRadioButton)
-	        	.addComponent(isLabCheckBox))	
+	        	.addGroup(layout.createParallelGroup()
+	        			.addGroup(layout.createSequentialGroup()
+	        					.addComponent(courseLabel)
+	        		        	.addComponent(courseList))
+	        			.addGroup(layout.createSequentialGroup()
+	        					.addComponent(minHoursLabel)
+	        		        	.addComponent(minHoursSpinner))
+	        			.addGroup(layout.createSequentialGroup()
+	        					.addComponent(maxHoursLabel)
+	        		        	.addComponent(maxHoursSpinner))
+	        			.addGroup(layout.createSequentialGroup()
+	        					.addComponent(wageLabel)
+	        		        	.addComponent(wageSpinner))
+	        			.addGroup(layout.createSequentialGroup()
+	        					.addComponent(requiredCourseGPALabel)
+	        		        	.addComponent(requiredCourseGPATextField))
+	        			.addGroup(layout.createSequentialGroup()
+	        					.addComponent(requiredCGPALabel)
+	        		        	.addComponent(requiredCGPATextField))
+	        			.addGroup(layout.createSequentialGroup()
+	        					.addComponent(deadlineLabel)
+	        		        	.addComponent(deadlineDatePicker)))
+	        	.addGroup(layout.createParallelGroup()
+	        			.addGroup(layout.createSequentialGroup()
+	        					.addComponent(TAJobRadioButton)
+	        		        	.addComponent(graderJobRadioButton)
+	        		        	.addComponent(isLabCheckBox))
+	        			.addGroup(layout.createSequentialGroup()
+	        					.addComponent(requiredSkillsLabel)
+	        		        	.addComponent(requiredSkillsTextArea))
+	        			.addGroup(layout.createSequentialGroup()
+	        					.addComponent(requiredExperienceLabel)
+	        		        	.addComponent(requiredExperienceTextArea))))
 	        .addGroup(layout.createSequentialGroup()
-	        	.addComponent(minHoursLabel)
-	        	.addComponent(minHoursSpinner)
-	        	.addComponent(requiredSkillsLabel)
-	        	.addComponent(requiredSkillsTextArea))
-	        .addGroup(layout.createSequentialGroup()
-	        	.addComponent(maxHoursLabel)
-	        	.addComponent(maxHoursSpinner))
-	        .addGroup(layout.createSequentialGroup()
-	        	.addComponent(wageLabel)
-	        	.addComponent(wageSpinner))
-	        .addGroup(layout.createSequentialGroup()
-	        	.addComponent(requiredCourseGPALabel)
-	        	.addComponent(requiredCourseGPATextField)
-	        	.addComponent(requiredExperienceLabel)
-	        	.addComponent(requiredExperienceTextArea))
-	        .addGroup(layout.createSequentialGroup()
-	        	.addComponent(requiredCGPALabel)
-	        	.addComponent(requiredCGPATextField))
-	        .addGroup(layout.createSequentialGroup()
-	        	.addComponent(deadlineLabel)
-	        	.addComponent(deadlineDatePicker))
-	        .addGroup(layout.createSequentialGroup()
-	        	.addComponent(logOutButton)
-	        	.addComponent(backButton)
-	        	.addComponent(postJobButton))
+	        		.addComponent(logOutButton)
+	        		.addComponent(backButton)
+	        		.addComponent(postJobButton))
 	        );
 
 	    layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {courseLabel, minHoursLabel, maxHoursLabel, wageLabel, requiredCourseGPALabel, requiredCGPALabel, deadlineLabel});
@@ -185,45 +214,52 @@ public class PostJobPage extends JFrame {
 	    layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {requiredSkillsLabel, requiredExperienceLabel});
 	    
 	    layout.setVerticalGroup(
-	    	layout.createSequentialGroup()
-		    .addComponent(errorMessage)
-		    .addGroup(layout.createParallelGroup()
-		        .addComponent(courseLabel)
-		        .addComponent(courseList)
-		        .addComponent(TAJobRadioButton)
-		        .addComponent(graderJobRadioButton)
-		        .addComponent(isLabCheckBox))	
-		    .addGroup(layout.createParallelGroup()
-		        .addComponent(minHoursLabel)
-		        .addComponent(minHoursSpinner)
-		        .addComponent(requiredSkillsLabel)
-		        .addComponent(requiredSkillsTextArea))
-		    .addGroup(layout.createParallelGroup()
-		        .addComponent(maxHoursLabel)
-		        .addComponent(maxHoursSpinner))
-		    .addGroup(layout.createParallelGroup()
-		        .addComponent(wageLabel)
-		        .addComponent(wageSpinner))
-		    .addGroup(layout.createParallelGroup()
-		        .addComponent(requiredCourseGPALabel)
-		        .addComponent(requiredCourseGPATextField)
-		        .addComponent(requiredExperienceLabel)
-		        .addComponent(requiredExperienceTextArea))
-		    .addGroup(layout.createParallelGroup()
-		        .addComponent(requiredCGPALabel)
-		        .addComponent(requiredCGPATextField))
-		    .addGroup(layout.createParallelGroup()
-		        .addComponent(deadlineLabel)
-		        .addComponent(deadlineDatePicker))
-		    .addGroup(layout.createParallelGroup()
-		        .addComponent(logOutButton)
-		        .addComponent(backButton)
-		        .addComponent(postJobButton))
-		    );
+	    		layout.createSequentialGroup()
+		        .addComponent(errorMessage)
+		        .addGroup(layout.createParallelGroup()
+		        	.addGroup(layout.createSequentialGroup()
+		        			.addGroup(layout.createParallelGroup()
+		        					.addComponent(courseLabel)
+		        		        	.addComponent(courseList))
+		        			.addGroup(layout.createParallelGroup()
+		        					.addComponent(minHoursLabel)
+		        		        	.addComponent(minHoursSpinner))
+		        			.addGroup(layout.createParallelGroup()
+		        					.addComponent(maxHoursLabel)
+		        		        	.addComponent(maxHoursSpinner))
+		        			.addGroup(layout.createParallelGroup()
+		        					.addComponent(wageLabel)
+		        		        	.addComponent(wageSpinner))
+		        			.addGroup(layout.createParallelGroup()
+		        					.addComponent(requiredCourseGPALabel)
+		        		        	.addComponent(requiredCourseGPATextField))
+		        			.addGroup(layout.createParallelGroup()
+		        					.addComponent(requiredCGPALabel)
+		        		        	.addComponent(requiredCGPATextField))
+		        			.addGroup(layout.createParallelGroup()
+		        					.addComponent(deadlineLabel)
+		        		        	.addComponent(deadlineDatePicker)))
+		        	.addGroup(layout.createSequentialGroup()
+		        			.addGroup(layout.createParallelGroup()
+		        					.addComponent(TAJobRadioButton)
+		        		        	.addComponent(graderJobRadioButton)
+		        		        	.addComponent(isLabCheckBox))
+		        			.addGroup(layout.createParallelGroup()
+		        					.addComponent(requiredSkillsLabel)
+		        		        	.addComponent(requiredSkillsTextArea))
+		        			.addGroup(layout.createParallelGroup()
+		        					.addComponent(requiredExperienceLabel)
+		        		        	.addComponent(requiredExperienceTextArea))))
+		        .addGroup(layout.createParallelGroup()
+		        		.addComponent(logOutButton)
+		        		.addComponent(backButton)
+		        		.addComponent(postJobButton))
+		        );
 
-	    
+	    layout.setHonorsVisibility(false);
 	    this.setLocationRelativeTo(null);
 	    pack();
+	    refreshData();
 	    
 	    logOutButton.addActionListener(new java.awt.event.ActionListener() {
 	        public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -240,33 +276,98 @@ public class PostJobPage extends JFrame {
 	            backButtonActionPerformed();
 	        }
 	    });
+	    ActionListener RadioButtonListener = new java.awt.event.ActionListener() {
+	        public void actionPerformed(java.awt.event.ActionEvent evt) {
+	            RadioButtonActionPerformed(evt);
+	        }
+	    };
+	    TAJobRadioButton.addActionListener(RadioButtonListener);
+	    graderJobRadioButton.addActionListener(RadioButtonListener);
+	    courseList.addActionListener(new java.awt.event.ActionListener() {
+	        public void actionPerformed(java.awt.event.ActionEvent evt) {
+	            JComboBox<String> cb = (JComboBox<String>) evt.getSource();
+	            selectedCourse = cb.getSelectedIndex();
+	        }
+	    });
+	    isLabCheckBox.addItemListener(new java.awt.event.ItemListener() {
+			public void itemStateChanged(ItemEvent evt) {
+				if (evt.getStateChange() == ItemEvent.DESELECTED) {
+					isLabChecked = false;
+				} else if (evt.getStateChange() == ItemEvent.SELECTED) {
+					isLabChecked = true;
+				}
+			}
+	    	
+	    });
+	}
+
+	protected void RadioButtonActionPerformed(ActionEvent evt) {
+		if(evt.getActionCommand().equals("TA") && buttonState.equals("Grader")) {
+			layout.replace(hoursLabel, minHoursLabel);
+			layout.replace(hoursSpinner, minHoursSpinner);
+			maxHoursLabel.setVisible(true);
+			maxHoursSpinner.setVisible(true);
+			isLabCheckBox.setVisible(true);
+			buttonState = "TA";
+		} else if(evt.getActionCommand().equals("Grader") && buttonState.equals("TA")) {
+			layout.replace(minHoursLabel, hoursLabel);
+			layout.replace(minHoursSpinner, hoursSpinner);
+			maxHoursLabel.setVisible(false);
+			maxHoursSpinner.setVisible(false);
+			isLabCheckBox.setVisible(false);
+			buttonState = "Grader";
+		}
+	}
+
+	protected void exitProcedure() {
+	    TamasController tc = new TamasController(rm);
+	    tc.logOut();
+		this.dispose();
+	    System.exit(0);
 	}
 
 	protected void backButtonActionPerformed() {
 		error = null;
-		RegisterInstructorPage rip = new RegisterInstructorPage(rm);
-		this.dispose();
-		rip.setVisible(true);
+		if(rm.getLoggedIn() instanceof Department) {
+			DepartmentMainPage dmp = new DepartmentMainPage(rm);
+			this.dispose();
+			dmp.setVisible(true);
+			return;
+		} else if(rm.getLoggedIn() instanceof Instructor) {
+			InstructorMainPage imp = new InstructorMainPage(rm);
+			this.dispose();
+			imp.setVisible(true);
+			return;
+		}
 	}
 
-	protected void postJobButtonActionPerformed() { //TODO: finish this
+	protected void postJobButtonActionPerformed() {
 		// create and call the controller 
 		TamasController tc = new TamasController(rm);
 		error = null;
-		try {
-			tc.checkDepartmentExistence();
-		} catch (DepartmentRegisteredException e) {
-			error = e.getMessage();
+		if (selectedCourse < 0) {
+	        error = "Course needs to be selected!";
 		}
-		//update visuals if there is an error
-		if(error != null) {
-			refreshData();
-			return;
-		} else {
-			RegisterDepartmentPage rdp = new RegisterDepartmentPage(rm);
-			this.dispose();
-			rdp.setVisible(true);
+		if (error.length() == 0) {
+			if (buttonState.equals("TA")) {
+				try {
+					tc.postTAJob((int)maxHoursSpinner.getValue(), (double)wageSpinner.getValue(), (java.sql.Date) deadlineDatePicker.getModel().getValue(), 
+							requiredSkillsTextArea.getText(), requiredCourseGPATextField.getText(), requiredCGPATextField.getText(), requiredExperienceTextArea.getText(),
+							rm.getCourse(selectedCourse), (int)minHoursSpinner.getValue(), isLabChecked);
+				} catch (InvalidInputException e) {
+					error = e.getMessage();
+				} 
+			} else if(buttonState.equalsIgnoreCase("Grader")) {
+				try {
+					tc.postGraderJob((int)hoursSpinner.getValue(), (double)wageSpinner.getValue(), (java.sql.Date) deadlineDatePicker.getModel().getValue(), 
+							requiredSkillsTextArea.getText(), requiredCourseGPATextField.getText(), requiredCGPATextField.getText(), requiredExperienceTextArea.getText(),
+							rm.getCourse(selectedCourse));
+				} catch (InvalidInputException e) {
+					error = e.getMessage();
+				} 
+			}
 		}
+		refreshData();
 	}
 
 	protected void logOutButtonActionPerformed() {
@@ -283,9 +384,36 @@ public class PostJobPage extends JFrame {
 		// error
 	    errorMessage.setText(error);
 	    if (error == null || error.length() == 0) {
-	        // participant
-	        logInIdTextField.setText("");
+	        // course list
+			courseList.removeAllItems();
+			if (rm.getLoggedIn() instanceof Department) {
+				for (Course c : rm.getCourses()) {
+					courseList.addItem(c.getName());
+				} 
+			} else if(rm.getLoggedIn() instanceof Instructor) { //This block makes it so that instructors can only post jobs for their courses.
+				Instructor inst = null;
+				for (Instructor i : rm.getInstructors()) {
+					if(i.equals(rm.getLoggedIn())) {
+						inst = i;
+					}
+				}
+				if(inst != null) {
+					for (Course c : inst.getCourses()) {
+						courseList.addItem(c.getName());
+					} 
+				}
+			}
+			selectedCourse = -1;
+			courseList.setSelectedIndex(selectedCourse);
+			// text resets
+			requiredCourseGPATextField.setText("");
+			requiredCGPATextField.setText("");
+			// deadline
+			deadlineDatePicker.getModel().setValue(null);
+			//Spinners and text areas can remain filled, as they could be annoying for the user to reset when an error occurs
 	    }
+
+	    // this is needed because the size of the window changes depending on whether an error message is shown or not
 	    pack();
 	}
 }

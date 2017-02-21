@@ -180,10 +180,14 @@ public class LogInPage extends JFrame {
 			refreshData();
 			return;
 		} else if(rm.getLoggedIn() instanceof Department){
-			//TODO: Go to department view
+			DepartmentMainPage dmp = new DepartmentMainPage(rm);
+			this.dispose();
+			dmp.setVisible(true);
 			return;
 		} else if(rm.getLoggedIn() instanceof Instructor){
-			//TODO: Go to instructor view
+			InstructorMainPage imp = new InstructorMainPage(rm);
+			this.dispose();
+			imp.setVisible(true);
 			return;
 		} else if(rm.getLoggedIn() instanceof Applicant){
 			//TODO: Go to applicant view
