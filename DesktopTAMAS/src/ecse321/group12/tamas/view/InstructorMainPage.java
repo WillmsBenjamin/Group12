@@ -19,6 +19,7 @@ import java.awt.Color;
 import java.awt.event.ItemEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.Calendar;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -108,9 +109,16 @@ public class InstructorMainPage extends JFrame{
 	}
 	
 	protected void postJobButtonActionPerformed() {
-		PostJobPage pjp = new PostJobPage(rm);
-		this.dispose();
-		pjp.setVisible(true);
+		Calendar calobj = Calendar.getInstance();
+		if (!(rm.getDepartment().getDeadline().before(calobj.getTime()))) {
+			PostJobPage pjp = new PostJobPage(rm);
+			this.dispose();
+			pjp.setVisible(true);
+			return;
+		} else {
+			error = "The deadline for posting a job has passed!";
+		}
+		refreshData();
 	}
 	
 	protected void logOutButtonActionPerformed() {

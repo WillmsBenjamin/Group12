@@ -20,11 +20,13 @@ class Applicant
 class Instructor
 {
   isA User;
+  1 <@>- * Hours contactTimes;
 }
 
 class Department
 {
   isA User;
+  Date deadline;
 }
 
 class Assignment
@@ -71,8 +73,8 @@ class Course
   name;
   Integer numTutorialSections;
   Integer numLabSections;
+  Integer numStudents;
   
-  1 <@>- * Hours contactTimes;
   * courses -- 0..4 Instructor instructors;
   1 course <@>- * Job jobs;
 }
@@ -95,4 +97,5 @@ class ResourceManager
  1 -> * Job jobs;
  1 -> * Course courses;
  1 -> * Assignment assignments;
+ 1 -> * Hours contactTimes;
 }

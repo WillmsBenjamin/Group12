@@ -19,6 +19,7 @@ import java.awt.Color;
 import java.awt.event.ItemEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.Calendar;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -30,6 +31,7 @@ public class DepartmentMainPage extends JFrame{
 	private static final long serialVersionUID = -1646811647258555349L;
 
 	private JButton postJobButton;
+	private JButton manageCoursesButton;
 	private JButton logOutButton;
 	
 	private ResourceManager rm;
@@ -50,6 +52,7 @@ public class DepartmentMainPage extends JFrame{
 		//TODO: add more buttons as more functions are completed.
 		//TODO: add department data view in the form of multiple small unmodifiable TextAreas. Add edit check box which sets the areas to editable, and a submit button.
 		postJobButton = new JButton("Post a Job");
+		manageCoursesButton = new JButton("Manage Courses");
 		logOutButton = new JButton("Sign Out");
 		
 	    // elements for error message
@@ -78,10 +81,11 @@ public class DepartmentMainPage extends JFrame{
 	        .addComponent(errorMessage)
 	        .addGroup(layout.createSequentialGroup()
 	        	.addComponent(logOutButton)
-	        	.addComponent(postJobButton))
+	        	.addComponent(postJobButton)
+	        	.addComponent(manageCoursesButton))
 	        );
 
-	    layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {logOutButton, postJobButton});
+	    layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {logOutButton, postJobButton, manageCoursesButton});
 
 	    
 	    layout.setVerticalGroup(
@@ -89,7 +93,8 @@ public class DepartmentMainPage extends JFrame{
 		    .addComponent(errorMessage)
 		    .addGroup(layout.createParallelGroup()
 		        .addComponent(logOutButton)
-		        .addComponent(postJobButton))
+		        .addComponent(postJobButton)
+		        .addComponent(manageCoursesButton))
 		    );
 
 	    this.setLocationRelativeTo(null);
@@ -105,12 +110,30 @@ public class DepartmentMainPage extends JFrame{
 	            postJobButtonActionPerformed();
 	        }
 	    });
+	    manageCoursesButton.addActionListener(new java.awt.event.ActionListener() {
+	        public void actionPerformed(java.awt.event.ActionEvent evt) {
+	            manageCoursesButtonActionPerformed();
+	        }
+	    });
 	}
 	
-	protected void postJobButtonActionPerformed() {
-		PostJobPage pjp = new PostJobPage(rm);
+	protected void manageCoursesButtonActionPerformed() {
+		CourseManagementPage cmp = new CourseManagementPage(rm);
 		this.dispose();
-		pjp.setVisible(true);
+		cmp.setVisible(true);
+	}
+
+	protected void postJobButtonActionPerformed() {
+		Calendar calobj = Calendar.getInstance();
+		if (!(rm.getDepartment().getDeadline().before(calobj.getTime()))) {
+			PostJobPage pjp = new PostJobPage(rm);
+			this.dispose();
+			pjp.setVisible(true);
+			return;
+		} else {
+			error = "The deadline for posting a job has passed!";
+		}
+		refreshData();
 	}
 	
 	protected void logOutButtonActionPerformed() {

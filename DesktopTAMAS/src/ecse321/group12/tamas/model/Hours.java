@@ -5,7 +5,7 @@ package ecse321.group12.tamas.model;
 import java.sql.Date;
 import java.sql.Time;
 
-// line 80 "../../../../TAMASmodel.ump"
+// line 82 "../../../../TAMASmodel.ump"
 public class Hours
 {
 
@@ -19,21 +19,21 @@ public class Hours
   private Time endTime;
 
   //Hours Associations
-  private Course course;
+  private Instructor instructor;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
 
-  public Hours(Date aDate, Time aStartTime, Time aEndTime, Course aCourse)
+  public Hours(Date aDate, Time aStartTime, Time aEndTime, Instructor aInstructor)
   {
     date = aDate;
     startTime = aStartTime;
     endTime = aEndTime;
-    boolean didAddCourse = setCourse(aCourse);
-    if (!didAddCourse)
+    boolean didAddInstructor = setInstructor(aInstructor);
+    if (!didAddInstructor)
     {
-      throw new RuntimeException("Unable to create contactTime due to course");
+      throw new RuntimeException("Unable to create contactTime due to instructor");
     }
   }
 
@@ -80,35 +80,35 @@ public class Hours
     return endTime;
   }
 
-  public Course getCourse()
+  public Instructor getInstructor()
   {
-    return course;
+    return instructor;
   }
 
-  public boolean setCourse(Course aCourse)
+  public boolean setInstructor(Instructor aInstructor)
   {
     boolean wasSet = false;
-    if (aCourse == null)
+    if (aInstructor == null)
     {
       return wasSet;
     }
 
-    Course existingCourse = course;
-    course = aCourse;
-    if (existingCourse != null && !existingCourse.equals(aCourse))
+    Instructor existingInstructor = instructor;
+    instructor = aInstructor;
+    if (existingInstructor != null && !existingInstructor.equals(aInstructor))
     {
-      existingCourse.removeContactTime(this);
+      existingInstructor.removeContactTime(this);
     }
-    course.addContactTime(this);
+    instructor.addContactTime(this);
     wasSet = true;
     return wasSet;
   }
 
   public void delete()
   {
-    Course placeholderCourse = course;
-    this.course = null;
-    placeholderCourse.removeContactTime(this);
+    Instructor placeholderInstructor = instructor;
+    this.instructor = null;
+    placeholderInstructor.removeContactTime(this);
   }
 
 
@@ -119,7 +119,7 @@ public class Hours
             "  " + "date" + "=" + (getDate() != null ? !getDate().equals(this)  ? getDate().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
             "  " + "startTime" + "=" + (getStartTime() != null ? !getStartTime().equals(this)  ? getStartTime().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
             "  " + "endTime" + "=" + (getEndTime() != null ? !getEndTime().equals(this)  ? getEndTime().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
-            "  " + "course = "+(getCourse()!=null?Integer.toHexString(System.identityHashCode(getCourse())):"null")
+            "  " + "instructor = "+(getInstructor()!=null?Integer.toHexString(System.identityHashCode(getInstructor())):"null")
      + outputString;
   }
 }

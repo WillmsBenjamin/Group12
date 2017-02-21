@@ -3,7 +3,7 @@
 
 package ecse321.group12.tamas.model;
 
-// line 36 "../../../../TAMASmodel.ump"
+// line 38 "../../../../TAMASmodel.ump"
 public class Application
 {
 

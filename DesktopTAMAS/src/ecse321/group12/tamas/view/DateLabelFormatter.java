@@ -24,4 +24,8 @@ public class DateLabelFormatter extends AbstractFormatter {
 	    }
 	    return "";
 	}
+
+	public SimpleDateFormat getDateFormatter() {
+		return dateFormatter;
+	}
 }

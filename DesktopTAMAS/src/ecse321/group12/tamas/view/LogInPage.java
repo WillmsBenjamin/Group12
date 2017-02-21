@@ -166,7 +166,7 @@ public class LogInPage extends JFrame {
 		}
 	}
 
-	protected void logInButtonActionPerformed() { //TODO: Figure out and fix the bug that makes logging in not save the loggedIn User to XML.
+	protected void logInButtonActionPerformed() {
 		// create and call the controller
 		TamasController tc = new TamasController(rm);
 		error = null;

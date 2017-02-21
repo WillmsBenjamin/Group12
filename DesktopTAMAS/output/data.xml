@@ -15,7 +15,7 @@
           <applicant reference="3"/>
           <job class="TAjob" id="6">
             <maxHours>31</maxHours>
-            <wage>31</wage>
+            <wage>31.0</wage>
             <deadline id="7">2015-09-15</deadline>
             <requiredSkills>We don&apos;t care!</requiredSkills>
             <requiredCourseGPA>3.00</requiredCourseGPA>
@@ -34,18 +34,19 @@
               <name>Comp 250</name>
               <numTutorialSections>2</numTutorialSections>
               <numLabSections>2</numLabSections>
-              <contactTimes id="11">
-                <hours id="12">
-                  <date reference="7"/>
-                  <startTime id="13">08:30:00</startTime>
-                  <endTime reference="13"/>
-                  <course reference="10"/>
-                </hours>
-              </contactTimes>
-              <instructors id="14">
-                <instructor id="15">
+              <numStudents>30</numStudents>
+              <instructors id="11">
+                <instructor id="12">
                   <name>Donald Davis</name>
                   <id>1337</id>
+                  <contactTimes id="13">
+                    <hours id="14">
+                      <date reference="7"/>
+                      <startTime id="15">08:30:00</startTime>
+                      <endTime reference="15"/>
+                      <instructor reference="12"/>
+                    </hours>
+                  </contactTimes>
                   <courses id="16">
                     <course reference="10"/>
                   </courses>
@@ -55,7 +56,7 @@
                 <TAjob reference="6"/>
                 <graderJob id="18">
                   <maxHours>15</maxHours>
-                  <wage>15</wage>
+                  <wage>15.0</wage>
                   <deadline reference="7"/>
                   <requiredSkills>Nothing.</requiredSkills>
                   <requiredCourseGPA>2.50</requiredCourseGPA>
@@ -105,11 +106,12 @@
     <applicant reference="20"/>
   </applicants>
   <instructors id="26">
-    <instructor reference="15"/>
+    <instructor reference="12"/>
   </instructors>
   <department id="27">
     <name>ECSE</name>
     <id>01</id>
+    <deadline reference="7"/>
   </department>
   <loggedIn class="department" reference="27"/>
   <applications id="28">
@@ -127,4 +129,7 @@
     <assignment reference="8"/>
     <assignment reference="19"/>
   </assignments>
+  <contactTimes id="32">
+    <hours reference="14"/>
+  </contactTimes>
 </manager>

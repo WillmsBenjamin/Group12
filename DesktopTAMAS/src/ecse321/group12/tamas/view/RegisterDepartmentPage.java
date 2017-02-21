@@ -17,9 +17,15 @@ import javax.swing.JCheckBox;
 
 import java.awt.Color;
 import java.awt.event.ItemEvent;
+import java.util.Properties;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+
+import org.jdatepicker.impl.JDatePanelImpl;
+import org.jdatepicker.impl.JDatePickerImpl;
+import org.jdatepicker.impl.SqlDateModel;
+
 import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
 
@@ -31,8 +37,11 @@ public class RegisterDepartmentPage extends JFrame{
 	private JTextField nameTextField;
 	private JLabel idLabel;
 	private JLabel nameLabel;
+	private JLabel deadlineLabel;
 	private JButton registerDepartmentButton;
 	private JButton backButton;
+	
+	private JDatePickerImpl deadlineDatePicker;
 	
 	private ResourceManager rm;
 	
@@ -51,8 +60,17 @@ public class RegisterDepartmentPage extends JFrame{
 		nameTextField = new JTextField();
 		idLabel = new JLabel("Id:");
 		nameLabel = new JLabel("Name:");
+		deadlineLabel = new JLabel("Job Posting Deadline:");
 		registerDepartmentButton = new JButton("Register");
 		backButton = new JButton("Back");
+		
+		SqlDateModel model = new SqlDateModel();
+	    Properties p = new Properties();
+	    p.put("text.today", "Today");
+	    p.put("text.month", "Month");
+	    p.put("text.year", "Year");
+	    JDatePanelImpl datePanel = new JDatePanelImpl(model, p);
+	    deadlineDatePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());
 		
 	    // elements for error message
 	    errorMessage = new JLabel();
@@ -79,6 +97,9 @@ public class RegisterDepartmentPage extends JFrame{
 	        	.addComponent(idLabel)
 	        	.addComponent(idTextField, 200, 200, 400))
 	        .addGroup(layout.createSequentialGroup()
+	        	.addComponent(deadlineLabel)
+	        	.addComponent(deadlineDatePicker))
+	        .addGroup(layout.createSequentialGroup()
 	        	.addComponent(backButton)
 	        	.addComponent(registerDepartmentButton))
 	        );
@@ -96,6 +117,9 @@ public class RegisterDepartmentPage extends JFrame{
 		    .addGroup(layout.createParallelGroup()
 		        .addComponent(idLabel)
 		        .addComponent(idTextField))
+		    .addGroup(layout.createParallelGroup()
+		        .addComponent(deadlineLabel)
+		        .addComponent(deadlineDatePicker))
 		    .addGroup(layout.createParallelGroup()
 		       	.addComponent(backButton)
 		        .addComponent(registerDepartmentButton))
@@ -121,7 +145,7 @@ public class RegisterDepartmentPage extends JFrame{
 		TamasController tc = new TamasController(rm);
 		error = null;
 		try {
-			tc.registerDepartment(nameTextField.getText(), idTextField.getText());
+			tc.registerDepartment(nameTextField.getText(), idTextField.getText(), (java.sql.Date) deadlineDatePicker.getModel().getValue());
 		} catch (InvalidInputException e) {
 			error = e.getMessage();
 		}

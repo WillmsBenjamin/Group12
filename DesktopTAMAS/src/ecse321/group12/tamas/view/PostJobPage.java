@@ -349,21 +349,55 @@ public class PostJobPage extends JFrame {
 	        error = "Course needs to be selected!";
 		}
 		if (error.length() == 0) {
-			if (buttonState.equals("TA")) {
-				try {
-					tc.postTAJob((int)maxHoursSpinner.getValue(), (double)wageSpinner.getValue(), (java.sql.Date) deadlineDatePicker.getModel().getValue(), 
-							requiredSkillsTextArea.getText(), requiredCourseGPATextField.getText(), requiredCGPATextField.getText(), requiredExperienceTextArea.getText(),
-							rm.getCourse(selectedCourse), (int)minHoursSpinner.getValue(), isLabChecked);
-				} catch (InvalidInputException e) {
-					error = e.getMessage();
+			if (rm.getLoggedIn() instanceof Department) {
+				if (buttonState.equals("TA")) {
+					try {
+						tc.postTAJob((int) maxHoursSpinner.getValue(), (double) wageSpinner.getValue(),
+								(java.sql.Date) deadlineDatePicker.getModel().getValue(),
+								requiredSkillsTextArea.getText(), requiredCourseGPATextField.getText(),
+								requiredCGPATextField.getText(), requiredExperienceTextArea.getText(),
+								rm.getCourse(selectedCourse), (int) minHoursSpinner.getValue(), isLabChecked);
+					} catch (InvalidInputException e) {
+						error = e.getMessage();
+					}
+				} else if (buttonState.equalsIgnoreCase("Grader")) {
+					try {
+						tc.postGraderJob((int) hoursSpinner.getValue(), (double) wageSpinner.getValue(),
+								(java.sql.Date) deadlineDatePicker.getModel().getValue(),
+								requiredSkillsTextArea.getText(), requiredCourseGPATextField.getText(),
+								requiredCGPATextField.getText(), requiredExperienceTextArea.getText(),
+								rm.getCourse(selectedCourse));
+					} catch (InvalidInputException e) {
+						error = e.getMessage();
+					}
 				} 
-			} else if(buttonState.equalsIgnoreCase("Grader")) {
-				try {
-					tc.postGraderJob((int)hoursSpinner.getValue(), (double)wageSpinner.getValue(), (java.sql.Date) deadlineDatePicker.getModel().getValue(), 
-							requiredSkillsTextArea.getText(), requiredCourseGPATextField.getText(), requiredCGPATextField.getText(), requiredExperienceTextArea.getText(),
-							rm.getCourse(selectedCourse));
-				} catch (InvalidInputException e) {
-					error = e.getMessage();
+			} else if (rm.getLoggedIn() instanceof Instructor) {
+				Instructor inst = null;
+				for (Instructor i : rm.getInstructors()) {
+					if(i.equals(rm.getLoggedIn())) {
+						inst = i;
+					}
+				}
+				if (buttonState.equals("TA")) {
+					try {
+						tc.postTAJob((int) maxHoursSpinner.getValue(), (double) wageSpinner.getValue(),
+								(java.sql.Date) deadlineDatePicker.getModel().getValue(),
+								requiredSkillsTextArea.getText(), requiredCourseGPATextField.getText(),
+								requiredCGPATextField.getText(), requiredExperienceTextArea.getText(),
+								inst.getCourse(selectedCourse), (int) minHoursSpinner.getValue(), isLabChecked);
+					} catch (InvalidInputException e) {
+						error = e.getMessage();
+					}
+				} else if (buttonState.equalsIgnoreCase("Grader")) {
+					try {
+						tc.postGraderJob((int) hoursSpinner.getValue(), (double) wageSpinner.getValue(),
+								(java.sql.Date) deadlineDatePicker.getModel().getValue(),
+								requiredSkillsTextArea.getText(), requiredCourseGPATextField.getText(),
+								requiredCGPATextField.getText(), requiredExperienceTextArea.getText(),
+								inst.getCourse(selectedCourse));
+					} catch (InvalidInputException e) {
+						error = e.getMessage();
+					}
 				} 
 			}
 		}
@@ -408,9 +442,15 @@ public class PostJobPage extends JFrame {
 			// text resets
 			requiredCourseGPATextField.setText("");
 			requiredCGPATextField.setText("");
+			requiredSkillsTextArea.setText("");
+			requiredExperienceTextArea.setText("");
 			// deadline
 			deadlineDatePicker.getModel().setValue(null);
-			//Spinners and text areas can remain filled, as they could be annoying for the user to reset when an error occurs
+			//Spinners
+			maxHoursSpinner.setValue(60);
+			minHoursSpinner.setValue(0);
+			hoursSpinner.setValue(60);
+			wageSpinner.setValue(10.0);
 	    }
 
 	    // this is needed because the size of the window changes depending on whether an error message is shown or not

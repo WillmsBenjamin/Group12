@@ -4,9 +4,8 @@
 package ecse321.group12.tamas.model;
 import java.util.*;
 import java.sql.Date;
-import java.sql.Time;
 
-// line 69 "../../../../TAMASmodel.ump"
+// line 71 "../../../../TAMASmodel.ump"
 public class Course
 {
 
@@ -18,9 +17,9 @@ public class Course
   private String name;
   private int numTutorialSections;
   private int numLabSections;
+  private int numStudents;
 
   //Course Associations
-  private List<Hours> contactTimes;
   private List<Instructor> instructors;
   private List<Job> jobs;
 
@@ -28,12 +27,12 @@ public class Course
   // CONSTRUCTOR
   //------------------------
 
-  public Course(String aName, int aNumTutorialSections, int aNumLabSections)
+  public Course(String aName, int aNumTutorialSections, int aNumLabSections, int aNumStudents)
   {
     name = aName;
     numTutorialSections = aNumTutorialSections;
     numLabSections = aNumLabSections;
-    contactTimes = new ArrayList<Hours>();
+    numStudents = aNumStudents;
     instructors = new ArrayList<Instructor>();
     jobs = new ArrayList<Job>();
   }
@@ -66,6 +65,14 @@ public class Course
     return wasSet;
   }
 
+  public boolean setNumStudents(int aNumStudents)
+  {
+    boolean wasSet = false;
+    numStudents = aNumStudents;
+    wasSet = true;
+    return wasSet;
+  }
+
   public String getName()
   {
     return name;
@@ -81,34 +88,9 @@ public class Course
     return numLabSections;
   }
 
-  public Hours getContactTime(int index)
+  public int getNumStudents()
   {
-    Hours aContactTime = contactTimes.get(index);
-    return aContactTime;
-  }
-
-  public List<Hours> getContactTimes()
-  {
-    List<Hours> newContactTimes = Collections.unmodifiableList(contactTimes);
-    return newContactTimes;
-  }
-
-  public int numberOfContactTimes()
-  {
-    int number = contactTimes.size();
-    return number;
-  }
-
-  public boolean hasContactTimes()
-  {
-    boolean has = contactTimes.size() > 0;
-    return has;
-  }
-
-  public int indexOfContactTime(Hours aContactTime)
-  {
-    int index = contactTimes.indexOf(aContactTime);
-    return index;
+    return numStudents;
   }
 
   public Instructor getInstructor(int index)
@@ -169,78 +151,6 @@ public class Course
   {
     int index = jobs.indexOf(aJob);
     return index;
-  }
-
-  public static int minimumNumberOfContactTimes()
-  {
-    return 0;
-  }
-
-  public Hours addContactTime(Date aDate, Time aStartTime, Time aEndTime)
-  {
-    return new Hours(aDate, aStartTime, aEndTime, this);
-  }
-
-  public boolean addContactTime(Hours aContactTime)
-  {
-    boolean wasAdded = false;
-    if (contactTimes.contains(aContactTime)) { return false; }
-    Course existingCourse = aContactTime.getCourse();
-    boolean isNewCourse = existingCourse != null && !this.equals(existingCourse);
-    if (isNewCourse)
-    {
-      aContactTime.setCourse(this);
-    }
-    else
-    {
-      contactTimes.add(aContactTime);
-    }
-    wasAdded = true;
-    return wasAdded;
-  }
-
-  public boolean removeContactTime(Hours aContactTime)
-  {
-    boolean wasRemoved = false;
-    //Unable to remove aContactTime, as it must always have a course
-    if (!this.equals(aContactTime.getCourse()))
-    {
-      contactTimes.remove(aContactTime);
-      wasRemoved = true;
-    }
-    return wasRemoved;
-  }
-
-  public boolean addContactTimeAt(Hours aContactTime, int index)
-  {  
-    boolean wasAdded = false;
-    if(addContactTime(aContactTime))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfContactTimes()) { index = numberOfContactTimes() - 1; }
-      contactTimes.remove(aContactTime);
-      contactTimes.add(index, aContactTime);
-      wasAdded = true;
-    }
-    return wasAdded;
-  }
-
-  public boolean addOrMoveContactTimeAt(Hours aContactTime, int index)
-  {
-    boolean wasAdded = false;
-    if(contactTimes.contains(aContactTime))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfContactTimes()) { index = numberOfContactTimes() - 1; }
-      contactTimes.remove(aContactTime);
-      contactTimes.add(index, aContactTime);
-      wasAdded = true;
-    } 
-    else 
-    {
-      wasAdded = addContactTimeAt(aContactTime, index);
-    }
-    return wasAdded;
   }
 
   public static int minimumNumberOfInstructors()
@@ -450,13 +360,6 @@ public class Course
 
   public void delete()
   {
-    while (contactTimes.size() > 0)
-    {
-      Hours aContactTime = contactTimes.get(contactTimes.size() - 1);
-      aContactTime.delete();
-      contactTimes.remove(aContactTime);
-    }
-    
     ArrayList<Instructor> copyOfInstructors = new ArrayList<Instructor>(instructors);
     instructors.clear();
     for(Instructor aInstructor : copyOfInstructors)
@@ -479,7 +382,8 @@ public class Course
     return super.toString() + "["+
             "name" + ":" + getName()+ "," +
             "numTutorialSections" + ":" + getNumTutorialSections()+ "," +
-            "numLabSections" + ":" + getNumLabSections()+ "]"
+            "numLabSections" + ":" + getNumLabSections()+ "," +
+            "numStudents" + ":" + getNumStudents()+ "]"
      + outputString;
   }
 }

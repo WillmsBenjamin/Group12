@@ -4,15 +4,71 @@
     <instructor id="4">
       <name>Donald Davis</name>
       <id>000000666</id>
-      <courses id="5"/>
+      <contactTimes id="5"/>
+      <courses id="6">
+        <course id="7">
+          <name>Poop</name>
+          <numTutorialSections>2</numTutorialSections>
+          <numLabSections>1</numLabSections>
+          <numStudents>40</numStudents>
+          <instructors id="8">
+            <instructor reference="4"/>
+          </instructors>
+          <jobs id="9"/>
+        </course>
+        <course id="10">
+          <name>DSD</name>
+          <numTutorialSections>2</numTutorialSections>
+          <numLabSections>8</numLabSections>
+          <numStudents>120</numStudents>
+          <instructors id="11">
+            <instructor id="12">
+              <name>JJ Xu</name>
+              <id>123456789</id>
+              <contactTimes id="13"/>
+              <courses id="14">
+                <course reference="10"/>
+              </courses>
+            </instructor>
+            <instructor reference="4"/>
+          </instructors>
+          <jobs id="15"/>
+        </course>
+        <course id="16">
+          <name>DPM</name>
+          <numTutorialSections>0</numTutorialSections>
+          <numLabSections>12</numLabSections>
+          <numStudents>200</numStudents>
+          <instructors id="17">
+            <instructor id="18">
+              <name>Daniel Varro</name>
+              <id>000001337</id>
+              <contactTimes id="19"/>
+              <courses id="20">
+                <course reference="16"/>
+              </courses>
+            </instructor>
+            <instructor reference="4"/>
+          </instructors>
+          <jobs id="21"/>
+        </course>
+      </courses>
     </instructor>
+    <instructor reference="18"/>
+    <instructor reference="12"/>
   </instructors>
-  <department id="6">
+  <department id="22">
     <name>ECSE</name>
-    <id>260690005</id>
+    <id>000000000</id>
+    <deadline id="23">2017-02-22</deadline>
   </department>
-  <applications id="7"/>
-  <jobs id="8"/>
-  <courses id="9"/>
-  <assignments id="10"/>
+  <applications id="24"/>
+  <jobs id="25"/>
+  <courses id="26">
+    <course reference="7"/>
+    <course reference="10"/>
+    <course reference="16"/>
+  </courses>
+  <assignments id="27"/>
+  <contactTimes id="28"/>
 </manager>
