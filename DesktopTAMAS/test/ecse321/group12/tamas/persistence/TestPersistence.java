@@ -109,6 +109,7 @@ public class TestPersistence {
 	    // check instructor
 	    assertEquals(1, rm.getInstructors().size());
 	    assertEquals("Donald Davis", rm.getInstructor(0).getName());
+	    assertEquals(1, rm.getInstructor(0).getCourses().size());
 	    
 	    //check course
 	    assertEquals(1, rm.getCourses().size());

@@ -17,7 +17,7 @@ public class GraderJob extends Job
   // CONSTRUCTOR
   //------------------------
 
-  public GraderJob(int aMaxHours, int aWage, Date aDeadline, String aRequiredSkills, String aRequiredCourseGPA, String aRequiredCGPA, String aRequiredExperience, Course aCourse)
+  public GraderJob(int aMaxHours, double aWage, Date aDeadline, String aRequiredSkills, String aRequiredCourseGPA, String aRequiredCGPA, String aRequiredExperience, Course aCourse)
   {
     super(aMaxHours, aWage, aDeadline, aRequiredSkills, aRequiredCourseGPA, aRequiredCGPA, aRequiredExperience, aCourse);
   }

@@ -67,6 +67,7 @@ public class RegisterDepartmentPage extends JFrame{
 	    getContentPane().setLayout(layout);
 	    layout.setAutoCreateGaps(true);
 	    layout.setAutoCreateContainerGaps(true);
+	    
 
 	    layout.setHorizontalGroup(
 	    	layout.createParallelGroup()
@@ -100,6 +101,7 @@ public class RegisterDepartmentPage extends JFrame{
 		        .addComponent(registerDepartmentButton))
 		    );
 
+	    this.setLocationRelativeTo(null);
 	    pack();
 	    
 	    backButton.addActionListener(new java.awt.event.ActionListener() {

@@ -74,6 +74,7 @@ public class LogInPage extends JFrame {
 	    getContentPane().setLayout(layout);
 	    layout.setAutoCreateGaps(true);
 	    layout.setAutoCreateContainerGaps(true);
+	    
 
 	    layout.setHorizontalGroup(
 	    	layout.createParallelGroup()
@@ -105,6 +106,8 @@ public class LogInPage extends JFrame {
 	        		.addComponent(registerStudentButton))
 	        ));
 
+	    
+	    this.setLocationRelativeTo(null);
 	    pack();
 	    
 	    logInButton.addActionListener(new java.awt.event.ActionListener() {
@@ -163,8 +166,7 @@ public class LogInPage extends JFrame {
 		}
 	}
 
-	protected void logInButtonActionPerformed() {
-		// TODO Auto-generated method stub
+	protected void logInButtonActionPerformed() { //TODO: Figure out and fix the bug that makes logging in not save the loggedIn User to XML.
 		// create and call the controller
 		TamasController tc = new TamasController(rm);
 		error = null;

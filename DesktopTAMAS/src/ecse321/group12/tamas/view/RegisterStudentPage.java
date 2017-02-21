@@ -83,6 +83,7 @@ public class RegisterStudentPage extends JFrame {
 	    getContentPane().setLayout(layout);
 	    layout.setAutoCreateGaps(true);
 	    layout.setAutoCreateContainerGaps(true);
+	    
 
 	    layout.setHorizontalGroup(
 	    	layout.createParallelGroup()
@@ -128,6 +129,8 @@ public class RegisterStudentPage extends JFrame {
 		    	.addComponent(backButton)
 			   	.addComponent(registerButton))
 	    	);
+	    
+	    this.setLocationRelativeTo(null);
 	    pack();
 	    
 	    backButton.addActionListener(new java.awt.event.ActionListener() {
@@ -178,6 +181,7 @@ public class RegisterStudentPage extends JFrame {
 	        nameTextField.setText("");
 	        idTextField.setText("");
 	        cGPATextField.setText("");
+	        skillsTextArea.setText("");
 	        isGraduateCheckBox.setSelected(false);
 	        isGraduateChecked = false;
 	    }

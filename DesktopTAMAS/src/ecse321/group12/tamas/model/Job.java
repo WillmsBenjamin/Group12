@@ -15,7 +15,7 @@ public class Job
 
   //Job Attributes
   private int maxHours;
-  private int wage;
+  private double wage;
   private Date deadline;
   private String requiredSkills;
   private String requiredCourseGPA;
@@ -31,7 +31,7 @@ public class Job
   // CONSTRUCTOR
   //------------------------
 
-  public Job(int aMaxHours, int aWage, Date aDeadline, String aRequiredSkills, String aRequiredCourseGPA, String aRequiredCGPA, String aRequiredExperience, Course aCourse)
+  public Job(int aMaxHours, double aWage, Date aDeadline, String aRequiredSkills, String aRequiredCourseGPA, String aRequiredCGPA, String aRequiredExperience, Course aCourse)
   {
     maxHours = aMaxHours;
     wage = aWage;
@@ -60,7 +60,7 @@ public class Job
     return wasSet;
   }
 
-  public boolean setWage(int aWage)
+  public boolean setWage(double aWage)
   {
     boolean wasSet = false;
     wage = aWage;
@@ -113,7 +113,7 @@ public class Job
     return maxHours;
   }
 
-  public int getWage()
+  public double getWage()
   {
     return wage;
   }

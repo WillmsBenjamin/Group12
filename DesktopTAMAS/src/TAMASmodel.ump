@@ -44,7 +44,7 @@ class Application
 class Job
 {
   Integer maxHours;
-  Integer wage;
+  Double wage;
   Date deadline;
   requiredSkills;
   requiredCourseGPA;
