@@ -14,61 +14,118 @@
           <instructors id="8">
             <instructor reference="4"/>
           </instructors>
-          <jobs id="9"/>
+          <jobs id="9">
+            <TAjob id="10">
+              <maxHours>65</maxHours>
+              <wage>10.299999999999999</wage>
+              <deadline id="11">2017-02-23</deadline>
+              <requiredSkills>Nothing</requiredSkills>
+              <requiredCourseGPA>2.30</requiredCourseGPA>
+              <requiredCGPA>2.30</requiredCGPA>
+              <requiredExperience>Don&apos;t care</requiredExperience>
+              <applications id="12"/>
+              <course reference="7"/>
+              <minHours>6</minHours>
+              <isLab>true</isLab>
+            </TAjob>
+            <graderJob id="13">
+              <maxHours>63</maxHours>
+              <wage>9.8</wage>
+              <deadline id="14">2017-02-23</deadline>
+              <requiredSkills>absolutely nothing</requiredSkills>
+              <requiredCourseGPA>2.10</requiredCourseGPA>
+              <requiredCGPA>2.21</requiredCGPA>
+              <requiredExperience>hello</requiredExperience>
+              <applications id="15"/>
+              <course reference="7"/>
+            </graderJob>
+            <TAjob id="16">
+              <maxHours>60</maxHours>
+              <wage>10.0</wage>
+              <deadline id="17">2017-02-24</deadline>
+              <requiredSkills></requiredSkills>
+              <requiredCourseGPA>2.21</requiredCourseGPA>
+              <requiredCGPA>3.21</requiredCGPA>
+              <requiredExperience></requiredExperience>
+              <applications id="18"/>
+              <course reference="7"/>
+              <minHours>1</minHours>
+              <isLab>false</isLab>
+            </TAjob>
+          </jobs>
         </course>
-        <course id="10">
+        <course id="19">
           <name>DSD</name>
           <numTutorialSections>2</numTutorialSections>
           <numLabSections>8</numLabSections>
           <numStudents>120</numStudents>
-          <instructors id="11">
-            <instructor id="12">
+          <instructors id="20">
+            <instructor id="21">
               <name>JJ Xu</name>
               <id>123456789</id>
-              <contactTimes id="13"/>
-              <courses id="14">
-                <course reference="10"/>
+              <contactTimes id="22"/>
+              <courses id="23">
+                <course reference="19"/>
               </courses>
             </instructor>
             <instructor reference="4"/>
           </instructors>
-          <jobs id="15"/>
+          <jobs id="24">
+            <TAjob id="25">
+              <maxHours>59</maxHours>
+              <wage>10.1</wage>
+              <deadline id="26">2017-02-24</deadline>
+              <requiredSkills></requiredSkills>
+              <requiredCourseGPA>3.99</requiredCourseGPA>
+              <requiredCGPA>4.00</requiredCGPA>
+              <requiredExperience></requiredExperience>
+              <applications id="27"/>
+              <course reference="19"/>
+              <minHours>1</minHours>
+              <isLab>false</isLab>
+            </TAjob>
+          </jobs>
         </course>
-        <course id="16">
+        <course id="28">
           <name>DPM</name>
           <numTutorialSections>0</numTutorialSections>
           <numLabSections>12</numLabSections>
           <numStudents>200</numStudents>
-          <instructors id="17">
-            <instructor id="18">
+          <instructors id="29">
+            <instructor id="30">
               <name>Daniel Varro</name>
               <id>000001337</id>
-              <contactTimes id="19"/>
-              <courses id="20">
-                <course reference="16"/>
+              <contactTimes id="31"/>
+              <courses id="32">
+                <course reference="28"/>
               </courses>
             </instructor>
             <instructor reference="4"/>
           </instructors>
-          <jobs id="21"/>
+          <jobs id="33"/>
         </course>
       </courses>
     </instructor>
-    <instructor reference="18"/>
-    <instructor reference="12"/>
+    <instructor reference="30"/>
+    <instructor reference="21"/>
   </instructors>
-  <department id="22">
+  <department id="34">
     <name>ECSE</name>
     <id>000000000</id>
-    <deadline id="23">2017-02-22</deadline>
+    <deadline id="35">2017-02-22</deadline>
   </department>
-  <applications id="24"/>
-  <jobs id="25"/>
-  <courses id="26">
+  <applications id="36"/>
+  <jobs id="37">
+    <TAjob reference="10"/>
+    <graderJob reference="13"/>
+    <TAjob reference="16"/>
+    <TAjob reference="25"/>
+  </jobs>
+  <courses id="38">
     <course reference="7"/>
-    <course reference="10"/>
-    <course reference="16"/>
+    <course reference="19"/>
+    <course reference="28"/>
   </courses>
-  <assignments id="27"/>
-  <contactTimes id="28"/>
+  <assignments id="39"/>
+  <contactTimes id="40"/>
 </manager>

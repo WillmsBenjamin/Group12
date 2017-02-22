@@ -75,6 +75,21 @@ public class TamasController {
 				}
 			}
 		}
+		for(Applicant a : rm.getApplicants()) {
+			if(a.getId().equals(id)) {
+				throw new InvalidInputException("That ID is already being used!");
+			}
+		}
+		for(Instructor i : rm.getInstructors()) {
+			if(i.getId().equals(id)) {
+				throw new InvalidInputException("That ID is already being used!");
+			}
+		}
+		if(rm.getDepartment() != null) {
+			if(rm.getDepartment().getId().equals(id)) {
+				throw new InvalidInputException("That ID is already being used!");
+			}
+		}
 		if (cGPA == null || cGPA.trim().length() == 0) {
 			throw new InvalidInputException("Student CGPA cannot be empty!");
 		}
@@ -85,7 +100,11 @@ public class TamasController {
 				if(i == 1 && cGPA.charAt(i) != '.') {
 					throw new InvalidInputException("Student CGPA's second character must be a decimal!");
 				} else if((i != 1) && (cGPA.charAt(i) < 48 || cGPA.charAt(i) > 57)) {
-					throw new InvalidInputException("Student CGPA must be all numbers!");
+					throw new InvalidInputException("Student CGPA must be a decimal number!");
+				} else if(i == 0 && cGPA.charAt(i) > 52) {
+					throw new InvalidInputException("Student CGPA cannot be geater than 4.00!");
+				} else if((i==2 || i==3) && (cGPA.charAt(0) == '4') && (cGPA.charAt(i) > 48)) {
+					throw new InvalidInputException("Student CGPA cannot be geater than 4.00!");
 				}
 			}
 		}
@@ -116,6 +135,21 @@ public class TamasController {
 				}
 			}
 		}
+		for(Applicant a : rm.getApplicants()) {
+			if(a.getId().equals(id)) {
+				throw new InvalidInputException("That ID is already being used!");
+			}
+		}
+		for(Instructor i : rm.getInstructors()) {
+			if(i.getId().equals(id)) {
+				throw new InvalidInputException("That ID is already being used!");
+			}
+		}
+		if(rm.getDepartment() != null) {
+			if(rm.getDepartment().getId().equals(id)) {
+				throw new InvalidInputException("That ID is already being used!");
+			}
+		}
 		Calendar calobj = Calendar.getInstance();
 		if (deadline == null) {
 			throw new InvalidInputException("Deadline cannot be empty!");
@@ -144,6 +178,21 @@ public class TamasController {
 				}
 			}
 		}
+		for(Applicant a : rm.getApplicants()) {
+			if(a.getId().equals(id)) {
+				throw new InvalidInputException("That ID is already being used!");
+			}
+		}
+		for(Instructor i : rm.getInstructors()) {
+			if(i.getId().equals(id)) {
+				throw new InvalidInputException("That ID is already being used!");
+			}
+		}
+		if(rm.getDepartment() != null) {
+			if(rm.getDepartment().getId().equals(id)) {
+				throw new InvalidInputException("That ID is already being used!");
+			}
+		}
 		Instructor d = new Instructor(name, id);
 		rm.addInstructor(d);
 		PersistenceXStream.saveToXMLwithXStream(rm);
@@ -170,7 +219,11 @@ public class TamasController {
 				if(i == 1 && aRequiredCourseGPA.charAt(i) != '.') {
 					throw new InvalidInputException("Required Course GPA's second character must be a decimal!");
 				} else if((i != 1) && (aRequiredCourseGPA.charAt(i) < 48 || aRequiredCourseGPA.charAt(i) > 57)) {
-					throw new InvalidInputException("Required Course GPA must be all numbers!");
+					throw new InvalidInputException("Required Course GPA must be a decimal number!");
+				} else if(i == 0 && aRequiredCourseGPA.charAt(i) > 52) {
+					throw new InvalidInputException("Required Course GPA cannot be geater than 4.00!");
+				} else if((i==2 || i==3) && (aRequiredCourseGPA.charAt(0) == '4') && (aRequiredCourseGPA.charAt(i) > 48)) {
+					throw new InvalidInputException("Required Course GPA cannot be geater than 4.00!");
 				}
 			}
 		}
@@ -184,12 +237,29 @@ public class TamasController {
 				if(i == 1 && aRequiredCGPA.charAt(i) != '.') {
 					throw new InvalidInputException("Required CGPA's second character must be a decimal!");
 				} else if((i != 1) && (aRequiredCGPA.charAt(i) < 48 || aRequiredCGPA.charAt(i) > 57)) {
-					throw new InvalidInputException("Required CGPA must be all numbers!");
+					throw new InvalidInputException("Required CGPA must be a decimal number!");
+				} else if(i == 0 && aRequiredCGPA.charAt(i) > 52) {
+					throw new InvalidInputException("Required CGPA cannot be geater than 4.00!");
+				} else if((i==2 || i==3) && (aRequiredCGPA.charAt(0) == '4') && (aRequiredCGPA.charAt(i) > 48)) {
+					throw new InvalidInputException("Required CGPA cannot be geater than 4.00!");
 				}
 			}
 		}
 		if (aCourse == null) {
 			throw new InvalidInputException("Course cannot be empty!");
+		} else {
+			int numTAJobs = 0;
+			for(Job j : aCourse.getJobs()) {
+				if(j instanceof TAjob) {
+					numTAJobs++;
+				}
+			}
+			if(numTAJobs == aCourse.getNumLabSections()+aCourse.getNumTutorialSections()) {
+				throw new InvalidInputException("The selected course has the maximum number of TA Jobs!");
+			}
+		}
+		if(aMaxHours == 0) {
+			throw new InvalidInputException("Maximum hours cannot be 0!");
 		}
 		
 		TAjob j = new TAjob(aMaxHours, aWage, aDeadline, aRequiredSkills, aRequiredCourseGPA,
@@ -198,10 +268,63 @@ public class TamasController {
 	    PersistenceXStream.saveToXMLwithXStream(rm);
 	}
 
-	public void postGraderJob(int aMaxHours, double aWage, Date aDeadline, String aRequiredSkills, String aRequiredCourseGPA,
+	public void postGraderJob(int hours, double aWage, Date aDeadline, String aRequiredSkills, String aRequiredCourseGPA,
 			String aRequiredCGPA, String aRequiredExperience, Course aCourse) throws InvalidInputException {
-		//TODO: Error checking, functionality, and persistence
+		Calendar calobj = Calendar.getInstance();
+	    
+		if (aDeadline == null) {
+			throw new InvalidInputException("Deadline cannot be empty!");
+		}
+		if (aDeadline.before(calobj.getTime())) {
+			throw new InvalidInputException("Deadline cannot be before today!");
+		}
+		if (aRequiredCourseGPA == null || aRequiredCourseGPA.trim().length() == 0) {
+			throw new InvalidInputException("Required Course GPA cannot be empty!");
+		}
+		if(aRequiredCourseGPA.length() != 4) {
+			throw new InvalidInputException("Required Course GPA must be 4 characters long!");
+		} else {
+			for(int i = 0; i < 4; i++) {
+				if(i == 1 && aRequiredCourseGPA.charAt(i) != '.') {
+					throw new InvalidInputException("Required Course GPA's second character must be a decimal!");
+				} else if((i != 1) && (aRequiredCourseGPA.charAt(i) < 48 || aRequiredCourseGPA.charAt(i) > 57)) {
+					throw new InvalidInputException("Required Course GPA must be a decimal number!");
+				} else if(i == 0 && aRequiredCourseGPA.charAt(i) > 52) {
+					throw new InvalidInputException("Required Course GPA cannot be geater than 4.00!");
+				} else if((i==2 || i==3) && (aRequiredCourseGPA.charAt(0) == '4') && (aRequiredCourseGPA.charAt(i) > 48)) {
+					throw new InvalidInputException("Required Course GPA cannot be geater than 4.00!");
+				}
+			}
+		}
+		if (aRequiredCGPA == null || aRequiredCGPA.trim().length() == 0) {
+			throw new InvalidInputException("Required CGPA cannot be empty!");
+		}
+		if(aRequiredCGPA.length() != 4) {
+			throw new InvalidInputException("Required CGPA must be 4 characters long!");
+		} else {
+			for(int i = 0; i < 4; i++) {
+				if(i == 1 && aRequiredCGPA.charAt(i) != '.') {
+					throw new InvalidInputException("Required CGPA's second character must be a decimal!");
+				} else if((i != 1) && (aRequiredCGPA.charAt(i) < 48 || aRequiredCGPA.charAt(i) > 57)) {
+					throw new InvalidInputException("Required CGPA must be a decimal number!");
+				} else if(i == 0 && aRequiredCGPA.charAt(i) > 52) {
+					throw new InvalidInputException("Required CGPA cannot be geater than 4.00!");
+				} else if((i==2 || i==3) && (aRequiredCGPA.charAt(0) == '4') && (aRequiredCGPA.charAt(i) > 48)) {
+					throw new InvalidInputException("Required CGPA cannot be geater than 4.00!");
+				}
+			}
+		}
+		if (aCourse == null) {
+			throw new InvalidInputException("Course cannot be empty!");
+		}
+		if (hours == 0) {
+			throw new InvalidInputException("Hours cannot be 0!");
+		}
 		
+		GraderJob j = new GraderJob(hours, aWage, aDeadline, aRequiredSkills, aRequiredCourseGPA,
+				aRequiredCGPA, aRequiredExperience, aCourse);
+	    rm.addJob(j);
+	    PersistenceXStream.saveToXMLwithXStream(rm);
 	}
 
 	public void addInstructorToCourse(Instructor instructor, Course course) throws InvalidInputException {

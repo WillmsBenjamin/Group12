@@ -255,10 +255,18 @@ public class CourseManagementPage extends JFrame {
 		// create and call the controller 
 		TamasController tc = new TamasController(rm);
 		error = null;
-		try {
-			tc.addInstructorToCourse(rm.getInstructor(selectedInstructor), rm.getCourse(selectedCourse));
-		} catch (InvalidInputException e) {
-			error = e.getMessage();
+		if (selectedCourse < 0) {
+	        error = "Course needs to be selected!";
+		}
+		if (selectedInstructor < 0) {
+	        error = "Instructor needs to be selected!";
+		}
+		if (error == null) {
+			try {
+				tc.addInstructorToCourse(rm.getInstructor(selectedInstructor), rm.getCourse(selectedCourse));
+			} catch (InvalidInputException e) {
+				error = e.getMessage();
+			} 
 		}
 		//update visuals
 		refreshData();

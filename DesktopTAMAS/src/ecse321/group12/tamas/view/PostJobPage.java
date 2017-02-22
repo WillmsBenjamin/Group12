@@ -348,7 +348,7 @@ public class PostJobPage extends JFrame {
 		if (selectedCourse < 0) {
 	        error = "Course needs to be selected!";
 		}
-		if (error.length() == 0) {
+		if (error == null) {
 			if (rm.getLoggedIn() instanceof Department) {
 				if (buttonState.equals("TA")) {
 					try {
