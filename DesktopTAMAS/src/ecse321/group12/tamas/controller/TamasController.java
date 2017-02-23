@@ -393,6 +393,11 @@ public class TamasController {
 		if (job.getDeadline().before(calobj.getTime())) {
 			throw new InvalidInputException("The application deadline for this job has passed!");
 		}
+		for(Application a : job.getApplications()) {
+			if(a.getApplicant() == applicant) {
+				throw new InvalidInputException("This applicant has already applied to the selected job!");
+			}
+		}
 		if (courseGPA == null || courseGPA.trim().length() == 0) {
 			throw new InvalidInputException("Course GPA cannot be empty!");
 		}
