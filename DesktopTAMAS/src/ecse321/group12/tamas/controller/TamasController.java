@@ -383,7 +383,7 @@ public class TamasController {
 
 	public void applyToJob(String experience, String courseGPA, Applicant applicant, Job job) throws InvalidInputException {
 		Calendar calobj = Calendar.getInstance();
-	    
+	    //error checking can be cumbersome...
 		if(applicant == null) {
 			throw new InvalidInputException("Applicant cannot be empty!");
 		}
