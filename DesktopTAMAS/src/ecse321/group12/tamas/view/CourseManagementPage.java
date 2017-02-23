@@ -38,9 +38,6 @@ import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.SqlDateModel;
 
-
-
-
 public class CourseManagementPage extends JFrame {
 
 	private static final long serialVersionUID = -3813818727258574249L;
@@ -81,7 +78,6 @@ public class CourseManagementPage extends JFrame {
 	}
 	
 	private void initComponents() {
-	    // elements for logging in and switching to register views
 		nameTextField = new JTextField();
 		nameLabel = new JLabel("Course Name:");
 		
@@ -115,7 +111,7 @@ public class CourseManagementPage extends JFrame {
 	            exitProcedure();
 	        }
 	    });
-	    setTitle("TAMAS: COURSE MANAGEMENT PAGE");
+	    setTitle(rm.getLoggedIn().getName());
 
 	    // layout
 	    GroupLayout layout = new GroupLayout(getContentPane());

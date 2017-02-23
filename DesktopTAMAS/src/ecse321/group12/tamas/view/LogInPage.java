@@ -190,7 +190,9 @@ public class LogInPage extends JFrame {
 			imp.setVisible(true);
 			return;
 		} else if(rm.getLoggedIn() instanceof Applicant){
-			//TODO: Go to applicant view
+			ApplicantMainPage amp = new ApplicantMainPage(rm);
+			this.dispose();
+			amp.setVisible(true);
 			return;
 		}
 	}

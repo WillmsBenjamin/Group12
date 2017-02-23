@@ -157,7 +157,7 @@ public class PostJobPage extends JFrame {
 	            exitProcedure();
 	        }
 	    });
-	    setTitle("TAMAS: POST JOB");
+	    setTitle(rm.getLoggedIn().getName());
 
 	    // layout
 	    layout = new GroupLayout(getContentPane());

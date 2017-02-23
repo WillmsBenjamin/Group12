@@ -65,7 +65,7 @@ public class InstructorMainPage extends JFrame{
 	            exitProcedure();
 	        }
 	    });
-	    setTitle("TAMAS INSTRUCTOR MAIN PAGE");
+	    setTitle(rm.getLoggedIn().getName());
 
 	    // layout
 	    layout = new GroupLayout(getContentPane());

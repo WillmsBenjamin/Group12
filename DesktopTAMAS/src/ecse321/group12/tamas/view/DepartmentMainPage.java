@@ -32,6 +32,7 @@ public class DepartmentMainPage extends JFrame{
 
 	private JButton postJobButton;
 	private JButton manageCoursesButton;
+	private JButton manageApplicationsButton;
 	private JButton logOutButton;
 	
 	private ResourceManager rm;
@@ -53,6 +54,7 @@ public class DepartmentMainPage extends JFrame{
 		//TODO: add department data view in the form of multiple small unmodifiable TextAreas. Add edit check box which sets the areas to editable, and a submit button.
 		postJobButton = new JButton("Post a Job");
 		manageCoursesButton = new JButton("Manage Courses");
+		manageApplicationsButton = new JButton("Manage Applications");
 		logOutButton = new JButton("Sign Out");
 		
 	    // elements for error message
@@ -67,7 +69,7 @@ public class DepartmentMainPage extends JFrame{
 	            exitProcedure();
 	        }
 	    });
-	    setTitle("TAMAS DEPARTMENT MAIN PAGE");
+	    setTitle(rm.getLoggedIn().getName());
 
 	    // layout
 	    layout = new GroupLayout(getContentPane());
@@ -82,10 +84,11 @@ public class DepartmentMainPage extends JFrame{
 	        .addGroup(layout.createSequentialGroup()
 	        	.addComponent(logOutButton)
 	        	.addComponent(postJobButton)
-	        	.addComponent(manageCoursesButton))
+	        	.addComponent(manageCoursesButton)
+	        	.addComponent(manageApplicationsButton))
 	        );
 
-	    layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {logOutButton, postJobButton, manageCoursesButton});
+	    layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {logOutButton, postJobButton, manageCoursesButton, manageApplicationsButton});
 
 	    
 	    layout.setVerticalGroup(
@@ -94,7 +97,8 @@ public class DepartmentMainPage extends JFrame{
 		    .addGroup(layout.createParallelGroup()
 		        .addComponent(logOutButton)
 		        .addComponent(postJobButton)
-		        .addComponent(manageCoursesButton))
+		        .addComponent(manageCoursesButton)
+		        .addComponent(manageApplicationsButton))
 		    );
 
 	    this.setLocationRelativeTo(null);
@@ -115,6 +119,17 @@ public class DepartmentMainPage extends JFrame{
 	            manageCoursesButtonActionPerformed();
 	        }
 	    });
+	    manageApplicationsButton.addActionListener(new java.awt.event.ActionListener() {
+	        public void actionPerformed(java.awt.event.ActionEvent evt) {
+	            manageApplicationsButtonActionPerformed();
+	        }
+	    });
+	}
+	
+	protected void manageApplicationsButtonActionPerformed() {
+		ApplicationManagementPage amp = new ApplicationManagementPage(rm);
+		this.dispose();
+		amp.setVisible(true);
 	}
 	
 	protected void manageCoursesButtonActionPerformed() {

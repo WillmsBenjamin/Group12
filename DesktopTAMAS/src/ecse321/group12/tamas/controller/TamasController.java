@@ -249,13 +249,20 @@ public class TamasController {
 			throw new InvalidInputException("Course cannot be empty!");
 		} else {
 			int numTAJobs = 0;
+			int numLabJobs = 0;
 			for(Job j : aCourse.getJobs()) {
 				if(j instanceof TAjob) {
 					numTAJobs++;
+					if(((TAjob)j).getIsLab()) {
+						numLabJobs++;
+					}
 				}
 			}
 			if(numTAJobs == aCourse.getNumLabSections()+aCourse.getNumTutorialSections()) {
 				throw new InvalidInputException("The selected course has the maximum number of TA Jobs!");
+			}
+			if(numLabJobs == aCourse.getNumLabSections()) {
+				throw new InvalidInputException("The selected course has the maximum number of lab Jobs!");
 			}
 		}
 		if(aMaxHours == 0) {
@@ -371,6 +378,41 @@ public class TamasController {
 		}
 		Course c = new Course(name, numTuts, numLabs, numStuds);
 		rm.addCourse(c);
+		PersistenceXStream.saveToXMLwithXStream(rm);
+	}
+
+	public void applyToJob(String experience, String courseGPA, Applicant applicant, Job job) throws InvalidInputException {
+		Calendar calobj = Calendar.getInstance();
+	    
+		if(applicant == null) {
+			throw new InvalidInputException("Applicant cannot be empty!");
+		}
+		if(job == null) {
+			throw new InvalidInputException("Job cannot be empty!");
+		}
+		if (job.getDeadline().before(calobj.getTime())) {
+			throw new InvalidInputException("The application deadline for this job has passed!");
+		}
+		if (courseGPA == null || courseGPA.trim().length() == 0) {
+			throw new InvalidInputException("Course GPA cannot be empty!");
+		}
+		if(courseGPA.length() != 4) {
+			throw new InvalidInputException("Course GPA must be 4 characters long!");
+		} else {
+			for(int i = 0; i < 4; i++) {
+				if(i == 1 && courseGPA.charAt(i) != '.') {
+					throw new InvalidInputException("Course GPA's second character must be a decimal!");
+				} else if((i != 1) && (courseGPA.charAt(i) < 48 || courseGPA.charAt(i) > 57)) {
+					throw new InvalidInputException("CourseGPA must be a decimal number!");
+				} else if(i == 0 && courseGPA.charAt(i) > 52) {
+					throw new InvalidInputException("Course GPA cannot be geater than 4.00!");
+				} else if((i==2 || i==3) && (courseGPA.charAt(0) == '4') && (courseGPA.charAt(i) > 48)) {
+					throw new InvalidInputException("Course GPA cannot be geater than 4.00!");
+				}
+			}
+		}
+		Application a = new Application(false, experience, courseGPA, applicant, job);
+		rm.addApplication(a);
 		PersistenceXStream.saveToXMLwithXStream(rm);
 	}
 
