@@ -11,4 +11,15 @@
     <string name="applicant_identification_hint">9-digit ID</string>
     <string name="applicant_cpga_hint">CGPA</string>
     <string name="applicant_skills_hint">Relevant Skills</string>
+    <string name="logout">Logout</string>
+    <string name="title_activity_application">ApplicationActivity</string>
+    <string name="application_spinner_prompt">Available Jobs</string>
+    <string name="application_coursegpa_hint">CourseGPA</string>
+    <string name="application_courseexperience_hint">Relevant Experience</string>
+    <string name="apply_button">Apply</string>
+    <string name="create_user_button">register</string>
+    <string name="graduate_student">Graduate Student</string>
+    <string name="under_graduate_student">Undergraduate Student</string>
+    <string name="title_activity_main2">Main2Activity</string>
+    <string name="application_reqcourseexperience_hint">Required Experience</string>
 </resources>

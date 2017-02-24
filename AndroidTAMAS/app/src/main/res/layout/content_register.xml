@@ -26,6 +26,7 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@android:color/darker_gray"
+        android:layout_below="@id/applicant_name"
         />
     <EditText
         android:layout_width="match_parent"
@@ -38,7 +39,9 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@android:color/darker_gray"/>
+        android:background="@android:color/darker_gray"
+        android:layout_below="@id/applicant_identification"
+        />
 
     <EditText
         android:layout_width="match_parent"
@@ -52,17 +55,54 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@android:color/darker_gray"
+        android:layout_below="@id/applicant_cgpa"
         />
 
+    <RadioGroup
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/student_type_group"
+        android:layout_below="@id/applicant_cgpa"
+        android:orientation="horizontal"
+        >
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/graduate_student"
+            android:id="@+id/graduate_student"
+            />
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/under_graduate_student"
+            android:id="@+id/undergraduate_student"
+            />
+    </RadioGroup>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"
+        android:layout_below="@id/student_type_group"
+        />
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/create_user_button"
+        android:onClick="addApplicant"
+        android:id="@+id/button_register"
+        android:layout_alignParentBottom="true"
+        />
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/applicant_cgpa"
+        android:layout_below="@id/student_type_group"
         android:layout_above="@id/button_register"
         >
         <EditText
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
             android:id="@+id/applicant_skills"
             android:hint="@string/applicant_skills_hint"
 
@@ -72,14 +112,9 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@android:color/darker_gray"
+        android:layout_above="@id/button_register"
+        android:id="@+id/divider"
         />
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/register_button"
-        android:onClick="/*changeview*/"
-        android:id="@+id/button_register"
-        android:layout_alignParentBottom="true"
-        />
+
 
 </RelativeLayout>

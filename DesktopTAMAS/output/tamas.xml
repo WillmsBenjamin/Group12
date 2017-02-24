@@ -95,6 +95,7 @@
     <id>000000000</id>
     <deadline id="26">2017-02-24</deadline>
   </department>
+  <loggedIn class="applicant" reference="3"/>
   <applications id="27">
     <application reference="5"/>
     <application reference="19"/>

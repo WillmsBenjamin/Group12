@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/content_application"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="ecse321.group12.tamas.androidtamas.ApplicationActivity"
+    tools:showIn="@layout/activity_application">
+
+
+
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentTop="true"
+    android:id="@+id/joblist_group"
+    >
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/application_spinner_prompt"
+         />
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinner_joblist">
+    </Spinner>
+    
+</LinearLayout>
+
+<EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/application_coursegpa_hint"
+        android:gravity="center_horizontal"
+        android:id="@+id/application_coursegpa"
+        android:layout_below="@id/joblist_group"
+        />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"
+        android:layout_below="@id/application_coursegpa"
+        />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"
+        android:layout_centerInParent="true"
+        android:id="@+id/application_divider"
+        />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/application_coursegpa"
+        android:layout_above="@id/application_divider"
+        android:id="@+id/relevantexperience_group"
+
+        >
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/application_courseexperience_hint"
+            android:gravity="center_horizontal"
+            android:id="@+id/application_courseexperience"
+            android:layout_below="@id/application_coursegpa"
+            android:paddingTop="12dp"
+            />
+    </ScrollView>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/apply_button"
+        android:onClick="createApplication"
+        android:id="@+id/button_complete_application"
+        android:layout_alignParentBottom="true"
+        />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/application_divider"
+        android:layout_above="@id/button_complete_application"
+        android:id="@+id/required_experience_group"
+        >
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/application_reqcourseexperience_hint"
+            android:gravity="center_horizontal"
+            android:paddingTop="12dp"
+            android:id="@+id/application_required_experience"
+            />
+    </ScrollView>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"
+        android:layout_below="@id/required_experience_group"
+        android:id="@+id/bottom_divider"
+        />
+</RelativeLayout>

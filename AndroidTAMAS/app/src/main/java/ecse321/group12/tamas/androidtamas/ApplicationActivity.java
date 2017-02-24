@@ -10,7 +10,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.RadioButton;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,10 +22,12 @@ import com.google.android.gms.common.api.GoogleApiClient;
 
 import ecse321.group12.tamas.controller.InvalidInputException;
 import ecse321.group12.tamas.controller.TamasController;
+import ecse321.group12.tamas.model.Applicant;
+import ecse321.group12.tamas.model.Job;
 import ecse321.group12.tamas.model.ResourceManager;
 import ecse321.group12.tamas.persistence.PersistenceXStream;
 
-public class RegisterActivity extends AppCompatActivity {
+public class ApplicationActivity extends AppCompatActivity {
 
     private ResourceManager rm;
     private String fileName;
@@ -38,10 +41,9 @@ public class RegisterActivity extends AppCompatActivity {
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register);
+        setContentView(R.layout.activity_application);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -50,7 +52,7 @@ public class RegisterActivity extends AppCompatActivity {
                 (
                 view -> Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show()
-                );
+            );
 
         fileName = getFilesDir().getAbsolutePath() + "/eventregistration.xml";
         rm = PersistenceXStream.initializeModelManager(fileName);
@@ -58,66 +60,66 @@ public class RegisterActivity extends AppCompatActivity {
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
-
     }
 
     private void refreshData()
     {
-        TextView tv = (TextView) findViewById(R.id.applicant_name);
+        TextView tv = (TextView) findViewById(R.id.application_coursegpa);
         tv.setText("");
-        tv = (TextView) findViewById(R.id.applicant_cgpa);
+        tv = (TextView) findViewById(R.id.application_courseexperience);
         tv.setText("");
-        tv = (TextView) findViewById(R.id.applicant_skills);
+        tv = (TextView) findViewById(R.id.application_required_experience);
         tv.setText("");
-        tv = (TextView) findViewById(R.id.applicant_identification);
-        tv.setText("");
+
+        // Initialize the data in the job spinner
+        Spinner spinner = (Spinner) findViewById(R.id.spinner_joblist);
+
+        ArrayAdapter<CharSequence> jobAdapter = new ArrayAdapter<CharSequence>(this, android.R.layout.simple_spinner_item);
+
+        jobAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        for (Job j: rm.getJobs() )
+        {
+            jobAdapter.add(j.getCourse().toString());
+        }
+        spinner.setAdapter(jobAdapter);
     }
-    public void addApplicant(View v)
+    public void createApplication(View v)
     {
         TamasController tc = new TamasController(rm);
 
-        TextView tv = (TextView) findViewById(R.id.applicant_name);
-        String name = tv.getText().toString();
+        TextView tv = (TextView) findViewById(R.id.application_coursegpa);
+        String coursegpa = tv.getText().toString();
+        tv = (TextView) findViewById(R.id.application_courseexperience);
+        String experience = tv.getText().toString();
 
-        tv = (TextView) findViewById(R.id.applicant_cgpa);
-        String cgpa =tv.getText().toString();
-
-        tv = (TextView) findViewById(R.id.applicant_identification);
-        String id = tv.getText().toString();
-
-        tv = (TextView) findViewById(R.id.applicant_skills);
-        String skills = tv.getText().toString();
-
-        RadioButton isGraduate =(RadioButton) findViewById(R.id.graduate_student);
-        Boolean studentType = isGraduate.isChecked();
+        Spinner spinner = (Spinner) findViewById (R.id.spinner_joblist);
+        int jobindex = spinner.getSelectedItemPosition();
+        
         try
         {
-            tc.registerApplicant(name,id,cgpa,skills,studentType);
+            tc.applyToJob(experience,coursegpa,(Applicant)rm.getLoggedIn(),rm.getJob(jobindex));
         }
-        catch (InvalidInputException e)
+        catch(InvalidInputException e)
         {
             error=e.getMessage();
             Toast.makeText(getApplicationContext(),error,Toast.LENGTH_SHORT).show();
         }
         refreshData();
-        moveTologinPage();
-
+        moveToMainPage();
     }
+    public void moveToMainPage()
+    {
+        Intent i = new Intent(getApplicationContext(), MainActivity.class);
 
-
+        startActivity(i);
+        refreshData();
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_login, menu);
         return true;
-    }
-
-    public void moveTologinPage()
-    {
-        Intent i = new Intent(getApplicationContext(), LoginActivity.class);
-
-        startActivity(i);
-        refreshData();
     }
 
     @Override
@@ -139,7 +141,8 @@ public class RegisterActivity extends AppCompatActivity {
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      */
-    public Action getIndexApiAction() {
+    public Action getIndexApiAction()
+    {
         Thing object = new Thing.Builder()
                 .setName("Login Page") // TODO: Define a title for the content shown.
                 // TODO: Make sure this auto-generated URL is correct.
@@ -149,25 +152,5 @@ public class RegisterActivity extends AppCompatActivity {
                 .setObject(object)
                 .setActionStatus(Action.STATUS_TYPE_COMPLETED)
                 .build();
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client.connect();
-        AppIndex.AppIndexApi.start(client, getIndexApiAction());
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        AppIndex.AppIndexApi.end(client, getIndexApiAction());
-        client.disconnect();
     }
 }
