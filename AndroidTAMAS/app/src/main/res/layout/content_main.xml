@@ -16,8 +16,8 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/register_job_apply"
-        android:onClick="moveToApplicationPage"
+        android:text="@string/main_view_jobs"
+        android:onClick="moveToViewJobsPage"
         android:id="@+id/button_job_apply"
         android:layout_alignParentTop="true"
         />

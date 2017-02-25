@@ -90,14 +90,14 @@
         android:layout_height="wrap_content"
         android:text="@string/create_user_button"
         android:onClick="addApplicant"
-        android:id="@+id/button_register"
+        android:id="@+id/button_complete_registration"
         android:layout_alignParentBottom="true"
         />
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/student_type_group"
-        android:layout_above="@id/button_register"
+        android:layout_above="@id/button_complete_registration"
         >
         <EditText
             android:layout_width="match_parent"
@@ -112,7 +112,7 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@android:color/darker_gray"
-        android:layout_above="@id/button_register"
+        android:layout_above="@id/button_complete_registration"
         android:id="@+id/divider"
         />
 

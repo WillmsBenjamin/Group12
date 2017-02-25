@@ -3,13 +3,12 @@ package ecse321.group12.tamas.androidtamas;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,47 +29,42 @@ public class RegisterActivity extends AppCompatActivity {
     private String fileName;
     String error = null;
 
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
     private GoogleApiClient client;
 
-
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register);
+        setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener
-                (
-                view -> Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
-                );
-
         fileName = getFilesDir().getAbsolutePath() + "/eventregistration.xml";
         rm = PersistenceXStream.initializeModelManager(fileName);
-        refreshData();
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
-
+        refreshData();
     }
-
     private void refreshData()
     {
-        TextView tv = (TextView) findViewById(R.id.applicant_name);
-        tv.setText("");
-        tv = (TextView) findViewById(R.id.applicant_cgpa);
-        tv.setText("");
-        tv = (TextView) findViewById(R.id.applicant_skills);
-        tv.setText("");
-        tv = (TextView) findViewById(R.id.applicant_identification);
-        tv.setText("");
+        EditText et = (EditText) findViewById(R.id.applicant_name);
+        if (et!=null)
+        {
+            et.setText("");
+        }
+        et = (EditText) findViewById(R.id.applicant_cgpa);
+        if (et!=null)
+        {
+            et.setText("");
+        }
+        et = (EditText) findViewById(R.id.applicant_skills);
+        if (et!=null)
+        {
+            et.setText("");
+        }
+        et = (EditText) findViewById(R.id.applicant_identification);
+        if (et!=null)
+        {
+            et.setText("");
+        }
     }
     public void addApplicant(View v)
     {
@@ -100,7 +94,8 @@ public class RegisterActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(),error,Toast.LENGTH_SHORT).show();
         }
         refreshData();
-        moveTologinPage();
+        Toast.makeText(getApplicationContext(),"Registered Successfully",Toast.LENGTH_SHORT).show();
+        moveToLoginPage();
 
     }
 
@@ -112,7 +107,7 @@ public class RegisterActivity extends AppCompatActivity {
         return true;
     }
 
-    public void moveTologinPage()
+    public void moveToLoginPage()
     {
         Intent i = new Intent(getApplicationContext(), LoginActivity.class);
 
@@ -170,4 +165,6 @@ public class RegisterActivity extends AppCompatActivity {
         AppIndex.AppIndexApi.end(client, getIndexApiAction());
         client.disconnect();
     }
+
+
 }

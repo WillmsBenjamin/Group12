@@ -10,8 +10,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,7 +21,6 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import ecse321.group12.tamas.controller.InvalidInputException;
 import ecse321.group12.tamas.controller.TamasController;
 import ecse321.group12.tamas.model.Applicant;
-import ecse321.group12.tamas.model.Job;
 import ecse321.group12.tamas.model.ResourceManager;
 import ecse321.group12.tamas.persistence.PersistenceXStream;
 
@@ -41,7 +38,8 @@ public class ApplicationActivity extends AppCompatActivity {
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_application);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -50,16 +48,36 @@ public class ApplicationActivity extends AppCompatActivity {
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener
                 (
-                view -> Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
-            );
+                        view -> Snackbar.make(view, "DONE?", Snackbar.LENGTH_INDEFINITE)
+                                .setAction("LOGOUT", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v)
+                                    {
+                                        logout();
+                                    }
+                                }).show()
+                );
 
         fileName = getFilesDir().getAbsolutePath() + "/eventregistration.xml";
         rm = PersistenceXStream.initializeModelManager(fileName);
+
         refreshData();
+
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+    }
+
+    private void logout()
+    {
+        TamasController tc = new TamasController(rm);
+        tc.logOut();
+        forceToLoginPage();
+    }
+    public void forceToLoginPage()
+    {
+        Intent i = new Intent(getApplicationContext(), LoginActivity.class);
+        startActivity(i);
     }
 
     private void refreshData()
@@ -68,21 +86,10 @@ public class ApplicationActivity extends AppCompatActivity {
         tv.setText("");
         tv = (TextView) findViewById(R.id.application_courseexperience);
         tv.setText("");
-        tv = (TextView) findViewById(R.id.application_required_experience);
-        tv.setText("");
+        tv = (TextView) findViewById(R.id.job_title);
+        String name=getIntent().getStringExtra("name");
+        tv.setText(name);
 
-        // Initialize the data in the job spinner
-        Spinner spinner = (Spinner) findViewById(R.id.spinner_joblist);
-
-        ArrayAdapter<CharSequence> jobAdapter = new ArrayAdapter<CharSequence>(this, android.R.layout.simple_spinner_item);
-
-        jobAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        for (Job j: rm.getJobs() )
-        {
-            jobAdapter.add(j.getCourse().toString());
-        }
-        spinner.setAdapter(jobAdapter);
     }
     public void createApplication(View v)
     {
@@ -93,12 +100,11 @@ public class ApplicationActivity extends AppCompatActivity {
         tv = (TextView) findViewById(R.id.application_courseexperience);
         String experience = tv.getText().toString();
 
-        Spinner spinner = (Spinner) findViewById (R.id.spinner_joblist);
-        int jobindex = spinner.getSelectedItemPosition();
-        
+        int jobindex = getIntent().getIntExtra("jindex",-1);
+
         try
         {
-            tc.applyToJob(experience,coursegpa,(Applicant)rm.getLoggedIn(),rm.getJob(jobindex));
+            tc.applyToJob(experience,coursegpa,(Applicant) rm.getLoggedIn(),rm.getJob(jobindex));
         }
         catch(InvalidInputException e)
         {
@@ -106,11 +112,12 @@ public class ApplicationActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(),error,Toast.LENGTH_SHORT).show();
         }
         refreshData();
-        moveToMainPage();
+        Toast.makeText(getApplicationContext(),"Application Successful",Toast.LENGTH_SHORT).show();
+        moveToJobPage();
     }
-    public void moveToMainPage()
+    public void moveToJobPage()
     {
-        Intent i = new Intent(getApplicationContext(), MainActivity.class);
+        Intent i = new Intent(getApplicationContext(), ViewJobsActivity.class);
 
         startActivity(i);
         refreshData();

@@ -14,7 +14,12 @@ import android.view.View;
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.Thing;
 
+import ecse321.group12.tamas.controller.TamasController;
+import ecse321.group12.tamas.model.ResourceManager;
+
 public class MainActivity extends AppCompatActivity {
+
+    private ResourceManager rm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,13 +29,32 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(
-                view -> Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show());
+        fab.setOnClickListener
+                (
+                        view -> Snackbar.make(view, "DONE?", Snackbar.LENGTH_INDEFINITE)
+                                .setAction("LOGOUT", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v)
+                                    {
+                                        logout();
+                                    }
+                                }).show()
+                );
     }
-    public void moveToApplicationPage(View v)
+    private void logout()
     {
-        Intent i = new Intent(getApplicationContext(), ApplicationActivity.class);
+        TamasController tc = new TamasController(rm);
+        tc.logOut();
+        forceToLoginPage();
+    }
+    public void forceToLoginPage()
+    {
+        Intent i = new Intent(getApplicationContext(), LoginActivity.class);
+        startActivity(i);
+    }
+    public void moveToViewJobsPage(View v)
+    {
+        Intent i = new Intent(getApplicationContext(), ViewJobsActivity.class);
 
         startActivity(i);
     }

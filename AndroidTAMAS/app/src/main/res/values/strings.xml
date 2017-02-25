@@ -5,7 +5,6 @@
     <string name="login_button">Login</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="register_button">New Users</string>
-    <string name="register_job_apply">Apply to Jobs</string>
     <string name="title_activity_register">RegisterActivity</string>
     <string name="applicant_name_hint">First and Last Name</string>
     <string name="applicant_identification_hint">9-digit ID</string>
@@ -20,6 +19,9 @@
     <string name="create_user_button">register</string>
     <string name="graduate_student">Graduate Student</string>
     <string name="under_graduate_student">Undergraduate Student</string>
-    <string name="title_activity_main2">Main2Activity</string>
     <string name="application_reqcourseexperience_hint">Required Experience</string>
+    <string name="main_view_jobs">View jobs</string>
+    <string name="title_activity_view_jobs">ViewJobsActivity</string>
+    <string name="apply_button_complete">Finish Application</string>
+    <string name="job_name">Jobs</string>
 </resources>

@@ -54,7 +54,7 @@ public class LoginActivity extends AppCompatActivity {
         tv.setText("");
     }
 
-    public void moveToMainPage()
+    public void moveToMainPage(View v)
     {
         Intent i = new Intent(getApplicationContext(), MainActivity.class);
 
@@ -62,7 +62,7 @@ public class LoginActivity extends AppCompatActivity {
         refreshData();
     }
 
-    public void moveToRegisterPage()
+    public void moveToRegisterPage(View v)
     {
         Intent i = new Intent(getApplicationContext(), RegisterActivity.class);
 
@@ -85,8 +85,10 @@ public class LoginActivity extends AppCompatActivity {
                 return;
 
         }
-        moveToMainPage();
+        Toast.makeText(getApplicationContext(),"logging in...",Toast.LENGTH_SHORT).show();
+        moveToMainPage(v);
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
