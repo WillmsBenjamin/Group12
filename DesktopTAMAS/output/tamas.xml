@@ -1,113 +1,208 @@
 <manager id="1">
   <applicants id="2">
     <applicant id="3">
-      <name>Joe</name>
-      <id>111111111</id>
-      <cGPA>4.00</cGPA>
-      <skills>I SUCK!</skills>
-      <isGraduate>false</isGraduate>
+      <name>tom</name>
+      <id>666666666</id>
+      <cGPA>3.90</cGPA>
+      <skills>wertwert</skills>
+      <isGraduate>true</isGraduate>
       <applications id="4">
         <application id="5">
           <isAccepted>false</isAccepted>
-          <experience>kasjdfjkds</experience>
-          <courseGPA>3.60</courseGPA>
+          <experience>wyyetyer</experience>
+          <courseGPA>3.36</courseGPA>
           <id>1</id>
           <applicant reference="3"/>
-          <job class="graderJob" id="6">
-            <maxHours>61</maxHours>
-            <wage>10.0</wage>
-            <deadline id="7">2017-02-24</deadline>
-            <requiredSkills>asdkjfhasjkdlf</requiredSkills>
-            <requiredCourseGPA>2.00</requiredCourseGPA>
-            <requiredCGPA>2.10</requiredCGPA>
-            <requiredExperience>askfjsdkjlf</requiredExperience>
+          <job class="TAjob" id="6">
+            <maxHours>60</maxHours>
+            <wage>9.700000000000001</wage>
+            <deadline id="7">2017-02-28</deadline>
+            <requiredSkills>erthdffgga</requiredSkills>
+            <requiredCourseGPA>3.50</requiredCourseGPA>
+            <requiredCGPA>3.70</requiredCGPA>
+            <requiredExperience>wergsdfg</requiredExperience>
             <applications id="8">
               <application reference="5"/>
-              <application id="9">
-                <isAccepted>false</isAccepted>
-                <experience>adfds</experience>
-                <courseGPA>2.00</courseGPA>
-                <id>3</id>
-                <applicant reference="3"/>
-                <job class="graderJob" reference="6"/>
-              </application>
             </applications>
-            <course id="10">
-              <name>DPM</name>
-              <numTutorialSections>0</numTutorialSections>
-              <numLabSections>12</numLabSections>
+            <course id="9">
+              <name>ice</name>
+              <numTutorialSections>2</numTutorialSections>
+              <numLabSections>0</numLabSections>
               <numStudents>300</numStudents>
-              <instructors id="11">
-                <instructor id="12">
-                  <name>Donald Davis</name>
-                  <id>000000666</id>
-                  <contactTimes id="13"/>
-                  <courses id="14">
-                    <course reference="10"/>
+              <instructors id="10">
+                <instructor id="11">
+                  <name>tim</name>
+                  <id>222222222</id>
+                  <contactTimes id="12"/>
+                  <courses id="13">
+                    <course id="14">
+                      <name>dpm</name>
+                      <numTutorialSections>1</numTutorialSections>
+                      <numLabSections>9</numLabSections>
+                      <numStudents>200</numStudents>
+                      <instructors id="15">
+                        <instructor id="16">
+                          <name>jim</name>
+                          <id>333333333</id>
+                          <contactTimes id="17"/>
+                          <courses id="18">
+                            <course reference="14"/>
+                          </courses>
+                        </instructor>
+                        <instructor reference="11"/>
+                        <instructor id="19">
+                          <name>john</name>
+                          <id>444444444</id>
+                          <contactTimes id="20"/>
+                          <courses id="21">
+                            <course reference="14"/>
+                            <course id="22">
+                              <name>ise</name>
+                              <numTutorialSections>2</numTutorialSections>
+                              <numLabSections>0</numLabSections>
+                              <numStudents>60</numStudents>
+                              <instructors id="23">
+                                <instructor reference="19"/>
+                              </instructors>
+                              <jobs id="24"/>
+                            </course>
+                          </courses>
+                        </instructor>
+                        <instructor id="25">
+                          <name>cam</name>
+                          <id>555555555</id>
+                          <contactTimes id="26"/>
+                          <courses id="27">
+                            <course reference="14"/>
+                            <course reference="9"/>
+                          </courses>
+                        </instructor>
+                      </instructors>
+                      <jobs id="28">
+                        <TAjob id="29">
+                          <maxHours>70</maxHours>
+                          <wage>10.299999999999999</wage>
+                          <deadline id="30">2017-02-28</deadline>
+                          <requiredSkills>wertdfg</requiredSkills>
+                          <requiredCourseGPA>4.00</requiredCourseGPA>
+                          <requiredCGPA>4.00</requiredCGPA>
+                          <requiredExperience>wertdfsgwertsdf</requiredExperience>
+                          <applications id="31">
+                            <application id="32">
+                              <isAccepted>false</isAccepted>
+                              <experience>wertgs</experience>
+                              <courseGPA>3.60</courseGPA>
+                              <id>3</id>
+                              <applicant reference="3"/>
+                              <job class="TAjob" reference="29"/>
+                            </application>
+                          </applications>
+                          <course reference="14"/>
+                          <minHours>6</minHours>
+                          <isLab>true</isLab>
+                        </TAjob>
+                        <TAjob id="33">
+                          <maxHours>60</maxHours>
+                          <wage>10.5</wage>
+                          <deadline id="34">2017-02-28</deadline>
+                          <requiredSkills>fhj</requiredSkills>
+                          <requiredCourseGPA>3.90</requiredCourseGPA>
+                          <requiredCGPA>3.95</requiredCGPA>
+                          <requiredExperience>fhjfgj</requiredExperience>
+                          <applications id="35"/>
+                          <course reference="14"/>
+                          <minHours>1</minHours>
+                          <isLab>false</isLab>
+                        </TAjob>
+                      </jobs>
+                    </course>
+                    <course reference="9"/>
                   </courses>
                 </instructor>
+                <instructor reference="25"/>
               </instructors>
-              <jobs id="15">
-                <TAjob id="16">
+              <jobs id="36">
+                <graderJob id="37">
                   <maxHours>60</maxHours>
-                  <wage>10.0</wage>
-                  <deadline id="17">2017-02-24</deadline>
-                  <requiredSkills></requiredSkills>
-                  <requiredCourseGPA>3.10</requiredCourseGPA>
+                  <wage>9.3</wage>
+                  <deadline id="38">2017-02-28</deadline>
+                  <requiredSkills>ertyfdghcvbnsfh</requiredSkills>
+                  <requiredCourseGPA>2.00</requiredCourseGPA>
                   <requiredCGPA>3.00</requiredCGPA>
-                  <requiredExperience></requiredExperience>
-                  <applications id="18">
-                    <application id="19">
+                  <requiredExperience>dgherthfgn</requiredExperience>
+                  <applications id="39">
+                    <application id="40">
                       <isAccepted>false</isAccepted>
-                      <experience>ksjfd</experience>
-                      <courseGPA>4.00</courseGPA>
+                      <experience>qwerasdf</experience>
+                      <courseGPA>3.90</courseGPA>
                       <id>2</id>
                       <applicant reference="3"/>
-                      <job class="TAjob" reference="16"/>
+                      <job class="graderJob" reference="37"/>
                     </application>
                   </applications>
-                  <course reference="10"/>
-                  <minHours>1</minHours>
-                  <isLab>false</isLab>
-                </TAjob>
-                <graderJob reference="6"/>
+                  <course reference="9"/>
+                </graderJob>
+                <graderJob id="41">
+                  <maxHours>60</maxHours>
+                  <wage>9.9</wage>
+                  <deadline id="42">2017-02-28</deadline>
+                  <requiredSkills>wegr</requiredSkills>
+                  <requiredCourseGPA>3.90</requiredCourseGPA>
+                  <requiredCGPA>3.91</requiredCGPA>
+                  <requiredExperience>werg</requiredExperience>
+                  <applications id="43"/>
+                  <course reference="9"/>
+                </graderJob>
+                <TAjob reference="6"/>
               </jobs>
             </course>
+            <minHours>1</minHours>
+            <isLab>false</isLab>
           </job>
         </application>
-        <application reference="19"/>
-        <application reference="9"/>
+        <application reference="40"/>
+        <application reference="32"/>
       </applications>
-      <assignments id="20"/>
+      <assignments id="44"/>
+    </applicant>
+    <applicant id="45">
+      <name>george</name>
+      <id>777777777</id>
+      <cGPA>2.10</cGPA>
+      <skills>qwerasdfzxcv</skills>
+      <isGraduate>true</isGraduate>
+      <applications id="46"/>
+      <assignments id="47"/>
     </applicant>
   </applicants>
-  <instructors id="21">
-    <instructor reference="12"/>
-    <instructor id="22">
-      <name>JJ Xu</name>
-      <id>666666666</id>
-      <contactTimes id="23"/>
-      <courses id="24"/>
-    </instructor>
+  <instructors id="48">
+    <instructor reference="11"/>
+    <instructor reference="16"/>
+    <instructor reference="19"/>
+    <instructor reference="25"/>
   </instructors>
-  <department id="25">
+  <department id="49">
     <name>ECSE</name>
-    <id>000000000</id>
-    <deadline id="26">2017-02-24</deadline>
+    <id>111111111</id>
+    <deadline id="50">2017-02-28</deadline>
   </department>
-  <loggedIn class="applicant" reference="3"/>
-  <applications id="27">
+  <applications id="51">
     <application reference="5"/>
-    <application reference="19"/>
-    <application reference="9"/>
+    <application reference="40"/>
+    <application reference="32"/>
   </applications>
-  <jobs id="28">
-    <TAjob reference="16"/>
-    <graderJob reference="6"/>
+  <jobs id="52">
+    <TAjob reference="29"/>
+    <graderJob reference="37"/>
+    <graderJob reference="41"/>
+    <TAjob reference="6"/>
+    <TAjob reference="33"/>
   </jobs>
-  <courses id="29">
-    <course reference="10"/>
+  <courses id="53">
+    <course reference="14"/>
+    <course reference="9"/>
+    <course reference="22"/>
   </courses>
-  <assignments id="30"/>
-  <contactTimes id="31"/>
+  <assignments id="54"/>
+  <contactTimes id="55"/>
 </manager>
