@@ -20,7 +20,13 @@ import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
+import ecse321.group12.tamas.controller.InvalidInputException;
 import ecse321.group12.tamas.controller.TamasController;
+import ecse321.group12.tamas.model.Course;
+import ecse321.group12.tamas.model.Instructor;
 import ecse321.group12.tamas.model.Job;
 import ecse321.group12.tamas.model.ResourceManager;
 import ecse321.group12.tamas.persistence.PersistenceXStream;
@@ -40,6 +46,8 @@ public class ViewJobsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
+
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_jobs);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -57,7 +65,7 @@ public class ViewJobsActivity extends AppCompatActivity {
                                             @Override
                                             public void onClick(View v) {
 
-                                                fileName = getFilesDir().getAbsolutePath() + "/eventregistration.xml";
+                                                fileName = getFilesDir().getAbsolutePath() + "/tamas_data.xml";
                                                 rm = PersistenceXStream.initializeModelManager(fileName);
                                                 refreshData();
                                                 logout();
@@ -75,6 +83,42 @@ public class ViewJobsActivity extends AppCompatActivity {
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+    }
+
+    private void createDummyJobs()
+    {
+        TamasController tc = new TamasController(rm);
+        try
+        {
+            tc.createCourse("Being a Duck: DCK-101",2,2,100);
+            tc.registerInstructor("Bugs Bunny, the Elder","129384576");
+
+            Instructor I = rm.getInstructor(0);
+            Course C = rm.getCourse(0);
+            tc.addInstructorToCourse(I,C);
+
+            SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy");
+            int year=2050;
+            int month=11;
+            int day = 12;
+
+            Calendar cal = Calendar.getInstance();
+            cal.set(Calendar.YEAR, year);
+            cal.set(Calendar.MONTH, month - 1);
+            cal.set(Calendar.DAY_OF_MONTH, day);
+
+            java.sql.Date date = new java.sql.Date(cal.getTimeInMillis());
+            tc.postGraderJob(100,10,date,"Being a Duck","3.90","3.90","Being a Duck",C);
+            tc.postTAJob(100,10,date,"Being a Duck","3.90","3.90","Being a Duck",C, 45, true);
+            Toast.makeText(getApplicationContext(),"Dummy Jobs Created",Toast.LENGTH_SHORT).show();
+        }
+        catch (InvalidInputException e)
+        {
+            error=e.getMessage();
+            Toast.makeText(getApplicationContext(),error,Toast.LENGTH_SHORT).show();
+
+        }
+
     }
 
     private void logout()
@@ -102,14 +146,12 @@ public class ViewJobsActivity extends AppCompatActivity {
 
         if (jAdapter.isEmpty())
         {
-            Toast.makeText(getApplicationContext(),"There are no jobs",Toast.LENGTH_SHORT).show();
-            drawField("-------","-------","--------","--------");
-            //forceToMainPage();
+            createDummyJobs();
         }
         else
         {
            Job J = rm.getJob(spinnerj.getSelectedItemPosition());
-           drawField(J.getRequiredCourseGPA(),J.getRequiredCGPA(),J.getRequiredExperience(),J.getRequiredSkills());
+           drawField(J.getRequiredCourseGPA(),J.getRequiredCGPA(),"Experience Required\n\n" + J.getRequiredExperience(), "Skills Required\n\n" + J.getRequiredSkills());
         }
 
 
@@ -135,7 +177,7 @@ public class ViewJobsActivity extends AppCompatActivity {
     }
     public void moveToMainPage(View v)
     {
-        Intent i = new Intent(getApplicationContext(), MainActivity.class);
+        Intent i = new Intent(getApplicationContext(), HomeActivity.class);
 
         startActivity(i);
         refreshData();
@@ -145,19 +187,31 @@ public class ViewJobsActivity extends AppCompatActivity {
         Intent i = new Intent(getApplicationContext(), LoginActivity.class);
         startActivity(i);
     }
-    public void moveToApplicationPage()
+    public void moveToApplicationPage(View v)
     {
-        Spinner spinnerj= (Spinner) findViewById(R.id.job_spinner);
-        int jindex = spinnerj.getSelectedItemPosition();
+        try
+        {
+            Spinner spinnerj= (Spinner) findViewById(R.id.job_spinner);
+            int jindex = spinnerj.getSelectedItemPosition();
 
-        Job j = rm.getJob(jindex);
-        String name = j.getCourse().getName();
+            Job j = rm.getJob(jindex);
 
-        Intent i = new Intent(getApplicationContext(), ApplicationActivity.class);
-        i.putExtra("jindex",jindex);
-        i.putExtra("name",name);
-        startActivity(i);
-        refreshData();
+            String name = j.getCourse().getName();
+
+            Intent i = new Intent(getApplicationContext(), ApplicationActivity.class);
+            i.putExtra("jindex", jindex);
+            i.putExtra("name", name);
+            startActivity(i);
+            refreshData();
+        }
+        catch(IllegalStateException e)
+        {
+            error=e.getMessage();
+            Toast.makeText(getApplicationContext(),error,Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(),"Please Select a Job",Toast.LENGTH_SHORT).show();
+        }
+
+
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -196,6 +250,25 @@ public class ViewJobsActivity extends AppCompatActivity {
                 .setObject(object)
                 .setActionStatus(Action.STATUS_TYPE_COMPLETED)
                 .build();
+    }
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client.connect();
+        AppIndex.AppIndexApi.start(client, getIndexApiAction());
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        AppIndex.AppIndexApi.end(client, getIndexApiAction());
+        client.disconnect();
     }
 }
 

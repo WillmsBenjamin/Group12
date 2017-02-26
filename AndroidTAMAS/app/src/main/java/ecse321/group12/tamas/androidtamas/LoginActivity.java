@@ -41,7 +41,7 @@ public class LoginActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        fileName = getFilesDir().getAbsolutePath() + "/eventregistration.xml";
+        fileName = getFilesDir().getAbsolutePath() + "/tamas_data.xml";
         rm = PersistenceXStream.initializeModelManager(fileName);
         refreshData();
         // ATTENTION: This was auto-generated to implement the App Indexing API.
@@ -56,18 +56,17 @@ public class LoginActivity extends AppCompatActivity {
 
     public void moveToMainPage(View v)
     {
-        Intent i = new Intent(getApplicationContext(), MainActivity.class);
+            Intent i = new Intent(getApplicationContext(), HomeActivity.class);
 
-        startActivity(i);
-        refreshData();
+            startActivity(i);
+            refreshData();
     }
 
     public void moveToRegisterPage(View v)
     {
-        Intent i = new Intent(getApplicationContext(), RegisterActivity.class);
-
-        startActivity(i);
-        refreshData();
+            Intent i = new Intent(getApplicationContext(), RegisterActivity.class);
+            startActivity(i);
+            refreshData();
     }
     public void login(View v)
     {
@@ -77,6 +76,8 @@ public class LoginActivity extends AppCompatActivity {
         try
         {
                 tc.logIn(tv.getText().toString());
+                Toast.makeText(getApplicationContext(),"logging in...",Toast.LENGTH_SHORT).show();
+                moveToMainPage(v);
         }
         catch (InvalidInputException e)
         {
@@ -85,8 +86,7 @@ public class LoginActivity extends AppCompatActivity {
                 return;
 
         }
-        Toast.makeText(getApplicationContext(),"logging in...",Toast.LENGTH_SHORT).show();
-        moveToMainPage(v);
+
     }
 
 
