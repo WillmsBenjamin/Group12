@@ -314,6 +314,8 @@ public class PostJobPage extends JFrame {
 			layout.replace(minHoursSpinner, hoursSpinner);
 			maxHoursLabel.setVisible(false);
 			maxHoursSpinner.setVisible(false);
+			isLabCheckBox.setSelected(false);
+			isLabChecked = false;
 			isLabCheckBox.setVisible(false);
 			buttonState = "Grader";
 		}
@@ -451,6 +453,9 @@ public class PostJobPage extends JFrame {
 			minHoursSpinner.setValue(0);
 			hoursSpinner.setValue(60);
 			wageSpinner.setValue(10.0);
+			//CheckBox
+			isLabCheckBox.setSelected(false);
+			isLabChecked = false;
 	    }
 
 	    // this is needed because the size of the window changes depending on whether an error message is shown or not

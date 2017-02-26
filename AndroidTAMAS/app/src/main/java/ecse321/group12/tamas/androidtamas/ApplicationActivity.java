@@ -10,21 +10,38 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.appindexing.Action;
+import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
+import com.google.android.gms.common.api.GoogleApiClient;
 
+import ecse321.group12.tamas.controller.InvalidInputException;
 import ecse321.group12.tamas.controller.TamasController;
+import ecse321.group12.tamas.model.Applicant;
 import ecse321.group12.tamas.model.ResourceManager;
+import ecse321.group12.tamas.persistence.PersistenceXStream;
 
-public class MainActivity extends AppCompatActivity {
+public class ApplicationActivity extends AppCompatActivity {
 
     private ResourceManager rm;
+    private String fileName;
+    String error = null;
+
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    private GoogleApiClient client;
+
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_application);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -40,7 +57,17 @@ public class MainActivity extends AppCompatActivity {
                                     }
                                 }).show()
                 );
+
+        fileName = getFilesDir().getAbsolutePath() + "/eventregistration.xml";
+        rm = PersistenceXStream.initializeModelManager(fileName);
+
+        refreshData();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
+
     private void logout()
     {
         TamasController tc = new TamasController(rm);
@@ -52,11 +79,48 @@ public class MainActivity extends AppCompatActivity {
         Intent i = new Intent(getApplicationContext(), LoginActivity.class);
         startActivity(i);
     }
-    public void moveToViewJobsPage(View v)
+
+    private void refreshData()
+    {
+        TextView tv = (TextView) findViewById(R.id.application_coursegpa);
+        tv.setText("");
+        tv = (TextView) findViewById(R.id.application_courseexperience);
+        tv.setText("");
+        tv = (TextView) findViewById(R.id.job_title);
+        String name=getIntent().getStringExtra("name");
+        tv.setText(name);
+
+    }
+    public void createApplication(View v)
+    {
+        TamasController tc = new TamasController(rm);
+
+        TextView tv = (TextView) findViewById(R.id.application_coursegpa);
+        String coursegpa = tv.getText().toString();
+        tv = (TextView) findViewById(R.id.application_courseexperience);
+        String experience = tv.getText().toString();
+
+        int jobindex = getIntent().getIntExtra("jindex",-1);
+
+        try
+        {
+            tc.applyToJob(experience,coursegpa,(Applicant) rm.getLoggedIn(),rm.getJob(jobindex));
+        }
+        catch(InvalidInputException e)
+        {
+            error=e.getMessage();
+            Toast.makeText(getApplicationContext(),error,Toast.LENGTH_SHORT).show();
+        }
+        refreshData();
+        Toast.makeText(getApplicationContext(),"Application Successful",Toast.LENGTH_SHORT).show();
+        moveToJobPage();
+    }
+    public void moveToJobPage()
     {
         Intent i = new Intent(getApplicationContext(), ViewJobsActivity.class);
 
         startActivity(i);
+        refreshData();
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -84,7 +148,8 @@ public class MainActivity extends AppCompatActivity {
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      */
-    public Action getIndexApiAction() {
+    public Action getIndexApiAction()
+    {
         Thing object = new Thing.Builder()
                 .setName("Login Page") // TODO: Define a title for the content shown.
                 // TODO: Make sure this auto-generated URL is correct.

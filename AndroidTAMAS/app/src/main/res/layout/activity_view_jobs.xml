@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="ecse321.group12.tamas.androidtamas.RegisterActivity">
+    tools:context="ecse321.group12.tamas.androidtamas.ViewJobsActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -21,16 +21,15 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_register" />
+    <include layout="@layout/content_view_jobs" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="top|right"
+        android:layout_gravity="top|end"
         android:layout_margin="@dimen/fab_margin"
-        app:srcCompat="@android:drawable/ic_menu_add"
-        app:layout_anchor="@+id/divider"
-        />
+        app:srcCompat="@android:drawable/ic_dialog_email"
+        app:layout_anchor="@+id/bottom_divider"/>
 
 </android.support.design.widget.CoordinatorLayout>

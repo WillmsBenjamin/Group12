@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/content_application"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="ecse321.group12.tamas.androidtamas.ApplicationActivity"
+    tools:showIn="@layout/activity_application">
+
+
+
+
+    <TextView
+        android:id="@+id/job_title"
+        android:inputType="none"
+        android:textIsSelectable="true"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:ems="10"
+        android:layout_alignParentTop="true"
+        >
+        <requestFocus />
+    </TextView>
+
+<EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/application_coursegpa_hint"
+        android:gravity="center_horizontal"
+        android:id="@+id/application_coursegpa"
+        android:layout_below="@id/job_title"
+        />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"
+        android:layout_below="@id/application_coursegpa"
+        />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/application_coursegpa"
+        android:layout_above="@id/bottom_divider"
+        android:id="@+id/relevantexperience_group"
+
+        >
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/application_courseexperience_hint"
+            android:gravity="center_horizontal"
+            android:id="@+id/application_courseexperience"
+            android:paddingTop="12dp"
+            />
+    </ScrollView>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/apply_button_complete"
+        android:onClick="createApplication"
+        android:id="@+id/button_complete_application"
+        android:layout_alignParentBottom="true"
+        />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"
+        android:layout_above="@id/button_complete_application"
+        android:id="@+id/bottom_divider"
+        />
+
+
+</RelativeLayout>

@@ -258,10 +258,10 @@ public class TamasController {
 					}
 				}
 			}
-			if(numTAJobs == aCourse.getNumLabSections()+aCourse.getNumTutorialSections()) {
-				throw new InvalidInputException("The selected course has the maximum number of TA Jobs!");
+			if(numTAJobs == aCourse.getNumTutorialSections() && !aIsLab) {
+				throw new InvalidInputException("The selected course has the maximum number of tutorial Jobs!");
 			}
-			if(numLabJobs == aCourse.getNumLabSections()) {
+			if(numLabJobs == aCourse.getNumLabSections() && aIsLab) {
 				throw new InvalidInputException("The selected course has the maximum number of lab Jobs!");
 			}
 		}
@@ -415,6 +415,9 @@ public class TamasController {
 					throw new InvalidInputException("Course GPA cannot be geater than 4.00!");
 				}
 			}
+		}
+		if(applicant.getApplications().size() == 3) {
+			throw new InvalidInputException("This applicant has made the maximum number of applications!");
 		}
 		Application a = new Application(false, experience, courseGPA, applicant, job);
 		rm.addApplication(a);
