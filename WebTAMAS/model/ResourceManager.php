@@ -18,8 +18,8 @@ class ResourceManager
   //ResourceManager Associations
   private $applicants;
   private $instructors;
-  public $department; //until PHP 5.3 (setAccessible)
-  public $loggedIn; //until PHP 5.3 (setAccessible)
+  private $department;
+  private $loggedIn;
   private $applications;
   private $jobs;
   private $courses;
