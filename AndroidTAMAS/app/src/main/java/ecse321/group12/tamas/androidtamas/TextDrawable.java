@@ -20,7 +20,7 @@ public class TextDrawable extends Drawable {
         this.text = text;
         this.paint = new Paint();
         paint.setColor(Color.BLACK);
-        paint.setTextSize(16f);
+        paint.setTextSize(24f);
         paint.setAntiAlias(true);
         paint.setTextAlign(Paint.Align.LEFT);
     }

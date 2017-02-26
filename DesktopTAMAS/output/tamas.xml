@@ -186,7 +186,16 @@
     <id>111111111</id>
     <deadline id="50">2017-02-28</deadline>
   </department>
+<<<<<<< Updated upstream
   <applications id="51">
+=======
+<<<<<<< HEAD
+  <loggedIn class="department" reference="25"/>
+  <applications id="27">
+=======
+  <applications id="51">
+>>>>>>> origin/master
+>>>>>>> Stashed changes
     <application reference="5"/>
     <application reference="40"/>
     <application reference="32"/>

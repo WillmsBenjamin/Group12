@@ -21,6 +21,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import ecse321.group12.tamas.controller.InvalidInputException;
 import ecse321.group12.tamas.controller.TamasController;
 import ecse321.group12.tamas.model.Applicant;
+import ecse321.group12.tamas.model.Job;
 import ecse321.group12.tamas.model.ResourceManager;
 import ecse321.group12.tamas.persistence.PersistenceXStream;
 
@@ -88,32 +89,35 @@ public class ApplicationActivity extends AppCompatActivity {
         tv.setText("");
         tv = (TextView) findViewById(R.id.job_title);
         String name=getIntent().getStringExtra("name");
-        tv.setText(name);
+        tv.setCompoundDrawablesWithIntrinsicBounds(new TextDrawable(name), null, null, null);
+        tv.setCompoundDrawablePadding(name.length()*10);
 
     }
     public void createApplication(View v)
     {
-        TamasController tc = new TamasController(rm);
-
         TextView tv = (TextView) findViewById(R.id.application_coursegpa);
         String coursegpa = tv.getText().toString();
         tv = (TextView) findViewById(R.id.application_courseexperience);
         String experience = tv.getText().toString();
 
         int jobindex = getIntent().getIntExtra("jindex",-1);
+        Job J = rm.getJob(jobindex);
+        Applicant A = (Applicant) rm.getLoggedIn();
 
         try
         {
-            tc.applyToJob(experience,coursegpa,(Applicant) rm.getLoggedIn(),rm.getJob(jobindex));
+            TamasController tc = new TamasController(rm);
+            tc.applyToJob(experience,coursegpa,A,J);
+            refreshData();
+            Toast.makeText(getApplicationContext(),"Application Successful",Toast.LENGTH_SHORT).show();
+            moveToJobPage();
         }
         catch(InvalidInputException e)
         {
             error=e.getMessage();
             Toast.makeText(getApplicationContext(),error,Toast.LENGTH_SHORT).show();
         }
-        refreshData();
-        Toast.makeText(getApplicationContext(),"Application Successful",Toast.LENGTH_SHORT).show();
-        moveToJobPage();
+
     }
     public void moveToJobPage()
     {
@@ -160,4 +164,24 @@ public class ApplicationActivity extends AppCompatActivity {
                 .setActionStatus(Action.STATUS_TYPE_COMPLETED)
                 .build();
     }
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client.connect();
+        AppIndex.AppIndexApi.start(client, getIndexApiAction());
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        AppIndex.AppIndexApi.end(client, getIndexApiAction());
+        client.disconnect();
+    }
+
 }
