@@ -9,6 +9,8 @@ $c = new Controller();
 
 try{
 	$c->register($_POST['registerName'], $_POST['registerID']);
+	header("Location: index.php");
+	exit;
 }
 catch (Exception $e){
 
@@ -23,15 +25,11 @@ catch (Exception $e){
 			$_SESSION["errorUserID"] = substr($error,1);
 		}
 	}
+	header("Location: register.php");
+	exit;
 
 	
 }
 
 
 ?>
-<!DOCTYPE html>
-<html>
-<head>
-	<meta http-equiv="refresh" content="0; url=/TAMAS_Web/Group12/WebTAMAS/register.php" />
-</head>
-</html>
