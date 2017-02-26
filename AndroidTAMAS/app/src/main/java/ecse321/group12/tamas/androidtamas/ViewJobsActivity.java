@@ -145,19 +145,31 @@ public class ViewJobsActivity extends AppCompatActivity {
         Intent i = new Intent(getApplicationContext(), LoginActivity.class);
         startActivity(i);
     }
-    public void moveToApplicationPage()
+    public void moveToApplicationPage(View v)
     {
-        Spinner spinnerj= (Spinner) findViewById(R.id.job_spinner);
-        int jindex = spinnerj.getSelectedItemPosition();
+        try
+        {
+            Spinner spinnerj= (Spinner) findViewById(R.id.job_spinner);
+            int jindex = spinnerj.getSelectedItemPosition();
 
-        Job j = rm.getJob(jindex);
-        String name = j.getCourse().getName();
+            Job j = rm.getJob(jindex);
 
-        Intent i = new Intent(getApplicationContext(), ApplicationActivity.class);
-        i.putExtra("jindex",jindex);
-        i.putExtra("name",name);
-        startActivity(i);
-        refreshData();
+            String name = j.getCourse().getName();
+
+            Intent i = new Intent(getApplicationContext(), ApplicationActivity.class);
+            i.putExtra("jindex", jindex);
+            i.putExtra("name", name);
+            startActivity(i);
+            refreshData();
+        }
+        catch(IllegalStateException e)
+        {
+            error=e.getMessage();
+            Toast.makeText(getApplicationContext(),error,Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(),"Please Select a Job",Toast.LENGTH_SHORT).show();
+        }
+
+
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

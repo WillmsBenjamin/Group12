@@ -34,7 +34,7 @@ public class RegisterActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_register);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -87,15 +87,16 @@ public class RegisterActivity extends AppCompatActivity {
         try
         {
             tc.registerApplicant(name,id,cgpa,skills,studentType);
+            refreshData();
+            Toast.makeText(getApplicationContext(),"Registered Successfully",Toast.LENGTH_SHORT).show();
+            moveToLoginPage();
         }
         catch (InvalidInputException e)
         {
             error=e.getMessage();
             Toast.makeText(getApplicationContext(),error,Toast.LENGTH_SHORT).show();
         }
-        refreshData();
-        Toast.makeText(getApplicationContext(),"Registered Successfully",Toast.LENGTH_SHORT).show();
-        moveToLoginPage();
+
 
     }
 
@@ -111,7 +112,7 @@ public class RegisterActivity extends AppCompatActivity {
     {
         Intent i = new Intent(getApplicationContext(), LoginActivity.class);
 
-        //startActivity(i);
+        startActivity(i);
         refreshData();
     }
 

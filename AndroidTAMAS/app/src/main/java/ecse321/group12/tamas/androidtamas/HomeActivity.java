@@ -54,7 +54,7 @@ public class HomeActivity extends AppCompatActivity {
     }
     public void moveToViewJobsPage(View v)
     {
-        Intent i = new Intent(getApplicationContext(), RegisterActivity.class);
+        Intent i = new Intent(getApplicationContext(), ViewJobsActivity.class);
 
         startActivity(i);
     }

@@ -19,12 +19,12 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".HomeActivity"
-            android:label="@string/title_activity_main"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name=".RegisterActivity"
             android:label="@string/title_activity_register"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".HomeActivity"
+            android:label="@string/title_activity_view_jobs"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ApplicationActivity"

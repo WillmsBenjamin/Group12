@@ -56,22 +56,17 @@ public class LoginActivity extends AppCompatActivity {
 
     public void moveToMainPage(View v)
     {
-        if (v== findViewById(R.id.button_login)) {
             Intent i = new Intent(getApplicationContext(), HomeActivity.class);
 
             startActivity(i);
             refreshData();
-        }
     }
 
     public void moveToRegisterPage(View v)
     {
-        if (v== findViewById(R.id.button_register_newuser))
-        {
             Intent i = new Intent(getApplicationContext(), RegisterActivity.class);
             startActivity(i);
             refreshData();
-        }
     }
     public void login(View v)
     {
@@ -81,6 +76,8 @@ public class LoginActivity extends AppCompatActivity {
         try
         {
                 tc.logIn(tv.getText().toString());
+                Toast.makeText(getApplicationContext(),"logging in...",Toast.LENGTH_SHORT).show();
+                moveToMainPage(v);
         }
         catch (InvalidInputException e)
         {
@@ -89,8 +86,7 @@ public class LoginActivity extends AppCompatActivity {
                 return;
 
         }
-        Toast.makeText(getApplicationContext(),"logging in...",Toast.LENGTH_SHORT).show();
-        moveToMainPage(v);
+
     }
 
 
