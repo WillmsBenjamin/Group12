@@ -58,7 +58,7 @@ public class ApplicationActivity extends AppCompatActivity {
                                 }).show()
                 );
 
-        fileName = getFilesDir().getAbsolutePath() + "/eventregistration.xml";
+        fileName = getFilesDir().getAbsolutePath() + "/tamas_data.xml";
         rm = PersistenceXStream.initializeModelManager(fileName);
 
         refreshData();

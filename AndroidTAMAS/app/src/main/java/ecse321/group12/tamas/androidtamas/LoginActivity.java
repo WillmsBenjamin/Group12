@@ -56,18 +56,22 @@ public class LoginActivity extends AppCompatActivity {
 
     public void moveToMainPage(View v)
     {
-        Intent i = new Intent(getApplicationContext(), MainActivity.class);
+        if (v== findViewById(R.id.button_login)) {
+            Intent i = new Intent(getApplicationContext(), HomeActivity.class);
 
-        startActivity(i);
-        refreshData();
+            startActivity(i);
+            refreshData();
+        }
     }
 
     public void moveToRegisterPage(View v)
     {
-        Intent i = new Intent(getApplicationContext(), RegisterActivity.class);
-
-        startActivity(i);
-        refreshData();
+        if (v== findViewById(R.id.button_register_newuser))
+        {
+            Intent i = new Intent(getApplicationContext(), RegisterActivity.class);
+            startActivity(i);
+            refreshData();
+        }
     }
     public void login(View v)
     {

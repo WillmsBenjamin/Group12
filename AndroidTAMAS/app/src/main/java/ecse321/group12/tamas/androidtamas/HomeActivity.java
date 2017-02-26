@@ -17,7 +17,7 @@ import com.google.android.gms.appindexing.Thing;
 import ecse321.group12.tamas.controller.TamasController;
 import ecse321.group12.tamas.model.ResourceManager;
 
-public class MainActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity {
 
     private ResourceManager rm;
 
@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
     }
     public void moveToViewJobsPage(View v)
     {
-        Intent i = new Intent(getApplicationContext(), ViewJobsActivity.class);
+        Intent i = new Intent(getApplicationContext(), RegisterActivity.class);
 
         startActivity(i);
     }

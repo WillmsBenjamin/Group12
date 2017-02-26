@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="ecse321.group12.tamas.androidtamas.MainActivity">
+    tools:context="ecse321.group12.tamas.androidtamas.HomeActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"

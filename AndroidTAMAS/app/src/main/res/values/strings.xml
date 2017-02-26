@@ -24,4 +24,5 @@
     <string name="title_activity_view_jobs">ViewJobsActivity</string>
     <string name="apply_button_complete">Finish Application</string>
     <string name="job_name">Jobs</string>
+    <string name="title_activity_login_">Login_Activity</string>
 </resources>

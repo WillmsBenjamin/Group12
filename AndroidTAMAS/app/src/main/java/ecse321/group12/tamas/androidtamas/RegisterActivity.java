@@ -38,7 +38,7 @@ public class RegisterActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        fileName = getFilesDir().getAbsolutePath() + "/eventregistration.xml";
+        fileName = getFilesDir().getAbsolutePath() + "/tamas_data.xml";
         rm = PersistenceXStream.initializeModelManager(fileName);
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
         refreshData();
@@ -111,7 +111,7 @@ public class RegisterActivity extends AppCompatActivity {
     {
         Intent i = new Intent(getApplicationContext(), LoginActivity.class);
 
-        startActivity(i);
+        //startActivity(i);
         refreshData();
     }
 

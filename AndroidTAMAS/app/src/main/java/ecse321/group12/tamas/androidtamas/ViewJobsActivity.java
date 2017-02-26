@@ -57,7 +57,7 @@ public class ViewJobsActivity extends AppCompatActivity {
                                             @Override
                                             public void onClick(View v) {
 
-                                                fileName = getFilesDir().getAbsolutePath() + "/eventregistration.xml";
+                                                fileName = getFilesDir().getAbsolutePath() + "/tamas_data.xml";
                                                 rm = PersistenceXStream.initializeModelManager(fileName);
                                                 refreshData();
                                                 logout();
@@ -135,7 +135,7 @@ public class ViewJobsActivity extends AppCompatActivity {
     }
     public void moveToMainPage(View v)
     {
-        Intent i = new Intent(getApplicationContext(), MainActivity.class);
+        Intent i = new Intent(getApplicationContext(), HomeActivity.class);
 
         startActivity(i);
         refreshData();
