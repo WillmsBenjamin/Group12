@@ -41,7 +41,7 @@ public class LoginActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        fileName = getFilesDir().getAbsolutePath() + "/eventregistration.xml";
+        fileName = getFilesDir().getAbsolutePath() + "/tamas_data.xml";
         rm = PersistenceXStream.initializeModelManager(fileName);
         refreshData();
         // ATTENTION: This was auto-generated to implement the App Indexing API.
