@@ -150,6 +150,35 @@ class Controller
 	}
 	
 	public  function createGraderJob($aMaxHours, $aWage, $aDeadline, $aRequiredSkills, $aRequiredCourseGPA, $aRequiredCGPA, $aRequiredExperience, $aCourse){
+		$maxHour = InputValidator::validate_input($aMaxHours);
+		$wage = InputValidator::validate_input($aWage);
+		$deadline = InputValidator::validate_input($aDeadline);
+		$courseGPA = InputValidator::validate_input($aRequiredCourseGPA);
+		$cGPA = InputValidator::validate_input($aRequiredCGPA);
+		$skills = InputValidator::validate_input($aRequiredSkills);
+		$experience = InputValidator::validate_input($aRequiredExperience);
+		
+		$error = "";
+		
+		if(ctype_digit($maxHour) == FALSE || $maxHour > 180){
+			$error .= "@1Max hour must be digits and smaller than 180! ";
+		}
+		if(ctype_digit($wage) == FALSE){
+			$error .= "@2Wage per hour must be digits! ";
+		}
+		if(!strtotime($deadline)){
+			$error .= "@3Deadline date must be specified correctly (YYYY-MM-DD)! ";
+		}
+		if(ctype_digit($courseGPA[0]) == FALSE || $courseGPA[1] != "." || ctype_digit(substr($courseGPA, 2)) == FALSE){
+			$error .= "@4GPA must be specified correctly (x.xx)! ";
+		}
+		if(ctype_digit($cGPA[0]) == FALSE || $cGPA[1] != "." || ctype_digit(substr($cGPA, 2)) == FALSE){
+			$error .= "@5GPA must be specified correctly (x.xx)! ";
+		}
+		
+		
+		
+		if(strlen(trim($error)) == 0){
 		$ps = new Persistence();
 		$rm = $ps->loadDataFromStore();
 		
@@ -157,6 +186,10 @@ class Controller
 		$rm->addJob($graderJob);
 		
 		$ps->writeDataToStore($rm);
+		}
+		else{
+			throw new Exception(trim($error));
+		}
 	}
 }
 
