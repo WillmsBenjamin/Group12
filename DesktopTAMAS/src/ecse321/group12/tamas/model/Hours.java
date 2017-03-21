@@ -5,7 +5,7 @@ package ecse321.group12.tamas.model;
 import java.sql.Date;
 import java.sql.Time;
 
-// line 82 "../../../../TAMASmodel.ump"
+// line 85 "../../../../TAMASmodel.ump"
 public class Hours
 {
 

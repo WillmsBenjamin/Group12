@@ -19,6 +19,7 @@ public class Application
 
   //Application Attributes
   private boolean isAccepted;
+  private boolean isOffered;
   private String experience;
   private String courseGPA;
 
@@ -33,9 +34,10 @@ public class Application
   // CONSTRUCTOR
   //------------------------
 
-  public Application(boolean aIsAccepted, String aExperience, String aCourseGPA, Applicant aApplicant, Job aJob)
+  public Application(boolean aIsAccepted, boolean aIsOffered, String aExperience, String aCourseGPA, Applicant aApplicant, Job aJob)
   {
     isAccepted = aIsAccepted;
+    isOffered = aIsOffered;
     experience = aExperience;
     courseGPA = aCourseGPA;
     id = nextId++;
@@ -63,6 +65,14 @@ public class Application
     return wasSet;
   }
 
+  public boolean setIsOffered(boolean aIsOffered)
+  {
+    boolean wasSet = false;
+    isOffered = aIsOffered;
+    wasSet = true;
+    return wasSet;
+  }
+
   public boolean setExperience(String aExperience)
   {
     boolean wasSet = false;
@@ -84,6 +94,11 @@ public class Application
     return isAccepted;
   }
 
+  public boolean getIsOffered()
+  {
+    return isOffered;
+  }
+
   public String getExperience()
   {
     return experience;
@@ -102,6 +117,11 @@ public class Application
   public boolean isIsAccepted()
   {
     return isAccepted;
+  }
+
+  public boolean isIsOffered()
+  {
+    return isOffered;
   }
 
   public Applicant getApplicant()
@@ -181,6 +201,7 @@ public class Application
     return super.toString() + "["+
             "id" + ":" + getId()+ "," +
             "isAccepted" + ":" + getIsAccepted()+ "," +
+            "isOffered" + ":" + getIsOffered()+ "," +
             "experience" + ":" + getExperience()+ "," +
             "courseGPA" + ":" + getCourseGPA()+ "]" + System.getProperties().getProperty("line.separator") +
             "  " + "applicant = "+(getApplicant()!=null?Integer.toHexString(System.identityHashCode(getApplicant())):"null") + System.getProperties().getProperty("line.separator") +

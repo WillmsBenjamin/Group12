@@ -153,7 +153,7 @@ public class Applicant extends User
     return 3;
   }
 
-  public Application addApplication(boolean aIsAccepted, String aExperience, String aCourseGPA, Job aJob)
+  public Application addApplication(boolean aIsAccepted, boolean aIsOffered, String aExperience, String aCourseGPA, Job aJob)
   {
     if (numberOfApplications() >= maximumNumberOfApplications())
     {
@@ -161,7 +161,7 @@ public class Applicant extends User
     }
     else
     {
-      return new Application(aIsAccepted, aExperience, aCourseGPA, this, aJob);
+      return new Application(aIsAccepted, aIsOffered, aExperience, aCourseGPA, this, aJob);
     }
   }
 

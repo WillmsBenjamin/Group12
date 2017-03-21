@@ -105,6 +105,8 @@ public class LogInPage extends JFrame {
 	        		.addComponent(registerInstructorButton)
 	        		.addComponent(registerStudentButton))
 	        ));
+	    
+	    layout.linkSize(SwingConstants.VERTICAL, new java.awt.Component[] {registerDepartmentButton, logInIdTextField, registerInstructorButton, logInButton, registerStudentButton});
 
 	    
 	    this.setLocationRelativeTo(null);

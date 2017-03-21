@@ -48,9 +48,11 @@ public class CourseManagementPage extends JFrame {
 	private JLabel numberOfTutorialsLabel;
 	private JLabel numberOfLabsLabel;
 	private JLabel numberOfStudentsLabel;
+	private JLabel budgetLabel;
 	private JSpinner numberOfTutorialsSpinner;
 	private JSpinner numberOfLabsSpinner;
 	private JSpinner numberOfStudentsSpinner;
+	private JSpinner budgetSpinner;
 	
 	private JLabel courseLabel;
 	private JComboBox<String> courseList;
@@ -84,9 +86,11 @@ public class CourseManagementPage extends JFrame {
 		numberOfTutorialsLabel = new JLabel("Tutorial Sections:");
 		numberOfLabsLabel = new JLabel("Lab Sections:");
 		numberOfStudentsLabel = new JLabel("Number of Students:");
+		budgetLabel = new JLabel("Budget (hours):");
 		numberOfTutorialsSpinner = new JSpinner( new SpinnerNumberModel(0, 0, 10, 1) );
 		numberOfLabsSpinner = new JSpinner( new SpinnerNumberModel(0, 0, 20, 1) );
 		numberOfStudentsSpinner = new JSpinner( new SpinnerNumberModel(0, 0, 1000, 1) );
+		budgetSpinner = new JSpinner( new SpinnerNumberModel(0, 0, 1000, 1));
 		
 		courseLabel = new JLabel("Course:");
 		courseList = new JComboBox<String>(new String[0]);
@@ -137,6 +141,9 @@ public class CourseManagementPage extends JFrame {
 	        			.addGroup(layout.createSequentialGroup()
 	        					.addComponent(numberOfStudentsLabel)
 	        					.addComponent(numberOfStudentsSpinner))
+	        			.addGroup(layout.createSequentialGroup()
+	        					.addComponent(budgetLabel)
+	        					.addComponent(budgetSpinner))
 	        			.addComponent(createCourseButton))
 	        	.addGroup(layout.createParallelGroup()
 	        			.addGroup(layout.createSequentialGroup()
@@ -173,6 +180,9 @@ public class CourseManagementPage extends JFrame {
 		        			.addGroup(layout.createParallelGroup()
 		        					.addComponent(numberOfStudentsLabel)
 		        					.addComponent(numberOfStudentsSpinner))
+		        			.addGroup(layout.createParallelGroup()
+		        					.addComponent(budgetLabel)
+		        					.addComponent(budgetSpinner))
 		        			.addComponent(createCourseButton))
 		        	.addGroup(layout.createSequentialGroup()
 		        			.addGroup(layout.createParallelGroup()
@@ -186,6 +196,9 @@ public class CourseManagementPage extends JFrame {
 		        		.addComponent(logOutButton)
 		        		.addComponent(backButton))
 		        );
+	    
+	    layout.linkSize(SwingConstants.VERTICAL, new java.awt.Component[] {courseLabel, instructorLabel, courseList, instructorList, nameLabel,
+	    		numberOfTutorialsLabel, numberOfLabsLabel, numberOfStudentsLabel, nameTextField, numberOfTutorialsSpinner, numberOfLabsSpinner, numberOfStudentsSpinner});
 
 	    
 	    this.setLocationRelativeTo(null);
@@ -273,7 +286,7 @@ public class CourseManagementPage extends JFrame {
 		TamasController tc = new TamasController(rm);
 		error = null;
 		try {
-			tc.createCourse(nameTextField.getText(), (int)numberOfTutorialsSpinner.getValue(), (int)numberOfLabsSpinner.getValue(), (int)numberOfStudentsSpinner.getValue());
+			tc.createCourse(nameTextField.getText(), (int)numberOfTutorialsSpinner.getValue(), (int)numberOfLabsSpinner.getValue(), (int)numberOfStudentsSpinner.getValue(), (int)budgetSpinner.getValue());
 		} catch (InvalidInputException e) {
 			error = e.getMessage();
 		}
@@ -304,6 +317,7 @@ public class CourseManagementPage extends JFrame {
 	    	numberOfTutorialsSpinner.setValue(0);
 	    	numberOfLabsSpinner.setValue(0);
 	    	numberOfStudentsSpinner.setValue(0);
+	    	budgetSpinner.setValue(0);
 	    }
 	    // this is needed because the size of the window changes depending on whether an error message is shown or not
 	    pack();

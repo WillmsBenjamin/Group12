@@ -269,7 +269,7 @@ public class TamasController {
 			throw new InvalidInputException("Maximum hours cannot be 0!");
 		}
 		
-		TAjob j = new TAjob(aMaxHours, aWage, aDeadline, aRequiredSkills, aRequiredCourseGPA,
+		TAjob j = new TAjob(aMaxHours, aWage, aDeadline, false, aRequiredSkills, aRequiredCourseGPA,
 				aRequiredCGPA, aRequiredExperience, aCourse, aMinHours, aIsLab);
 	    rm.addJob(j);
 	    PersistenceXStream.saveToXMLwithXStream(rm);
@@ -328,7 +328,7 @@ public class TamasController {
 			throw new InvalidInputException("Hours cannot be 0!");
 		}
 		
-		GraderJob j = new GraderJob(hours, aWage, aDeadline, aRequiredSkills, aRequiredCourseGPA,
+		GraderJob j = new GraderJob(hours, aWage, aDeadline, false, aRequiredSkills, aRequiredCourseGPA,
 				aRequiredCGPA, aRequiredExperience, aCourse);
 	    rm.addJob(j);
 	    PersistenceXStream.saveToXMLwithXStream(rm);
@@ -366,7 +366,7 @@ public class TamasController {
 		PersistenceXStream.saveToXMLwithXStream(rm);
 	}
 
-	public void createCourse(String name, int numTuts, int numLabs, int numStuds) throws InvalidInputException {
+	public void createCourse(String name, int numTuts, int numLabs, int numStuds, int budget) throws InvalidInputException {
 		if (name == null || name.trim().length() == 0) {
 			throw new InvalidInputException("Course name cannot be empty!");
 		}
@@ -376,7 +376,10 @@ public class TamasController {
 		if(numStuds == 0) {
 			throw new InvalidInputException("There must be students enrolled in the course!");
 		}
-		Course c = new Course(name, numTuts, numLabs, numStuds);
+		if(budget == 0) {
+			throw new InvalidInputException("Budget cannot be 0!");
+		}
+		Course c = new Course(name, numTuts, numLabs, numStuds, budget);
 		rm.addCourse(c);
 		PersistenceXStream.saveToXMLwithXStream(rm);
 	}
@@ -419,7 +422,7 @@ public class TamasController {
 		if(applicant.getApplications().size() == 3) {
 			throw new InvalidInputException("This applicant has made the maximum number of applications!");
 		}
-		Application a = new Application(false, experience, courseGPA, applicant, job);
+		Application a = new Application(false, false, experience, courseGPA, applicant, job);
 		rm.addApplication(a);
 		PersistenceXStream.saveToXMLwithXStream(rm);
 	}

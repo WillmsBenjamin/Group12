@@ -5,7 +5,7 @@ package ecse321.group12.tamas.model;
 import java.sql.Date;
 import java.util.*;
 
-// line 46 "../../../../TAMASmodel.ump"
+// line 47 "../../../../TAMASmodel.ump"
 public class Job
 {
 
@@ -17,6 +17,7 @@ public class Job
   private int maxHours;
   private double wage;
   private Date deadline;
+  private boolean isApproved;
   private String requiredSkills;
   private String requiredCourseGPA;
   private String requiredCGPA;
@@ -31,11 +32,12 @@ public class Job
   // CONSTRUCTOR
   //------------------------
 
-  public Job(int aMaxHours, double aWage, Date aDeadline, String aRequiredSkills, String aRequiredCourseGPA, String aRequiredCGPA, String aRequiredExperience, Course aCourse)
+  public Job(int aMaxHours, double aWage, Date aDeadline, boolean aIsApproved, String aRequiredSkills, String aRequiredCourseGPA, String aRequiredCGPA, String aRequiredExperience, Course aCourse)
   {
     maxHours = aMaxHours;
     wage = aWage;
     deadline = aDeadline;
+    isApproved = aIsApproved;
     requiredSkills = aRequiredSkills;
     requiredCourseGPA = aRequiredCourseGPA;
     requiredCGPA = aRequiredCGPA;
@@ -72,6 +74,14 @@ public class Job
   {
     boolean wasSet = false;
     deadline = aDeadline;
+    wasSet = true;
+    return wasSet;
+  }
+
+  public boolean setIsApproved(boolean aIsApproved)
+  {
+    boolean wasSet = false;
+    isApproved = aIsApproved;
     wasSet = true;
     return wasSet;
   }
@@ -123,6 +133,11 @@ public class Job
     return deadline;
   }
 
+  public boolean getIsApproved()
+  {
+    return isApproved;
+  }
+
   public String getRequiredSkills()
   {
     return requiredSkills;
@@ -141,6 +156,11 @@ public class Job
   public String getRequiredExperience()
   {
     return requiredExperience;
+  }
+
+  public boolean isIsApproved()
+  {
+    return isApproved;
   }
 
   public Assignment getAssignment()
@@ -221,9 +241,9 @@ public class Job
     return 0;
   }
 
-  public Application addApplication(boolean aIsAccepted, String aExperience, String aCourseGPA, Applicant aApplicant)
+  public Application addApplication(boolean aIsAccepted, boolean aIsOffered, String aExperience, String aCourseGPA, Applicant aApplicant)
   {
-    return new Application(aIsAccepted, aExperience, aCourseGPA, aApplicant, this);
+    return new Application(aIsAccepted, aIsOffered, aExperience, aCourseGPA, aApplicant, this);
   }
 
   public boolean addApplication(Application aApplication)
@@ -337,6 +357,7 @@ public class Job
     return super.toString() + "["+
             "maxHours" + ":" + getMaxHours()+ "," +
             "wage" + ":" + getWage()+ "," +
+            "isApproved" + ":" + getIsApproved()+ "," +
             "requiredSkills" + ":" + getRequiredSkills()+ "," +
             "requiredCourseGPA" + ":" + getRequiredCourseGPA()+ "," +
             "requiredCGPA" + ":" + getRequiredCGPA()+ "," +

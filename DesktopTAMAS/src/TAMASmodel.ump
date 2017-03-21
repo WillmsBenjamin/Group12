@@ -39,6 +39,7 @@ class Application
 {
   autounique id;
   Boolean isAccepted;
+  Boolean isOffered;
   experience;
   courseGPA;
 }
@@ -48,6 +49,7 @@ class Job
   Integer maxHours;
   Double wage;
   Date deadline;
+  Boolean isApproved;
   requiredSkills;
   requiredCourseGPA;
   requiredCGPA;
@@ -74,6 +76,7 @@ class Course
   Integer numTutorialSections;
   Integer numLabSections;
   Integer numStudents;
+  Integer budget;
   
   * courses -- 0..4 Instructor instructors;
   1 course <@>- * Job jobs;

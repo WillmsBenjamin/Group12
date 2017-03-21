@@ -5,7 +5,7 @@ package ecse321.group12.tamas.model;
 import java.util.*;
 import java.sql.Date;
 
-// line 71 "../../../../TAMASmodel.ump"
+// line 73 "../../../../TAMASmodel.ump"
 public class Course
 {
 
@@ -18,6 +18,7 @@ public class Course
   private int numTutorialSections;
   private int numLabSections;
   private int numStudents;
+  private int budget;
 
   //Course Associations
   private List<Instructor> instructors;
@@ -27,12 +28,13 @@ public class Course
   // CONSTRUCTOR
   //------------------------
 
-  public Course(String aName, int aNumTutorialSections, int aNumLabSections, int aNumStudents)
+  public Course(String aName, int aNumTutorialSections, int aNumLabSections, int aNumStudents, int aBudget)
   {
     name = aName;
     numTutorialSections = aNumTutorialSections;
     numLabSections = aNumLabSections;
     numStudents = aNumStudents;
+    budget = aBudget;
     instructors = new ArrayList<Instructor>();
     jobs = new ArrayList<Job>();
   }
@@ -73,6 +75,14 @@ public class Course
     return wasSet;
   }
 
+  public boolean setBudget(int aBudget)
+  {
+    boolean wasSet = false;
+    budget = aBudget;
+    wasSet = true;
+    return wasSet;
+  }
+
   public String getName()
   {
     return name;
@@ -91,6 +101,11 @@ public class Course
   public int getNumStudents()
   {
     return numStudents;
+  }
+
+  public int getBudget()
+  {
+    return budget;
   }
 
   public Instructor getInstructor(int index)
@@ -291,9 +306,9 @@ public class Course
     return 0;
   }
 
-  public Job addJob(int aMaxHours, double aWage, Date aDeadline, String aRequiredSkills, String aRequiredCourseGPA, String aRequiredCGPA, String aRequiredExperience)
+  public Job addJob(int aMaxHours, double aWage, Date aDeadline, boolean aIsApproved, String aRequiredSkills, String aRequiredCourseGPA, String aRequiredCGPA, String aRequiredExperience)
   {
-    return new Job(aMaxHours, aWage, aDeadline, aRequiredSkills, aRequiredCourseGPA, aRequiredCGPA, aRequiredExperience, this);
+    return new Job(aMaxHours, aWage, aDeadline, aIsApproved, aRequiredSkills, aRequiredCourseGPA, aRequiredCGPA, aRequiredExperience, this);
   }
 
   public boolean addJob(Job aJob)
@@ -383,7 +398,8 @@ public class Course
             "name" + ":" + getName()+ "," +
             "numTutorialSections" + ":" + getNumTutorialSections()+ "," +
             "numLabSections" + ":" + getNumLabSections()+ "," +
-            "numStudents" + ":" + getNumStudents()+ "]"
+            "numStudents" + ":" + getNumStudents()+ "," +
+            "budget" + ":" + getBudget()+ "]"
      + outputString;
   }
 }
