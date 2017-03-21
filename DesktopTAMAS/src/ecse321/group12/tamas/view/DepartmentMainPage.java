@@ -33,6 +33,7 @@ public class DepartmentMainPage extends JFrame{
 	private JButton postJobButton;
 	private JButton manageCoursesButton;
 	private JButton applyToJobsButton;
+	private JButton approveJobsButton;
 	private JButton logOutButton;
 	
 	private ResourceManager rm;
@@ -55,6 +56,7 @@ public class DepartmentMainPage extends JFrame{
 		postJobButton = new JButton("Post a Job");
 		manageCoursesButton = new JButton("Manage Courses");
 		applyToJobsButton = new JButton("Apply to Jobs");
+		approveJobsButton = new JButton("Approve Jobs");
 		logOutButton = new JButton("Sign Out");
 		
 	    // elements for error message
@@ -82,23 +84,27 @@ public class DepartmentMainPage extends JFrame{
 	    	layout.createParallelGroup()
 	        .addComponent(errorMessage)
 	        .addGroup(layout.createSequentialGroup()
+		        	.addComponent(postJobButton)
+		        	.addComponent(manageCoursesButton)
+		        	.addComponent(applyToJobsButton))
+	        .addGroup(layout.createSequentialGroup()
 	        	.addComponent(logOutButton)
-	        	.addComponent(postJobButton)
-	        	.addComponent(manageCoursesButton)
-	        	.addComponent(applyToJobsButton))
+	        	.addComponent(approveJobsButton))
 	        );
 
-	    layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {logOutButton, postJobButton, manageCoursesButton, applyToJobsButton});
+	    layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {logOutButton, postJobButton, manageCoursesButton, applyToJobsButton, approveJobsButton});
 
 	    
 	    layout.setVerticalGroup(
 	    	layout.createSequentialGroup()
 		    .addComponent(errorMessage)
 		    .addGroup(layout.createParallelGroup()
+			        .addComponent(postJobButton)
+			        .addComponent(manageCoursesButton)
+			        .addComponent(applyToJobsButton))
+		    .addGroup(layout.createParallelGroup()
 		        .addComponent(logOutButton)
-		        .addComponent(postJobButton)
-		        .addComponent(manageCoursesButton)
-		        .addComponent(applyToJobsButton))
+		        .addComponent(approveJobsButton))
 		    );
 
 	    this.setLocationRelativeTo(null);
@@ -124,8 +130,19 @@ public class DepartmentMainPage extends JFrame{
 	            manageApplicationsButtonActionPerformed();
 	        }
 	    });
+	    approveJobsButton.addActionListener(new java.awt.event.ActionListener() {
+	        public void actionPerformed(java.awt.event.ActionEvent evt) {
+	            approveJobsButtonActionPerformed();
+	        }
+	    });
 	}
 	
+	protected void approveJobsButtonActionPerformed() {
+		jobApprovalPage jap = new jobApprovalPage(rm);
+		this.dispose();
+		jap.setVisible(true);
+	}
+
 	protected void manageApplicationsButtonActionPerformed() {
 		ApplyToJobPage amp = new ApplyToJobPage(rm);
 		this.dispose();

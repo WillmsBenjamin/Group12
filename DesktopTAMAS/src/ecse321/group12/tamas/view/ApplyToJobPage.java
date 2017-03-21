@@ -59,6 +59,8 @@ public class ApplyToJobPage extends JFrame {
 	private JButton applyButton;
 	private JButton backButton;
 	private JButton logOutButton;
+	
+	private JLabel applicationDeadlineLabel;
 
 	private ResourceManager rm;
 	
@@ -95,6 +97,8 @@ public class ApplyToJobPage extends JFrame {
 		applyButton = new JButton("Apply");
 		backButton = new JButton("Back");
 		logOutButton = new JButton("Sign Out");
+		
+		applicationDeadlineLabel = new JLabel("Application Deadline:");
 	    
 	    // elements for error message
 	    errorMessage = new JLabel();
@@ -120,6 +124,7 @@ public class ApplyToJobPage extends JFrame {
 	    layout.setHorizontalGroup(
 	    	layout.createParallelGroup()
 	        .addComponent(errorMessage)
+	        .addComponent(applicationDeadlineLabel)
 	        .addGroup(layout.createSequentialGroup()
 	        		.addComponent(applicantLabel)
 	        		.addComponent(applicantList))
@@ -149,6 +154,7 @@ public class ApplyToJobPage extends JFrame {
 	    layout.setVerticalGroup(
 	    		layout.createSequentialGroup()
 		        .addComponent(errorMessage)
+		        .addComponent(applicationDeadlineLabel)
 		        .addGroup(layout.createParallelGroup()
 		        		.addComponent(applicantLabel)
 		        		.addComponent(applicantList))
@@ -209,10 +215,16 @@ public class ApplyToJobPage extends JFrame {
 	            JComboBox<String> cb = (JComboBox<String>) evt.getSource();
 	            selectedJob = cb.getSelectedIndex();
 	            displayJobInfo();
+	            displayApplicationDeadline();
 	        }
 	    });
 	}
 	
+	protected void displayApplicationDeadline() {
+		applicationDeadlineLabel.setText("Application Deadline: " + rm.getJob(selectedJob).getDeadline());
+		pack();
+	}
+
 	protected void displayJobInfo() {
 		String jobInfo;
 		if (selectedJob >= 0) {
@@ -311,18 +323,20 @@ public class ApplyToJobPage extends JFrame {
 	    errorMessage.setText(error);
 	    if (error == null || error.length() == 0) {
 	    	jobList.removeAllItems();
+	    	int i = 0;
 	    	for (Job j : rm.getJobs()) {
 	    		if (j.getIsApproved()) {
 					if (j instanceof TAjob) {
 						if (((TAjob) j).getIsLab()) {
-							jobList.addItem(j.getCourse().getName() + " " + "TA Lab");
+							jobList.addItem(j.getCourse().getName() + " " + "TA Lab " + i);
 						} else {
-							jobList.addItem(j.getCourse().getName() + " " + "TA Tutorial");
+							jobList.addItem(j.getCourse().getName() + " " + "TA Tutorial " + i);
 						}
 					} else if (j instanceof GraderJob) {
-						jobList.addItem(j.getCourse().getName() + " " + "Grader");
+						jobList.addItem(j.getCourse().getName() + " " + "Grader " + i);
 					} 
 				}
+				i++;
 	    	}
 	    	selectedJob = -1;
 	    	jobList.setSelectedIndex(selectedJob);

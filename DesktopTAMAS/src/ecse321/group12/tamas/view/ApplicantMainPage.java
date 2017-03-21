@@ -40,7 +40,7 @@ public class ApplicantMainPage extends JFrame{
 	
 	private GroupLayout layout;
 	
-	/** Creates new form DepartmentMainPage */
+	/** Creates new form ApplicantMainPage */
 	public ApplicantMainPage(ResourceManager rm) {
 	    this.rm = rm;
 	    initComponents();

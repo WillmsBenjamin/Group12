@@ -336,6 +336,7 @@ public class PostJobPage extends JFrame {
 		} else {
 			remainingBudgetLabel.setText("Remaining Budget:");
 		}
+		pack();
 	}
 
 	protected void RadioButtonActionPerformed(ActionEvent evt) {
