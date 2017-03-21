@@ -41,7 +41,7 @@
             <maxHours>65</maxHours>
             <wage>9.8</wage>
             <deadline id="18">2017-03-29</deadline>
-            <isApproved>false</isApproved>
+            <isApproved>true</isApproved>
             <requiredSkills>qwer</requiredSkills>
             <requiredCourseGPA>2.00</requiredCourseGPA>
             <requiredCGPA>2.11</requiredCGPA>

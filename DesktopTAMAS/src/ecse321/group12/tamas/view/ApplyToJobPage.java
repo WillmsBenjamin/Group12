@@ -79,7 +79,7 @@ public class ApplyToJobPage extends JFrame {
 	}
 	
 	private void initComponents() {
-		jobInfoTextArea = new JTextArea(4, 40);
+		jobInfoTextArea = new JTextArea(6, 40);
 		jobInfoTextArea.setEditable(false);
 		jobInfoLabel = new JLabel("Job Info:");
 		experienceTextArea = new JTextArea(4, 40);
@@ -243,13 +243,16 @@ public class ApplyToJobPage extends JFrame {
 				if (i != rm.getJob(selectedJob).getCourse().getInstructors().size() - 1) {
 					jobInfo = jobInfo + rm.getJob(selectedJob).getCourse().getInstructor(i).getName() + ", ";
 				} else {
-					jobInfo = jobInfo + rm.getJob(selectedJob).getCourse().getInstructor(i).getName() + "\n";
+					jobInfo = jobInfo + rm.getJob(selectedJob).getCourse().getInstructor(i).getName();
 				}
 			}
+			jobInfo = jobInfo + "\n";
 			jobInfo = jobInfo + "Required CGPA: " + rm.getJob(selectedJob).getRequiredCGPA()
 					+ " | Required Course GPA: " + rm.getJob(selectedJob).getRequiredCourseGPA() + "\n";
 			jobInfo = jobInfo + "Required Skills: " + rm.getJob(selectedJob).getRequiredSkills() + "\n";
 			jobInfo = jobInfo + "Required Experience: " + rm.getJob(selectedJob).getRequiredExperience();
+			jobInfo = jobInfo + "Wage ($/Hr): " + rm.getJob(selectedJob).getWage()
+					+ " | Max Hours: " + rm.getJob(selectedJob).getMaxHours();
 		} else {
 			jobInfo = "";
 		}

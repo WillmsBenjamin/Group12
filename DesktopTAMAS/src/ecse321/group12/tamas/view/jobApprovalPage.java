@@ -81,7 +81,7 @@ public class jobApprovalPage extends JFrame {
 		
 		jobInfoLabel = new JLabel("Job Info:");
 		
-		jobInfoTextArea = new JTextArea(4, 40);
+		jobInfoTextArea = new JTextArea(8, 40);
 		jobInfoTextArea.setEditable(false);
 		
 		approvalButton = new JButton("Approve");	
@@ -136,7 +136,7 @@ public class jobApprovalPage extends JFrame {
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 						.addComponent(jobInfoLabel)
-						.addComponent(jobInfoTextArea, GroupLayout.PREFERRED_SIZE, 75, GroupLayout.PREFERRED_SIZE))
+						.addComponent(jobInfoTextArea, GroupLayout.PREFERRED_SIZE, 90, GroupLayout.PREFERRED_SIZE))
 					.addPreferredGap(ComponentPlacement.RELATED, 78, Short.MAX_VALUE)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 						.addComponent(approvalButton)
@@ -175,12 +175,13 @@ public class jobApprovalPage extends JFrame {
 	}
 
 	protected void approvalButtonActionPerformed() {
+		TamasController tc = new TamasController(rm);
 		error = null;
 		if (selectedJob < 0) {
 			error = "Job needs to be selected!";
 		}
 		if (error == null) {
-			jobList.get(selectedJob).setIsApproved(true);
+			tc.approveJob(jobList.get(selectedJob));
 		} 
 		//update visuals
 		refreshData();
@@ -225,13 +226,16 @@ public class jobApprovalPage extends JFrame {
 				if (i != jobList.get(selectedJob).getCourse().getInstructors().size() - 1) {
 					jobInfo = jobInfo + jobList.get(selectedJob).getCourse().getInstructor(i).getName() + ", ";
 				} else {
-					jobInfo = jobInfo + jobList.get(selectedJob).getCourse().getInstructor(i).getName() + "\n";
+					jobInfo = jobInfo + jobList.get(selectedJob).getCourse().getInstructor(i).getName();
 				}
 			}
+			jobInfo = jobInfo + "\n";
 			jobInfo = jobInfo + "Required CGPA: " + jobList.get(selectedJob).getRequiredCGPA()
 					+ " | Required Course GPA: " + jobList.get(selectedJob).getRequiredCourseGPA() + "\n";
 			jobInfo = jobInfo + "Required Skills: " + jobList.get(selectedJob).getRequiredSkills() + "\n";
-			jobInfo = jobInfo + "Required Experience: " + jobList.get(selectedJob).getRequiredExperience();
+			jobInfo = jobInfo + "Required Experience: " + jobList.get(selectedJob).getRequiredExperience() + "\n";
+			jobInfo = jobInfo + "Wage ($/Hr): " + jobList.get(selectedJob).getWage()
+					+ " | Max Hours: " + jobList.get(selectedJob).getMaxHours();
 		} else {
 			jobInfo = "";
 		}

@@ -444,4 +444,9 @@ public class TamasController {
 		PersistenceXStream.saveToXMLwithXStream(rm);
 	}
 
+	public void approveJob(Job job) {
+		job.setIsApproved(true);
+		PersistenceXStream.saveToXMLwithXStream(rm);
+	}
+
 }
