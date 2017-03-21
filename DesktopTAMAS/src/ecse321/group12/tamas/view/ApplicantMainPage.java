@@ -50,7 +50,7 @@ public class ApplicantMainPage extends JFrame{
 	    // elements for navigating department's functions
 		//TODO: add more buttons as more functions are completed.
 		//TODO: add department data view in the form of multiple small unmodifiable TextAreas. Add edit check box which sets the areas to editable, and a submit button.
-		manageApplicationsButton = new JButton("Manage Applications");
+		manageApplicationsButton = new JButton("Apply to Jobs");
 		logOutButton = new JButton("Sign Out");
 		
 	    // elements for error message
@@ -109,7 +109,7 @@ public class ApplicantMainPage extends JFrame{
 	}
 	
 	protected void manageApplicationsButtonActionPerformed() {
-		ApplicationManagementPage amp = new ApplicationManagementPage(rm);
+		ApplyToJobPage amp = new ApplyToJobPage(rm);
 		this.dispose();
 		amp.setVisible(true);
 	}

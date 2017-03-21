@@ -269,6 +269,14 @@ public class TamasController {
 			throw new InvalidInputException("Maximum hours cannot be 0!");
 		}
 		
+		int usedBudget = 0;
+		for (Job j : aCourse.getJobs()) {
+			usedBudget += (int)(j.getMaxHours()*j.getWage());
+		}
+		if (usedBudget > aCourse.getBudget()) {
+			throw new InvalidInputException("This posting would put the course over budget!");
+		}
+		
 		TAjob j = new TAjob(aMaxHours, aWage, aDeadline, false, aRequiredSkills, aRequiredCourseGPA,
 				aRequiredCGPA, aRequiredExperience, aCourse, aMinHours, aIsLab);
 	    rm.addJob(j);
@@ -328,6 +336,14 @@ public class TamasController {
 			throw new InvalidInputException("Hours cannot be 0!");
 		}
 		
+		int usedBudget = 0;
+		for (Job j : aCourse.getJobs()) {
+			usedBudget += (int)(j.getMaxHours()*j.getWage());
+		}
+		if (usedBudget > aCourse.getBudget()) {
+			throw new InvalidInputException("This posting would put the course over budget!");
+		}
+		
 		GraderJob j = new GraderJob(hours, aWage, aDeadline, false, aRequiredSkills, aRequiredCourseGPA,
 				aRequiredCGPA, aRequiredExperience, aCourse);
 	    rm.addJob(j);
@@ -366,7 +382,7 @@ public class TamasController {
 		PersistenceXStream.saveToXMLwithXStream(rm);
 	}
 
-	public void createCourse(String name, int numTuts, int numLabs, int numStuds, int budget) throws InvalidInputException {
+	public void createCourse(String name, int numTuts, int numLabs, int numStuds) throws InvalidInputException {
 		if (name == null || name.trim().length() == 0) {
 			throw new InvalidInputException("Course name cannot be empty!");
 		}
@@ -376,9 +392,10 @@ public class TamasController {
 		if(numStuds == 0) {
 			throw new InvalidInputException("There must be students enrolled in the course!");
 		}
-		if(budget == 0) {
-			throw new InvalidInputException("Budget cannot be 0!");
-		}
+		
+		int budget = 0;
+		budget = (int)(numTuts*45 + numLabs*60 + numStuds*(0.5))*10; //45 hours for a tutorial job, 60 for a lab, and 0.5 hours/semester/student for grading. $10/hour
+		
 		Course c = new Course(name, numTuts, numLabs, numStuds, budget);
 		rm.addCourse(c);
 		PersistenceXStream.saveToXMLwithXStream(rm);

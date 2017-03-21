@@ -32,7 +32,7 @@ public class DepartmentMainPage extends JFrame{
 
 	private JButton postJobButton;
 	private JButton manageCoursesButton;
-	private JButton manageApplicationsButton;
+	private JButton applyToJobsButton;
 	private JButton logOutButton;
 	
 	private ResourceManager rm;
@@ -54,7 +54,7 @@ public class DepartmentMainPage extends JFrame{
 		//TODO: add department data view in the form of multiple small unmodifiable TextAreas. Add edit check box which sets the areas to editable, and a submit button.
 		postJobButton = new JButton("Post a Job");
 		manageCoursesButton = new JButton("Manage Courses");
-		manageApplicationsButton = new JButton("Manage Applications");
+		applyToJobsButton = new JButton("Apply to Jobs");
 		logOutButton = new JButton("Sign Out");
 		
 	    // elements for error message
@@ -85,10 +85,10 @@ public class DepartmentMainPage extends JFrame{
 	        	.addComponent(logOutButton)
 	        	.addComponent(postJobButton)
 	        	.addComponent(manageCoursesButton)
-	        	.addComponent(manageApplicationsButton))
+	        	.addComponent(applyToJobsButton))
 	        );
 
-	    layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {logOutButton, postJobButton, manageCoursesButton, manageApplicationsButton});
+	    layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {logOutButton, postJobButton, manageCoursesButton, applyToJobsButton});
 
 	    
 	    layout.setVerticalGroup(
@@ -98,7 +98,7 @@ public class DepartmentMainPage extends JFrame{
 		        .addComponent(logOutButton)
 		        .addComponent(postJobButton)
 		        .addComponent(manageCoursesButton)
-		        .addComponent(manageApplicationsButton))
+		        .addComponent(applyToJobsButton))
 		    );
 
 	    this.setLocationRelativeTo(null);
@@ -119,7 +119,7 @@ public class DepartmentMainPage extends JFrame{
 	            manageCoursesButtonActionPerformed();
 	        }
 	    });
-	    manageApplicationsButton.addActionListener(new java.awt.event.ActionListener() {
+	    applyToJobsButton.addActionListener(new java.awt.event.ActionListener() {
 	        public void actionPerformed(java.awt.event.ActionEvent evt) {
 	            manageApplicationsButtonActionPerformed();
 	        }
@@ -127,7 +127,7 @@ public class DepartmentMainPage extends JFrame{
 	}
 	
 	protected void manageApplicationsButtonActionPerformed() {
-		ApplicationManagementPage amp = new ApplicationManagementPage(rm);
+		ApplyToJobPage amp = new ApplyToJobPage(rm);
 		this.dispose();
 		amp.setVisible(true);
 	}

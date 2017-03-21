@@ -42,7 +42,7 @@ import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.SqlDateModel;
 
-public class ApplicationManagementPage extends JFrame {
+public class ApplyToJobPage extends JFrame {
 
 	private static final long serialVersionUID = -3762818727258574249L;
 
@@ -71,7 +71,7 @@ public class ApplicationManagementPage extends JFrame {
 	private GroupLayout layout;
 	
 	/** Creates new form CourseManagementPage */
-	public ApplicationManagementPage(ResourceManager rm) {
+	public ApplyToJobPage(ResourceManager rm) {
 	    this.rm = rm;
 	    initComponents();
 	}
@@ -312,14 +312,16 @@ public class ApplicationManagementPage extends JFrame {
 	    if (error == null || error.length() == 0) {
 	    	jobList.removeAllItems();
 	    	for (Job j : rm.getJobs()) {
-	    		if (j instanceof TAjob) {
-					if (((TAjob) j).getIsLab()) {
-						jobList.addItem(j.getCourse().getName() + " " + "TA Lab");
-					} else {
-						jobList.addItem(j.getCourse().getName() + " " + "TA Tutorial");
-					}
-				} else if (j instanceof GraderJob) {
-					jobList.addItem(j.getCourse().getName() + " " + "Grader");
+	    		if (j.getIsApproved()) {
+					if (j instanceof TAjob) {
+						if (((TAjob) j).getIsLab()) {
+							jobList.addItem(j.getCourse().getName() + " " + "TA Lab");
+						} else {
+							jobList.addItem(j.getCourse().getName() + " " + "TA Tutorial");
+						}
+					} else if (j instanceof GraderJob) {
+						jobList.addItem(j.getCourse().getName() + " " + "Grader");
+					} 
 				}
 	    	}
 	    	selectedJob = -1;

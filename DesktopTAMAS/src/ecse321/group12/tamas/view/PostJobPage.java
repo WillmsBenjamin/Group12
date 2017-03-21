@@ -13,6 +13,7 @@ import ecse321.group12.tamas.model.Applicant;
 import ecse321.group12.tamas.model.Course;
 import ecse321.group12.tamas.model.Department;
 import ecse321.group12.tamas.model.Instructor;
+import ecse321.group12.tamas.model.Job;
 import ecse321.group12.tamas.model.ResourceManager;
 
 import javax.swing.JLabel;
@@ -59,6 +60,7 @@ public class PostJobPage extends JFrame {
 	private JLabel requiredCourseGPALabel;
 	private JLabel requiredExperienceLabel;
 	private JLabel courseLabel;
+	private JLabel remainingBudgetLabel;
 	private JCheckBox isLabCheckBox;
 	private JRadioButton TAJobRadioButton;
 	private JRadioButton graderJobRadioButton;
@@ -106,6 +108,7 @@ public class PostJobPage extends JFrame {
 		requiredCourseGPALabel = new JLabel("Required Course GPA:");
 		requiredExperienceLabel = new JLabel("Required Experience:");
 		courseLabel = new JLabel("Course:");
+		remainingBudgetLabel = new JLabel("Remaining Budget:");
 		
 		isLabCheckBox = new JCheckBox("Lab Session?");
 		isLabCheckBox.setSelected(false);
@@ -169,6 +172,7 @@ public class PostJobPage extends JFrame {
 	    layout.setHorizontalGroup(
 	    	layout.createParallelGroup()
 	        .addComponent(errorMessage)
+	        .addComponent(remainingBudgetLabel)
 	        .addGroup(layout.createSequentialGroup()
 	        	.addGroup(layout.createParallelGroup()
 	        			.addGroup(layout.createSequentialGroup()
@@ -216,6 +220,7 @@ public class PostJobPage extends JFrame {
 	    layout.setVerticalGroup(
 	    		layout.createSequentialGroup()
 		        .addComponent(errorMessage)
+		        .addComponent(remainingBudgetLabel)
 		        .addGroup(layout.createParallelGroup()
 		        	.addGroup(layout.createSequentialGroup()
 		        			.addGroup(layout.createParallelGroup()
@@ -283,10 +288,12 @@ public class PostJobPage extends JFrame {
 	    };
 	    TAJobRadioButton.addActionListener(RadioButtonListener);
 	    graderJobRadioButton.addActionListener(RadioButtonListener);
+	    
 	    courseList.addActionListener(new java.awt.event.ActionListener() {
 	        public void actionPerformed(java.awt.event.ActionEvent evt) {
 	            JComboBox<String> cb = (JComboBox<String>) evt.getSource();
 	            selectedCourse = cb.getSelectedIndex();
+	            DisplayRemainingBudget();
 	        }
 	    });
 	    isLabCheckBox.addItemListener(new java.awt.event.ItemListener() {
@@ -299,6 +306,36 @@ public class PostJobPage extends JFrame {
 			}
 	    	
 	    });
+	}
+
+	protected void DisplayRemainingBudget() {
+		int remBudget = 0;
+		int budget = 0;
+		int usedBudget = 0;
+		
+		if (selectedCourse != -1) {
+			if (rm.getLoggedIn() instanceof Department) {
+				budget = rm.getCourse(selectedCourse).getBudget();
+				for (Job j : rm.getCourse(selectedCourse).getJobs()) {
+					usedBudget += (int) j.getMaxHours() * j.getWage();
+				}
+			} else if (rm.getLoggedIn() instanceof Instructor) {
+				Instructor inst = null;
+				for (Instructor i : rm.getInstructors()) {
+					if (i.equals(rm.getLoggedIn())) {
+						inst = i;
+					}
+				}
+				budget = inst.getCourse(selectedCourse).getBudget();
+				for (Job j : inst.getCourse(selectedCourse).getJobs()) {
+					usedBudget += (int) (j.getMaxHours() * j.getWage());
+				}
+			} 
+			remBudget = budget - usedBudget;
+			remainingBudgetLabel.setText("Remaining Budget: $" + remBudget);
+		} else {
+			remainingBudgetLabel.setText("Remaining Budget:");
+		}
 	}
 
 	protected void RadioButtonActionPerformed(ActionEvent evt) {
