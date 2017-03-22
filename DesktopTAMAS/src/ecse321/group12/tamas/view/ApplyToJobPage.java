@@ -29,8 +29,10 @@ import java.awt.Color;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.sql.Time;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Properties;
 
 import javax.swing.GroupLayout;
@@ -71,6 +73,8 @@ public class ApplyToJobPage extends JFrame {
 	private Integer selectedJob = -1;
 	
 	private GroupLayout layout;
+	
+	private List<Job> approvedJobs = new ArrayList<Job>();
 	
 	/** Creates new form CourseManagementPage */
 	public ApplyToJobPage(ResourceManager rm) {
@@ -221,7 +225,11 @@ public class ApplyToJobPage extends JFrame {
 	}
 	
 	protected void displayApplicationDeadline() {
-		applicationDeadlineLabel.setText("Application Deadline: " + rm.getJob(selectedJob).getDeadline());
+		if(selectedJob != -1 && !(approvedJobs.size() == 0 && selectedJob == 0)) {
+			applicationDeadlineLabel.setText("Application Deadline: " + approvedJobs.get(selectedJob).getDeadline());
+		} else {
+			applicationDeadlineLabel.setText("Application Deadline:");
+		}
 		pack();
 	}
 
@@ -250,7 +258,7 @@ public class ApplyToJobPage extends JFrame {
 			jobInfo = jobInfo + "Required CGPA: " + rm.getJob(selectedJob).getRequiredCGPA()
 					+ " | Required Course GPA: " + rm.getJob(selectedJob).getRequiredCourseGPA() + "\n";
 			jobInfo = jobInfo + "Required Skills: " + rm.getJob(selectedJob).getRequiredSkills() + "\n";
-			jobInfo = jobInfo + "Required Experience: " + rm.getJob(selectedJob).getRequiredExperience();
+			jobInfo = jobInfo + "Required Experience: " + rm.getJob(selectedJob).getRequiredExperience() + "\n";
 			jobInfo = jobInfo + "Wage ($/Hr): " + rm.getJob(selectedJob).getWage()
 					+ " | Max Hours: " + rm.getJob(selectedJob).getMaxHours();
 		} else {
@@ -300,7 +308,7 @@ public class ApplyToJobPage extends JFrame {
 			}
 			if (error == null) {
 				try {
-					tc.applyToJob(experienceTextArea.getText(), courseGPATextField.getText(), rm.getApplicant(selectedApplicant), rm.getJob(selectedJob));
+					tc.applyToJob(experienceTextArea.getText(), courseGPATextField.getText(), rm.getApplicant(selectedApplicant), approvedJobs.get(selectedJob));
 				} catch (InvalidInputException e) {
 					error = e.getMessage();
 				}
@@ -311,7 +319,7 @@ public class ApplyToJobPage extends JFrame {
 			}
 			if (error == null) {
 				try {
-					tc.applyToJob(experienceTextArea.getText(), courseGPATextField.getText(),(Applicant)rm.getLoggedIn(), rm.getJob(selectedJob));
+					tc.applyToJob(experienceTextArea.getText(), courseGPATextField.getText(),(Applicant)rm.getLoggedIn(), approvedJobs.get(selectedJob));
 				} catch (InvalidInputException e) {
 					error = e.getMessage();
 				}
@@ -326,6 +334,7 @@ public class ApplyToJobPage extends JFrame {
 	    errorMessage.setText(error);
 	    if (error == null || error.length() == 0) {
 	    	jobList.removeAllItems();
+	    	approvedJobs.clear();
 	    	int i = 0;
 	    	for (Job j : rm.getJobs()) {
 	    		if (j.getIsApproved()) {
@@ -337,7 +346,8 @@ public class ApplyToJobPage extends JFrame {
 						}
 					} else if (j instanceof GraderJob) {
 						jobList.addItem(j.getCourse().getName() + " " + "Grader " + i);
-					} 
+					}
+					approvedJobs.add(j);
 				}
 				i++;
 	    	}
