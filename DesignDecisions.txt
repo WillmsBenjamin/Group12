@@ -1,0 +1,37 @@
+Design Choices
+
+General:
+	
+	1.	The apps will not share data, as none of us have database knowledge, or have time to learn.
+	
+Desktop App: 
+		
+	1.	It was decided that the desktop app should work for all 3 user types, because this would
+		be a useful representation of the entire system functioning as designed, which we wouldn't
+		be able to show otherwise, as the platforms will not share data.
+		
+	2.	As we were most familiar with JFrames (due to the first assignment), we decided to use
+		only JFrames to build the UI. This allowed us to focus more on the functionality of the
+		app, instead of the coding details for using JPanels, and various other techniques for
+		swapping views. This solution is simple, and easy to implement.
+	
+	3.	Many of the views are similar for different users, so it was decided that extra effort will
+		be put into making a single view work for multiple users (for example, posting jobs), as this
+		small amount of extra effort on one view is much less time consuming than creating a completely
+		new view. 
+	
+	4.	A few of the error checks in the controller class could be extracted to methods themselves, as
+		they are used in multiple areas. However, this would require some complex string manipulations,
+		and it was deemed that copying the code and changing small pieces of the strings was a more
+		efficient use of time.
+
+Web App:
+
+	1.	The web app will be for instructors, as they have a decent amount of writing to do for posting
+		jobs, as well as because instructors are likely to be more familiar with web browsers than with
+		Android applications.
+
+Android App:
+
+	1.	The android app will be for students, as they are likely to be very familiar with touch interfaces,
+		and will likely need to type less than instructors.
