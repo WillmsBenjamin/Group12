@@ -366,24 +366,6 @@ public class TamasController {
 		PersistenceXStream.saveToXMLwithXStream(rm);
 	}
 
-	public void addContactTime(Date date, Time startTime, Time endTime, Instructor instructor) throws InvalidInputException {
-		if (date == null) {
-			throw new InvalidInputException("Contact date cannot be empty!");
-		}
-		if (startTime == null) {
-			throw new InvalidInputException("Start time cannot be empty!");
-		}
-		if (endTime == null) {
-			throw new InvalidInputException("End time cannot be empty!");
-		}
-		if (endTime.getTime() < startTime.getTime()) {
-			throw new InvalidInputException("End time cannot be before start time!");
-		}
-		Hours h = new Hours(date, startTime, endTime, instructor);
-		rm.addContactTime(h);
-		PersistenceXStream.saveToXMLwithXStream(rm);
-	}
-
 	public void createCourse(String name, int numTuts, int numLabs, int numStuds) throws InvalidInputException {
 		if (name == null || name.trim().length() == 0) {
 			throw new InvalidInputException("Course name cannot be empty!");
