@@ -202,7 +202,7 @@ public class TamasController {
 	}
 
 	public void postTAJob(int aMaxHours, double aWage, Date aDeadline, String aRequiredSkills, String aRequiredCourseGPA,
-			String aRequiredCGPA, String aRequiredExperience, Course aCourse, int aMinHours, boolean aIsLab) throws InvalidInputException {
+			String aRequiredCGPA, String aRequiredExperience, Course aCourse, int aMinHours, boolean aIsLab, boolean approval) throws InvalidInputException {
 		Calendar calobj = Calendar.getInstance();
 	    
 		if (aDeadline == null) {
@@ -279,14 +279,14 @@ public class TamasController {
 			throw new InvalidInputException("This posting would put the course over budget!");
 		}
 		
-		TAjob j = new TAjob(aMaxHours, aWage, aDeadline, false, aRequiredSkills, aRequiredCourseGPA,
+		TAjob j = new TAjob(aMaxHours, aWage, aDeadline, approval, aRequiredSkills, aRequiredCourseGPA,
 				aRequiredCGPA, aRequiredExperience, aCourse, aMinHours, aIsLab);
 	    rm.addJob(j);
 	    PersistenceXStream.saveToXMLwithXStream(rm);
 	}
 
 	public void postGraderJob(int hours, double aWage, Date aDeadline, String aRequiredSkills, String aRequiredCourseGPA,
-			String aRequiredCGPA, String aRequiredExperience, Course aCourse) throws InvalidInputException {
+			String aRequiredCGPA, String aRequiredExperience, Course aCourse, boolean approval) throws InvalidInputException {
 		Calendar calobj = Calendar.getInstance();
 	    
 		if (aDeadline == null) {
@@ -346,7 +346,7 @@ public class TamasController {
 			throw new InvalidInputException("This posting would put the course over budget!");
 		}
 		
-		GraderJob j = new GraderJob(hours, aWage, aDeadline, false, aRequiredSkills, aRequiredCourseGPA,
+		GraderJob j = new GraderJob(hours, aWage, aDeadline, approval, aRequiredSkills, aRequiredCourseGPA,
 				aRequiredCGPA, aRequiredExperience, aCourse);
 	    rm.addJob(j);
 	    PersistenceXStream.saveToXMLwithXStream(rm);
