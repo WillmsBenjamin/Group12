@@ -5,7 +5,7 @@ package ecse321.group12.tamas.model;
 import java.util.*;
 import java.sql.Date;
 
-// line 73 "../../../../TAMASmodel.ump"
+// line 72 "../../../../TAMASmodel.ump"
 public class Course
 {
 

@@ -4,7 +4,7 @@
 package ecse321.group12.tamas.model;
 import java.sql.Date;
 
-// line 26 "../../../../TAMASmodel.ump"
+// line 25 "../../../../TAMASmodel.ump"
 public class Department extends User
 {
 
