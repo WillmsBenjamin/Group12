@@ -4,9 +4,8 @@
 package ecse321.group12.tamas.model;
 import java.util.*;
 import java.sql.Date;
-import java.sql.Time;
 
-// line 92 "../../../../TAMASmodel.ump"
+// line 84 "../../../../TAMASmodel.ump"
 public class ResourceManager
 {
 
@@ -29,7 +28,6 @@ public class ResourceManager
   private List<Job> jobs;
   private List<Course> courses;
   private List<Assignment> assignments;
-  private List<Hours> contactTimes;
 
   //------------------------
   // CONSTRUCTOR
@@ -43,7 +41,6 @@ public class ResourceManager
     jobs = new ArrayList<Job>();
     courses = new ArrayList<Course>();
     assignments = new ArrayList<Assignment>();
-    contactTimes = new ArrayList<Hours>();
   }
 
   public static ResourceManager getInstance()
@@ -258,36 +255,6 @@ public class ResourceManager
   public int indexOfAssignment(Assignment aAssignment)
   {
     int index = assignments.indexOf(aAssignment);
-    return index;
-  }
-
-  public Hours getContactTime(int index)
-  {
-    Hours aContactTime = contactTimes.get(index);
-    return aContactTime;
-  }
-
-  public List<Hours> getContactTimes()
-  {
-    List<Hours> newContactTimes = Collections.unmodifiableList(contactTimes);
-    return newContactTimes;
-  }
-
-  public int numberOfContactTimes()
-  {
-    int number = contactTimes.size();
-    return number;
-  }
-
-  public boolean hasContactTimes()
-  {
-    boolean has = contactTimes.size() > 0;
-    return has;
-  }
-
-  public int indexOfContactTime(Hours aContactTime)
-  {
-    int index = contactTimes.indexOf(aContactTime);
     return index;
   }
 
@@ -649,63 +616,6 @@ public class ResourceManager
     return wasAdded;
   }
 
-  public static int minimumNumberOfContactTimes()
-  {
-    return 0;
-  }
-
-  public boolean addContactTime(Hours aContactTime)
-  {
-    boolean wasAdded = false;
-    if (contactTimes.contains(aContactTime)) { return false; }
-    contactTimes.add(aContactTime);
-    wasAdded = true;
-    return wasAdded;
-  }
-
-  public boolean removeContactTime(Hours aContactTime)
-  {
-    boolean wasRemoved = false;
-    if (contactTimes.contains(aContactTime))
-    {
-      contactTimes.remove(aContactTime);
-      wasRemoved = true;
-    }
-    return wasRemoved;
-  }
-
-  public boolean addContactTimeAt(Hours aContactTime, int index)
-  {  
-    boolean wasAdded = false;
-    if(addContactTime(aContactTime))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfContactTimes()) { index = numberOfContactTimes() - 1; }
-      contactTimes.remove(aContactTime);
-      contactTimes.add(index, aContactTime);
-      wasAdded = true;
-    }
-    return wasAdded;
-  }
-
-  public boolean addOrMoveContactTimeAt(Hours aContactTime, int index)
-  {
-    boolean wasAdded = false;
-    if(contactTimes.contains(aContactTime))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfContactTimes()) { index = numberOfContactTimes() - 1; }
-      contactTimes.remove(aContactTime);
-      contactTimes.add(index, aContactTime);
-      wasAdded = true;
-    } 
-    else 
-    {
-      wasAdded = addContactTimeAt(aContactTime, index);
-    }
-    return wasAdded;
-  }
-
   public void delete()
   {
     applicants.clear();
@@ -716,7 +626,6 @@ public class ResourceManager
     jobs.clear();
     courses.clear();
     assignments.clear();
-    contactTimes.clear();
   }
 
 }
