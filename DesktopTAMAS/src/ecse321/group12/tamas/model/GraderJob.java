@@ -5,7 +5,7 @@ package ecse321.group12.tamas.model;
 import java.sql.Date;
 import java.util.*;
 
-// line 68 "../../../../TAMASmodel.ump"
+// line 67 "../../../../TAMASmodel.ump"
 public class GraderJob extends Job
 {
 
