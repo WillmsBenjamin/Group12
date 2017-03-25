@@ -1,6 +1,7 @@
 <manager id="1">
   <applicants id="2">
     <applicant id="3">
+<<<<<<< Updated upstream
       <name>qwqer</name>
       <id>222222222</id>
       <cGPA>3.22</cGPA>
@@ -179,10 +180,20 @@
         <application reference="27"/>
       </applications>
       <assignments id="36"/>
+=======
+      <name>212121211</name>
+      <id>212121211</id>
+      <cGPA>0.91</cGPA>
+      <skills></skills>
+      <isGraduate>true</isGraduate>
+      <applications id="4"/>
+      <assignments id="5"/>
+>>>>>>> Stashed changes
     </applicant>
     <applicant reference="10"/>
     <applicant reference="18"/>
   </applicants>
+<<<<<<< Updated upstream
   <instructors id="37"/>
   <department id="38">
     <name>ECSE</name>
@@ -210,4 +221,17 @@
   </courses>
   <assignments id="43"/>
   <contactTimes id="44"/>
+=======
+  <instructors id="6"/>
+  <department id="7">
+    <name>DUCKINGTON UNI</name>
+    <id>121212121</id>
+    <deadline id="8">2017-02-28</deadline>
+  </department>
+  <applications id="9"/>
+  <jobs id="10"/>
+  <courses id="11"/>
+  <assignments id="12"/>
+  <contactTimes id="13"/>
+>>>>>>> Stashed changes
 </manager>
