@@ -24,7 +24,6 @@ public abstract class PersistenceXStream {
         setAlias("course", Course.class);
         setAlias("department", Department.class);
         setAlias("graderJob", GraderJob.class);
-        setAlias("hours", Hours.class);
         setAlias("instructor", Instructor.class);
         setAlias("job", Job.class);
         setAlias("manager", ResourceManager.class);

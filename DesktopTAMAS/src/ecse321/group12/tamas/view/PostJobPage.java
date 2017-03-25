@@ -396,7 +396,7 @@ public class PostJobPage extends JFrame {
 								(java.sql.Date) deadlineDatePicker.getModel().getValue(),
 								requiredSkillsTextArea.getText(), requiredCourseGPATextField.getText(),
 								requiredCGPATextField.getText(), requiredExperienceTextArea.getText(),
-								rm.getCourse(selectedCourse), (int) minHoursSpinner.getValue(), isLabChecked);
+								rm.getCourse(selectedCourse), (int) minHoursSpinner.getValue(), isLabChecked, true);
 					} catch (InvalidInputException e) {
 						error = e.getMessage();
 					}
@@ -406,7 +406,7 @@ public class PostJobPage extends JFrame {
 								(java.sql.Date) deadlineDatePicker.getModel().getValue(),
 								requiredSkillsTextArea.getText(), requiredCourseGPATextField.getText(),
 								requiredCGPATextField.getText(), requiredExperienceTextArea.getText(),
-								rm.getCourse(selectedCourse));
+								rm.getCourse(selectedCourse), true);
 					} catch (InvalidInputException e) {
 						error = e.getMessage();
 					}
@@ -424,7 +424,7 @@ public class PostJobPage extends JFrame {
 								(java.sql.Date) deadlineDatePicker.getModel().getValue(),
 								requiredSkillsTextArea.getText(), requiredCourseGPATextField.getText(),
 								requiredCGPATextField.getText(), requiredExperienceTextArea.getText(),
-								inst.getCourse(selectedCourse), (int) minHoursSpinner.getValue(), isLabChecked);
+								inst.getCourse(selectedCourse), (int) minHoursSpinner.getValue(), isLabChecked, false);
 					} catch (InvalidInputException e) {
 						error = e.getMessage();
 					}
@@ -434,7 +434,7 @@ public class PostJobPage extends JFrame {
 								(java.sql.Date) deadlineDatePicker.getModel().getValue(),
 								requiredSkillsTextArea.getText(), requiredCourseGPATextField.getText(),
 								requiredCGPATextField.getText(), requiredExperienceTextArea.getText(),
-								inst.getCourse(selectedCourse));
+								inst.getCourse(selectedCourse), false);
 					} catch (InvalidInputException e) {
 						error = e.getMessage();
 					}

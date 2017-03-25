@@ -9,6 +9,7 @@
       <applications id="4">
         <application id="5">
           <isAccepted>true</isAccepted>
+          <isOffered>false</isOffered>
           <experience>nothing</experience>
           <courseGPA>3.10</courseGPA>
           <id>1</id>
@@ -17,6 +18,7 @@
             <maxHours>31</maxHours>
             <wage>31.0</wage>
             <deadline id="7">2015-09-15</deadline>
+            <isApproved>false</isApproved>
             <requiredSkills>We don&apos;t care!</requiredSkills>
             <requiredCourseGPA>3.00</requiredCourseGPA>
             <requiredCGPA>3.00</requiredCGPA>
@@ -35,60 +37,55 @@
               <numTutorialSections>2</numTutorialSections>
               <numLabSections>2</numLabSections>
               <numStudents>30</numStudents>
+              <budget>140</budget>
               <instructors id="11">
                 <instructor id="12">
                   <name>Donald Davis</name>
                   <id>1337</id>
-                  <contactTimes id="13">
-                    <hours id="14">
-                      <date reference="7"/>
-                      <startTime id="15">08:30:00</startTime>
-                      <endTime reference="15"/>
-                      <instructor reference="12"/>
-                    </hours>
-                  </contactTimes>
-                  <courses id="16">
+                  <courses id="13">
                     <course reference="10"/>
                   </courses>
                 </instructor>
               </instructors>
-              <jobs id="17">
+              <jobs id="14">
                 <TAjob reference="6"/>
-                <graderJob id="18">
+                <graderJob id="15">
                   <maxHours>15</maxHours>
                   <wage>15.0</wage>
                   <deadline reference="7"/>
+                  <isApproved>false</isApproved>
                   <requiredSkills>Nothing.</requiredSkills>
                   <requiredCourseGPA>2.50</requiredCourseGPA>
                   <requiredCGPA>2.80</requiredCGPA>
                   <requiredExperience>nope</requiredExperience>
-                  <assignment id="19">
+                  <assignment id="16">
                     <feedback></feedback>
                     <id>2</id>
-                    <applicant id="20">
+                    <applicant id="17">
                       <name>Jennifer</name>
                       <id>231232145</id>
                       <cGPA>2.20</cGPA>
                       <skills>I&apos;m good at everything</skills>
                       <isGraduate>true</isGraduate>
-                      <applications id="21">
-                        <application id="22">
+                      <applications id="18">
+                        <application id="19">
                           <isAccepted>true</isAccepted>
+                          <isOffered>false</isOffered>
                           <experience>nothing</experience>
                           <courseGPA>3.11</courseGPA>
                           <id>2</id>
-                          <applicant reference="20"/>
-                          <job class="graderJob" reference="18"/>
+                          <applicant reference="17"/>
+                          <job class="graderJob" reference="15"/>
                         </application>
                       </applications>
-                      <assignments id="23">
-                        <assignment reference="19"/>
+                      <assignments id="20">
+                        <assignment reference="16"/>
                       </assignments>
                     </applicant>
-                    <job class="graderJob" reference="18"/>
+                    <job class="graderJob" reference="15"/>
                   </assignment>
-                  <applications id="24">
-                    <application reference="22"/>
+                  <applications id="21">
+                    <application reference="19"/>
                   </applications>
                   <course reference="10"/>
                 </graderJob>
@@ -99,37 +96,34 @@
           </job>
         </application>
       </applications>
-      <assignments id="25">
+      <assignments id="22">
         <assignment reference="8"/>
       </assignments>
     </applicant>
-    <applicant reference="20"/>
+    <applicant reference="17"/>
   </applicants>
-  <instructors id="26">
+  <instructors id="23">
     <instructor reference="12"/>
   </instructors>
-  <department id="27">
+  <department id="24">
     <name>ECSE</name>
     <id>01</id>
     <deadline reference="7"/>
   </department>
-  <loggedIn class="department" reference="27"/>
-  <applications id="28">
+  <loggedIn class="department" reference="24"/>
+  <applications id="25">
     <application reference="5"/>
-    <application reference="22"/>
+    <application reference="19"/>
   </applications>
-  <jobs id="29">
+  <jobs id="26">
     <TAjob reference="6"/>
-    <graderJob reference="18"/>
+    <graderJob reference="15"/>
   </jobs>
-  <courses id="30">
+  <courses id="27">
     <course reference="10"/>
   </courses>
-  <assignments id="31">
+  <assignments id="28">
     <assignment reference="8"/>
-    <assignment reference="19"/>
+    <assignment reference="16"/>
   </assignments>
-  <contactTimes id="32">
-    <hours reference="14"/>
-  </contactTimes>
 </manager>
