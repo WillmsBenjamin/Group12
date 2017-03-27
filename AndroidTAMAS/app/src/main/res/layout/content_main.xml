@@ -17,10 +17,41 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/main_view_jobs"
-        android:onClick="moveToViewJobsPage"
-        android:id="@+id/button_job_apply"
-        android:layout_alignParentTop="true"
+        android:text="@string/main_buttonlabel_view_job_postings"
+        android:onClick="PLACEHOLDER"
+        android:id="@+id/main_button_job_postings"
+       />
+    <Button
+        android:layout_below="@id/main_button_job_postings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/main_buttonlabel_view_current_applications"
+        android:onClick="PLACEHOLDER"
+        android:id="@+id/main_button_current_applications"
+        />
+    <Button
+        android:layout_below="@id/main_button_current_applications"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/main_buttonlabel_view_ongoing_jobs"
+        android:onClick="PLACEHOLDER"
+        android:id="@+id/main_button_ongoing_jobs"
+        />
+
+    <Button
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/main_buttonlabel_edit_profile"
+        android:onClick="PLACEHOLDER"
+        android:id="@+id/main_button_edit_profile"
+        />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"
+        android:layout_above="@id/main_button_edit_profile"
+        android:id="@+id/main_graphical_bottom_divider"
         />
 
 </RelativeLayout>
