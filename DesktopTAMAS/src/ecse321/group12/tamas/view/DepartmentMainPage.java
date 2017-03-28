@@ -34,6 +34,7 @@ public class DepartmentMainPage extends JFrame{
 	private JButton manageCoursesButton;
 	private JButton applyToJobsButton;
 	private JButton approveJobsButton;
+	private JButton offerJobsButton;
 	private JButton logOutButton;
 	
 	private ResourceManager rm;
@@ -57,6 +58,7 @@ public class DepartmentMainPage extends JFrame{
 		manageCoursesButton = new JButton("Manage Courses");
 		applyToJobsButton = new JButton("Apply to Jobs");
 		approveJobsButton = new JButton("Approve Jobs");
+		offerJobsButton = new JButton("Offer Jobs");
 		logOutButton = new JButton("Sign Out");
 		
 	    // elements for error message
@@ -89,10 +91,11 @@ public class DepartmentMainPage extends JFrame{
 		        	.addComponent(applyToJobsButton))
 	        .addGroup(layout.createSequentialGroup()
 	        	.addComponent(logOutButton)
-	        	.addComponent(approveJobsButton))
+	        	.addComponent(approveJobsButton)
+	        	.addComponent(offerJobsButton))
 	        );
 
-	    layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {logOutButton, postJobButton, manageCoursesButton, applyToJobsButton, approveJobsButton});
+	    layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {logOutButton, postJobButton, manageCoursesButton, applyToJobsButton, approveJobsButton, offerJobsButton});
 
 	    
 	    layout.setVerticalGroup(
@@ -104,7 +107,8 @@ public class DepartmentMainPage extends JFrame{
 			        .addComponent(applyToJobsButton))
 		    .addGroup(layout.createParallelGroup()
 		        .addComponent(logOutButton)
-		        .addComponent(approveJobsButton))
+		        .addComponent(approveJobsButton)
+		        .addComponent(offerJobsButton))
 		    );
 
 	    this.setLocationRelativeTo(null);
@@ -135,10 +139,21 @@ public class DepartmentMainPage extends JFrame{
 	            approveJobsButtonActionPerformed();
 	        }
 	    });
+	    offerJobsButton.addActionListener(new java.awt.event.ActionListener() {
+	        public void actionPerformed(java.awt.event.ActionEvent evt) {
+	            offerJobsButtonActionPerformed();
+	        }
+	    });
+	}
+	
+	protected void offerJobsButtonActionPerformed() {
+		OfferJobsPage ojp = new OfferJobsPage(rm);
+		this.dispose();
+		ojp.setVisible(true);
 	}
 	
 	protected void approveJobsButtonActionPerformed() {
-		jobApprovalPage jap = new jobApprovalPage(rm);
+		JobApprovalPage jap = new JobApprovalPage(rm);
 		this.dispose();
 		jap.setVisible(true);
 	}
