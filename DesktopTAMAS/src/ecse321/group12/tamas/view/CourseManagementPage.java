@@ -186,6 +186,9 @@ public class CourseManagementPage extends JFrame {
 		        		.addComponent(logOutButton)
 		        		.addComponent(backButton))
 		        );
+	    
+	    layout.linkSize(SwingConstants.VERTICAL, new java.awt.Component[] {courseLabel, instructorLabel, courseList, instructorList, nameLabel,
+	    		numberOfTutorialsLabel, numberOfLabsLabel, numberOfStudentsLabel, nameTextField, numberOfTutorialsSpinner, numberOfLabsSpinner, numberOfStudentsSpinner});
 
 	    
 	    this.setLocationRelativeTo(null);

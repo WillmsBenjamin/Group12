@@ -20,7 +20,6 @@ class Applicant
 class Instructor
 {
   isA User;
-  1 <@>- * Hours contactTimes;
 }
 
 class Department
@@ -39,6 +38,7 @@ class Application
 {
   autounique id;
   Boolean isAccepted;
+  Boolean isOffered;
   experience;
   courseGPA;
 }
@@ -48,6 +48,7 @@ class Job
   Integer maxHours;
   Double wage;
   Date deadline;
+  Boolean isApproved;
   requiredSkills;
   requiredCourseGPA;
   requiredCGPA;
@@ -74,16 +75,10 @@ class Course
   Integer numTutorialSections;
   Integer numLabSections;
   Integer numStudents;
+  Integer budget;
   
   * courses -- 0..4 Instructor instructors;
   1 course <@>- * Job jobs;
-}
-
-class Hours
-{
-  Date date;
-  Time startTime;
-  Time endTime;
 }
 
 class ResourceManager
@@ -97,5 +92,4 @@ class ResourceManager
  1 -> * Job jobs;
  1 -> * Course courses;
  1 -> * Assignment assignments;
- 1 -> * Hours contactTimes;
 }

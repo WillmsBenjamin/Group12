@@ -4,7 +4,9 @@ import ecse321.group12.tamas.controller.InvalidInputException;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import ecse321.group12.tamas.controller.DepartmentRegisteredException;
 import ecse321.group12.tamas.model.*;
@@ -200,7 +202,7 @@ public class TamasController {
 	}
 
 	public void postTAJob(int aMaxHours, double aWage, Date aDeadline, String aRequiredSkills, String aRequiredCourseGPA,
-			String aRequiredCGPA, String aRequiredExperience, Course aCourse, int aMinHours, boolean aIsLab) throws InvalidInputException {
+			String aRequiredCGPA, String aRequiredExperience, Course aCourse, int aMinHours, boolean aIsLab, boolean approval) throws InvalidInputException {
 		Calendar calobj = Calendar.getInstance();
 	    
 		if (aDeadline == null) {
@@ -269,14 +271,22 @@ public class TamasController {
 			throw new InvalidInputException("Maximum hours cannot be 0!");
 		}
 		
-		TAjob j = new TAjob(aMaxHours, aWage, aDeadline, aRequiredSkills, aRequiredCourseGPA,
+		int usedBudget = 0;
+		for (Job j : aCourse.getJobs()) {
+			usedBudget += (int)(j.getMaxHours()*j.getWage());
+		}
+		if (usedBudget > aCourse.getBudget()) {
+			throw new InvalidInputException("This posting would put the course over budget!");
+		}
+		
+		TAjob j = new TAjob(aMaxHours, aWage, aDeadline, approval, aRequiredSkills, aRequiredCourseGPA,
 				aRequiredCGPA, aRequiredExperience, aCourse, aMinHours, aIsLab);
 	    rm.addJob(j);
 	    PersistenceXStream.saveToXMLwithXStream(rm);
 	}
 
 	public void postGraderJob(int hours, double aWage, Date aDeadline, String aRequiredSkills, String aRequiredCourseGPA,
-			String aRequiredCGPA, String aRequiredExperience, Course aCourse) throws InvalidInputException {
+			String aRequiredCGPA, String aRequiredExperience, Course aCourse, boolean approval) throws InvalidInputException {
 		Calendar calobj = Calendar.getInstance();
 	    
 		if (aDeadline == null) {
@@ -328,7 +338,15 @@ public class TamasController {
 			throw new InvalidInputException("Hours cannot be 0!");
 		}
 		
-		GraderJob j = new GraderJob(hours, aWage, aDeadline, aRequiredSkills, aRequiredCourseGPA,
+		int usedBudget = 0;
+		for (Job j : aCourse.getJobs()) {
+			usedBudget += (int)(j.getMaxHours()*j.getWage());
+		}
+		if (usedBudget > aCourse.getBudget()) {
+			throw new InvalidInputException("This posting would put the course over budget!");
+		}
+		
+		GraderJob j = new GraderJob(hours, aWage, aDeadline, approval, aRequiredSkills, aRequiredCourseGPA,
 				aRequiredCGPA, aRequiredExperience, aCourse);
 	    rm.addJob(j);
 	    PersistenceXStream.saveToXMLwithXStream(rm);
@@ -348,24 +366,6 @@ public class TamasController {
 		PersistenceXStream.saveToXMLwithXStream(rm);
 	}
 
-	public void addContactTime(Date date, Time startTime, Time endTime, Instructor instructor) throws InvalidInputException {
-		if (date == null) {
-			throw new InvalidInputException("Contact date cannot be empty!");
-		}
-		if (startTime == null) {
-			throw new InvalidInputException("Start time cannot be empty!");
-		}
-		if (endTime == null) {
-			throw new InvalidInputException("End time cannot be empty!");
-		}
-		if (endTime.getTime() < startTime.getTime()) {
-			throw new InvalidInputException("End time cannot be before start time!");
-		}
-		Hours h = new Hours(date, startTime, endTime, instructor);
-		rm.addContactTime(h);
-		PersistenceXStream.saveToXMLwithXStream(rm);
-	}
-
 	public void createCourse(String name, int numTuts, int numLabs, int numStuds) throws InvalidInputException {
 		if (name == null || name.trim().length() == 0) {
 			throw new InvalidInputException("Course name cannot be empty!");
@@ -376,7 +376,11 @@ public class TamasController {
 		if(numStuds == 0) {
 			throw new InvalidInputException("There must be students enrolled in the course!");
 		}
-		Course c = new Course(name, numTuts, numLabs, numStuds);
+		
+		int budget = 0;
+		budget = (int)(numTuts*45 + numLabs*60 + numStuds*(0.5))*10; //45 hours for a tutorial job, 60 for a lab, and 0.5 hours/semester/student for grading. $10/hour
+		
+		Course c = new Course(name, numTuts, numLabs, numStuds, budget);
 		rm.addCourse(c);
 		PersistenceXStream.saveToXMLwithXStream(rm);
 	}
@@ -419,9 +423,61 @@ public class TamasController {
 		if(applicant.getApplications().size() == 3) {
 			throw new InvalidInputException("This applicant has made the maximum number of applications!");
 		}
-		Application a = new Application(false, experience, courseGPA, applicant, job);
+		Application a = new Application(false, false, experience, courseGPA, applicant, job);
 		rm.addApplication(a);
 		PersistenceXStream.saveToXMLwithXStream(rm);
+	}
+
+	public void approveJob(Job job) {
+		job.setIsApproved(true);
+		PersistenceXStream.saveToXMLwithXStream(rm);
+	}
+	
+	public ArrayList<ArrayList<Application>> rankApplications(Job job) {
+		ArrayList<ArrayList<Application>> ranked = new ArrayList<ArrayList<Application>>(4);
+		ArrayList<Application> tutAndLabGrad = new ArrayList<Application>();
+		ArrayList<Application> tutAndLab = new ArrayList<Application>();
+		ArrayList<Application> grad = new ArrayList<Application>();
+		ArrayList<Application> underGrad = new ArrayList<Application>();
+		
+		Course c = job.getCourse();
+		for(Application a : job.getApplications()) {
+			Applicant stud = a.getApplicant();
+			Boolean labApp = false;
+			Boolean tutApp = false;
+			
+			//Check each application's applicant to see if they applied to both tutorial and lab jobs for the same course.
+			for(Application application : stud.getApplications()) {
+				if(application.getJob().getCourse() == c) {
+					if(application.getJob() instanceof TAjob) {
+						if(((TAjob)application.getJob()).getIsLab()) {
+							labApp = true;
+						} else {
+							tutApp = true;
+						}
+					}
+				}
+			}
+			//depending on which applications the applicants made, and their graduate status, add their applications to the corresponding list.
+			if (stud.getIsGraduate()) {
+				if (labApp && tutApp) {
+					tutAndLabGrad.add(a);
+				} else {
+					grad.add(a);
+				} 
+			} else {
+				if (labApp && tutApp) {
+					tutAndLab.add(a);
+				} else {
+					underGrad.add(a);
+				} 
+			}
+		}
+		ranked.add(tutAndLabGrad); 	//position 0
+		ranked.add(tutAndLab);		//position 1
+		ranked.add(grad);			//position 2
+		ranked.add(underGrad);		//position 3
+		return ranked;
 	}
 
 }

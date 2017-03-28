@@ -29,8 +29,10 @@ import java.awt.Color;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.sql.Time;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Properties;
 
 import javax.swing.GroupLayout;
@@ -42,7 +44,7 @@ import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.SqlDateModel;
 
-public class ApplicationManagementPage extends JFrame {
+public class ApplyToJobPage extends JFrame {
 
 	private static final long serialVersionUID = -3762818727258574249L;
 
@@ -59,6 +61,8 @@ public class ApplicationManagementPage extends JFrame {
 	private JButton applyButton;
 	private JButton backButton;
 	private JButton logOutButton;
+	
+	private JLabel applicationDeadlineLabel;
 
 	private ResourceManager rm;
 	
@@ -70,14 +74,16 @@ public class ApplicationManagementPage extends JFrame {
 	
 	private GroupLayout layout;
 	
+	private List<Job> approvedJobs = new ArrayList<Job>();
+	
 	/** Creates new form CourseManagementPage */
-	public ApplicationManagementPage(ResourceManager rm) {
+	public ApplyToJobPage(ResourceManager rm) {
 	    this.rm = rm;
 	    initComponents();
 	}
 	
 	private void initComponents() {
-		jobInfoTextArea = new JTextArea(4, 40);
+		jobInfoTextArea = new JTextArea(6, 40);
 		jobInfoTextArea.setEditable(false);
 		jobInfoLabel = new JLabel("Job Info:");
 		experienceTextArea = new JTextArea(4, 40);
@@ -95,6 +101,8 @@ public class ApplicationManagementPage extends JFrame {
 		applyButton = new JButton("Apply");
 		backButton = new JButton("Back");
 		logOutButton = new JButton("Sign Out");
+		
+		applicationDeadlineLabel = new JLabel("Application Deadline:");
 	    
 	    // elements for error message
 	    errorMessage = new JLabel();
@@ -120,6 +128,7 @@ public class ApplicationManagementPage extends JFrame {
 	    layout.setHorizontalGroup(
 	    	layout.createParallelGroup()
 	        .addComponent(errorMessage)
+	        .addComponent(applicationDeadlineLabel)
 	        .addGroup(layout.createSequentialGroup()
 	        		.addComponent(applicantLabel)
 	        		.addComponent(applicantList))
@@ -149,6 +158,7 @@ public class ApplicationManagementPage extends JFrame {
 	    layout.setVerticalGroup(
 	    		layout.createSequentialGroup()
 		        .addComponent(errorMessage)
+		        .addComponent(applicationDeadlineLabel)
 		        .addGroup(layout.createParallelGroup()
 		        		.addComponent(applicantLabel)
 		        		.addComponent(applicantList))
@@ -209,10 +219,20 @@ public class ApplicationManagementPage extends JFrame {
 	            JComboBox<String> cb = (JComboBox<String>) evt.getSource();
 	            selectedJob = cb.getSelectedIndex();
 	            displayJobInfo();
+	            displayApplicationDeadline();
 	        }
 	    });
 	}
 	
+	protected void displayApplicationDeadline() {
+		if(selectedJob != -1 && !(approvedJobs.size() == 0 && selectedJob == 0)) {
+			applicationDeadlineLabel.setText("Application Deadline: " + approvedJobs.get(selectedJob).getDeadline());
+		} else {
+			applicationDeadlineLabel.setText("Application Deadline:");
+		}
+		pack();
+	}
+
 	protected void displayJobInfo() {
 		String jobInfo;
 		if (selectedJob >= 0) {
@@ -231,13 +251,16 @@ public class ApplicationManagementPage extends JFrame {
 				if (i != rm.getJob(selectedJob).getCourse().getInstructors().size() - 1) {
 					jobInfo = jobInfo + rm.getJob(selectedJob).getCourse().getInstructor(i).getName() + ", ";
 				} else {
-					jobInfo = jobInfo + rm.getJob(selectedJob).getCourse().getInstructor(i).getName() + "\n";
+					jobInfo = jobInfo + rm.getJob(selectedJob).getCourse().getInstructor(i).getName();
 				}
 			}
+			jobInfo = jobInfo + "\n";
 			jobInfo = jobInfo + "Required CGPA: " + rm.getJob(selectedJob).getRequiredCGPA()
 					+ " | Required Course GPA: " + rm.getJob(selectedJob).getRequiredCourseGPA() + "\n";
 			jobInfo = jobInfo + "Required Skills: " + rm.getJob(selectedJob).getRequiredSkills() + "\n";
-			jobInfo = jobInfo + "Required Experience: " + rm.getJob(selectedJob).getRequiredExperience();
+			jobInfo = jobInfo + "Required Experience: " + rm.getJob(selectedJob).getRequiredExperience() + "\n";
+			jobInfo = jobInfo + "Wage ($/Hr): " + rm.getJob(selectedJob).getWage()
+					+ " | Max Hours: " + rm.getJob(selectedJob).getMaxHours();
 		} else {
 			jobInfo = "";
 		}
@@ -285,7 +308,7 @@ public class ApplicationManagementPage extends JFrame {
 			}
 			if (error == null) {
 				try {
-					tc.applyToJob(experienceTextArea.getText(), courseGPATextField.getText(), rm.getApplicant(selectedApplicant), rm.getJob(selectedJob));
+					tc.applyToJob(experienceTextArea.getText(), courseGPATextField.getText(), rm.getApplicant(selectedApplicant), approvedJobs.get(selectedJob));
 				} catch (InvalidInputException e) {
 					error = e.getMessage();
 				}
@@ -296,7 +319,7 @@ public class ApplicationManagementPage extends JFrame {
 			}
 			if (error == null) {
 				try {
-					tc.applyToJob(experienceTextArea.getText(), courseGPATextField.getText(),(Applicant)rm.getLoggedIn(), rm.getJob(selectedJob));
+					tc.applyToJob(experienceTextArea.getText(), courseGPATextField.getText(),(Applicant)rm.getLoggedIn(), approvedJobs.get(selectedJob));
 				} catch (InvalidInputException e) {
 					error = e.getMessage();
 				}
@@ -311,16 +334,22 @@ public class ApplicationManagementPage extends JFrame {
 	    errorMessage.setText(error);
 	    if (error == null || error.length() == 0) {
 	    	jobList.removeAllItems();
+	    	approvedJobs.clear();
+	    	int i = 0;
 	    	for (Job j : rm.getJobs()) {
-	    		if (j instanceof TAjob) {
-					if (((TAjob) j).getIsLab()) {
-						jobList.addItem(j.getCourse().getName() + " " + "TA Lab");
-					} else {
-						jobList.addItem(j.getCourse().getName() + " " + "TA Tutorial");
+	    		if (j.getIsApproved()) {
+					if (j instanceof TAjob) {
+						if (((TAjob) j).getIsLab()) {
+							jobList.addItem(j.getCourse().getName() + " " + "TA Lab " + i);
+						} else {
+							jobList.addItem(j.getCourse().getName() + " " + "TA Tutorial " + i);
+						}
+					} else if (j instanceof GraderJob) {
+						jobList.addItem(j.getCourse().getName() + " " + "Grader " + i);
 					}
-				} else if (j instanceof GraderJob) {
-					jobList.addItem(j.getCourse().getName() + " " + "Grader");
+					approvedJobs.add(j);
 				}
+				i++;
 	    	}
 	    	selectedJob = -1;
 	    	jobList.setSelectedIndex(selectedJob);

@@ -5,7 +5,7 @@ package ecse321.group12.tamas.model;
 import java.sql.Date;
 import java.util.*;
 
-// line 66 "../../../../TAMASmodel.ump"
+// line 67 "../../../../TAMASmodel.ump"
 public class GraderJob extends Job
 {
 
@@ -17,9 +17,9 @@ public class GraderJob extends Job
   // CONSTRUCTOR
   //------------------------
 
-  public GraderJob(int aMaxHours, double aWage, Date aDeadline, String aRequiredSkills, String aRequiredCourseGPA, String aRequiredCGPA, String aRequiredExperience, Course aCourse)
+  public GraderJob(int aMaxHours, double aWage, Date aDeadline, boolean aIsApproved, String aRequiredSkills, String aRequiredCourseGPA, String aRequiredCGPA, String aRequiredExperience, Course aCourse)
   {
-    super(aMaxHours, aWage, aDeadline, aRequiredSkills, aRequiredCourseGPA, aRequiredCGPA, aRequiredExperience, aCourse);
+    super(aMaxHours, aWage, aDeadline, aIsApproved, aRequiredSkills, aRequiredCourseGPA, aRequiredCGPA, aRequiredExperience, aCourse);
   }
 
   //------------------------

@@ -34,19 +34,17 @@ public class TestPersistence {
 	    c.set(2015,Calendar.SEPTEMBER,15,8,30,0);
 	    Date date = new Date(c.getTimeInMillis());
 	    Time time = new Time(c.getTimeInMillis());
-	    Course comp250 = new Course("Comp 250", 2, 2, 30);
+	    Course comp250 = new Course("Comp 250", 2, 2, 30, 140);
 	    comp250.addInstructor(i);
-
-	    Hours contactTime = new Hours(date, time, time, i);
 	    
 	    
 	    //create jobs
-	    TAjob j = new TAjob(31, 31, date, "We don't care!", "3.00", "3.00", "who cares", comp250, 20, false);
-	    GraderJob j2 = new GraderJob(15, 15, date, "Nothing.", "2.50", "2.80", "nope", comp250);
+	    TAjob j = new TAjob(31, 31, date, false, "We don't care!", "3.00", "3.00", "who cares", comp250, 20, false);
+	    GraderJob j2 = new GraderJob(15, 15, date, false, "Nothing.", "2.50", "2.80", "nope", comp250);
 	    
 	    //create applications
-	    Application app = new Application(false, "nothing", "3.10", a, j);
-	    Application app2 = new Application(false, "nothing", "3.11", a2, j2);
+	    Application app = new Application(false, false, "nothing", "3.10", a, j);
+	    Application app2 = new Application(false, false, "nothing", "3.11", a2, j2);
 
 	    //create department
 	    Department d = new Department("ECSE", "01", date);
@@ -70,7 +68,6 @@ public class TestPersistence {
 	    rm.addAssignment(assign);
 	    rm.addAssignment(assign2);
 	    rm.setLoggedIn(d);
-	    rm.addContactTime(contactTime);
 	}
 
 	@After
@@ -113,20 +110,10 @@ public class TestPersistence {
 	    assertEquals(1, rm.getInstructors().size());
 	    assertEquals("Donald Davis", rm.getInstructor(0).getName());
 	    assertEquals(1, rm.getInstructor(0).getCourses().size());
-	    assertEquals(1, rm.getInstructor(0).getContactTimes().size());
 	    
 	    //check course
 	    assertEquals(1, rm.getCourses().size());
 	    assertEquals("Comp 250", rm.getCourse(0).getName());
-	    
-	    Calendar c = Calendar.getInstance();
-	    c.set(2015,Calendar.SEPTEMBER,15,8,30,0);
-	    Date date = new Date(c.getTimeInMillis());
-	    Time time = new Time(c.getTimeInMillis());
-	
-	    assertEquals(date.toString(), rm.getInstructor(0).getContactTime(0).getDate().toString());
-	    assertEquals(time.toString(), rm.getInstructor(0).getContactTime(0).getStartTime().toString());
-	    assertEquals(time.toString(), rm.getInstructor(0).getContactTime(0).getEndTime().toString());
 	    
 	    //check jobs
 	    assertEquals(2, rm.getJobs().size());
