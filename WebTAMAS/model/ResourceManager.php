@@ -18,13 +18,12 @@ class ResourceManager
   //ResourceManager Associations
   private $applicants;
   private $instructors;
-  private $department;
-  private $loggedIn;
+  public $department; //until PHP 5.3 (setAccessible)
+  public $loggedIn; //until PHP 5.3 (setAccessible)
   private $applications;
   private $jobs;
   private $courses;
   private $assignments;
-  private $contactTimes;
 
   //------------------------
   // CONSTRUCTOR
@@ -38,7 +37,6 @@ class ResourceManager
     $this->jobs = array();
     $this->courses = array();
     $this->assignments = array();
-    $this->contactTimes = array();
   }
 
   public static function getInstance()
@@ -312,47 +310,6 @@ class ResourceManager
     foreach($this->assignments as $assignment)
     {
       if ($assignment->equals($aAssignment))
-      {
-        $wasFound = true;
-        break;
-      }
-      $index += 1;
-    }
-    $index = $wasFound ? $index : -1;
-    return $index;
-  }
-
-  public function getContactTime_index($index)
-  {
-    $aContactTime = $this->contactTimes[$index];
-    return $aContactTime;
-  }
-
-  public function getContactTimes()
-  {
-    $newContactTimes = $this->contactTimes;
-    return $newContactTimes;
-  }
-
-  public function numberOfContactTimes()
-  {
-    $number = count($this->contactTimes);
-    return $number;
-  }
-
-  public function hasContactTimes()
-  {
-    $has = $this->numberOfContactTimes() > 0;
-    return $has;
-  }
-
-  public function indexOfContactTime($aContactTime)
-  {
-    $wasFound = false;
-    $index = 0;
-    foreach($this->contactTimes as $contactTime)
-    {
-      if ($contactTime->equals($aContactTime))
       {
         $wasFound = true;
         break;
@@ -727,64 +684,6 @@ class ResourceManager
     return $wasAdded;
   }
 
-  public static function minimumNumberOfContactTimes()
-  {
-    return 0;
-  }
-
-  public function addContactTime($aContactTime)
-  {
-    $wasAdded = false;
-    if ($this->indexOfContactTime($aContactTime) !== -1) { return false; }
-    $this->contactTimes[] = $aContactTime;
-    $wasAdded = true;
-    return $wasAdded;
-  }
-
-  public function removeContactTime($aContactTime)
-  {
-    $wasRemoved = false;
-    if ($this->indexOfContactTime($aContactTime) != -1)
-    {
-      unset($this->contactTimes[$this->indexOfContactTime($aContactTime)]);
-      $this->contactTimes = array_values($this->contactTimes);
-      $wasRemoved = true;
-    }
-    return $wasRemoved;
-  }
-
-  public function addContactTimeAt($aContactTime, $index)
-  {  
-    $wasAdded = false;
-    if($this->addContactTime($aContactTime))
-    {
-      if($index < 0 ) { $index = 0; }
-      if($index > $this->numberOfContactTimes()) { $index = $this->numberOfContactTimes() - 1; }
-      array_splice($this->contactTimes, $this->indexOfContactTime($aContactTime), 1);
-      array_splice($this->contactTimes, $index, 0, array($aContactTime));
-      $wasAdded = true;
-    }
-    return $wasAdded;
-  }
-
-  public function addOrMoveContactTimeAt($aContactTime, $index)
-  {
-    $wasAdded = false;
-    if($this->indexOfContactTime($aContactTime) !== -1)
-    {
-      if($index < 0 ) { $index = 0; }
-      if($index > $this->numberOfContactTimes()) { $index = $this->numberOfContactTimes() - 1; }
-      array_splice($this->contactTimes, $this->indexOfContactTime($aContactTime), 1);
-      array_splice($this->contactTimes, $index, 0, array($aContactTime));
-      $wasAdded = true;
-    } 
-    else 
-    {
-      $wasAdded = $this->addContactTimeAt($aContactTime, $index);
-    }
-    return $wasAdded;
-  }
-
   public function equals($compareTo)
   {
     return $this == $compareTo;
@@ -800,7 +699,6 @@ class ResourceManager
     $this->jobs = array();
     $this->courses = array();
     $this->assignments = array();
-    $this->contactTimes = array();
   }
 
 }

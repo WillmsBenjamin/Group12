@@ -40,17 +40,11 @@
 				$ps = new Persistence();
 				$rm = $ps->loadDataFromStore();
 				$c = new Controller();
+				$c->loadCourse();
 				
 				$name = $rm->getInstructor_index($_SESSION["index"])->getName();
-
 	
 				echo "Hi Professor " . $name;
-				echo "<br>";
-				echo $rm->numberOfJobs();
-				echo "<br>";
-				echo $rm->getCourse_index(0)->numberOfJobs();
-
-			
 				
 				
 				
@@ -71,11 +65,8 @@
 				
 				<form class = "logout" action="http://localhost/TAMAS_Web/Group12/WebTAMAS/mainpage.php" >
 				<button type="submit">Main Page</button>
-				</form>
-				
-			
-				
-				
+				</form>	
+							
 				</div>
 				</div>
 				
@@ -83,16 +74,5 @@
 			
 	</html>
 				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
+					
 				

@@ -45,15 +45,8 @@
 
 	
 				echo "Hi Professor " . $name;
-				echo "<br>";
-				echo $rm->numberOfJobs();
-				echo "<br>";
-				echo $rm->getCourse_index(0)->numberOfJobs();
 
 			
-				
-				
-				
 				?>
 				
 				
