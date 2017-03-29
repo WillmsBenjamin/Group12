@@ -14,6 +14,7 @@ class Course
   private $numTutorialSections;
   private $numLabSections;
   private $numStudents;
+  private $budget;
 
   //Course Associations
   private $instructors;
@@ -23,12 +24,13 @@ class Course
   // CONSTRUCTOR
   //------------------------
 
-  public function __construct($aName, $aNumTutorialSections, $aNumLabSections, $aNumStudents)
+  public function __construct($aName, $aNumTutorialSections, $aNumLabSections, $aNumStudents, $aBudget)
   {
     $this->name = $aName;
     $this->numTutorialSections = $aNumTutorialSections;
     $this->numLabSections = $aNumLabSections;
     $this->numStudents = $aNumStudents;
+    $this->budget = $aBudget;
     $this->instructors = array();
     $this->jobs = array();
   }
@@ -69,6 +71,14 @@ class Course
     return $wasSet;
   }
 
+  public function setBudget($aBudget)
+  {
+    $wasSet = false;
+    $this->budget = $aBudget;
+    $wasSet = true;
+    return $wasSet;
+  }
+
   public function getName()
   {
     return $this->name;
@@ -87,6 +97,11 @@ class Course
   public function getNumStudents()
   {
     return $this->numStudents;
+  }
+
+  public function getBudget()
+  {
+    return $this->budget;
   }
 
   public function getInstructor_index($index)
@@ -313,9 +328,9 @@ class Course
     return 0;
   }
 
-  public function addJobVia($aMaxHours, $aWage, $aDeadline, $aRequiredSkills, $aRequiredCourseGPA, $aRequiredCGPA, $aRequiredExperience)
+  public function addJobVia($aMaxHours, $aWage, $aDeadline, $aIsApproved, $aRequiredSkills, $aRequiredCourseGPA, $aRequiredCGPA, $aRequiredExperience)
   {
-    return new Job($aMaxHours, $aWage, $aDeadline, $aRequiredSkills, $aRequiredCourseGPA, $aRequiredCGPA, $aRequiredExperience, $this);
+    return new Job($aMaxHours, $aWage, $aDeadline, $aIsApproved, $aRequiredSkills, $aRequiredCourseGPA, $aRequiredCGPA, $aRequiredExperience, $this);
   }
 
   public function addJob($aJob)
