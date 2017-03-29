@@ -74,6 +74,7 @@ public class DepartmentMainPage extends JFrame{
 		departmentInfoTextArea = new JTextArea();
 		departmentInfoTextArea.setEditable(false);
 		departmentInfoTextArea.setColumns(10);
+		departmentInfoTextArea.setLineWrap(true);
 		
 	    // elements for error message
 	    errorMessage = new JLabel();

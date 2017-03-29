@@ -126,6 +126,20 @@
                           <jobs id="31">
                             <TAjob reference="6"/>
                             <TAjob reference="17"/>
+                            <TAjob id="32">
+                              <maxHours>107</maxHours>
+                              <wage>9.1</wage>
+                              <deadline id="33">2017-03-31</deadline>
+                              <isApproved>true</isApproved>
+                              <requiredSkills>qwerrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr</requiredSkills>
+                              <requiredCourseGPA>4.00</requiredCourseGPA>
+                              <requiredCGPA>4.00</requiredCGPA>
+                              <requiredExperience></requiredExperience>
+                              <applications id="34"/>
+                              <course reference="21"/>
+                              <minHours>77</minHours>
+                              <isLab>true</isLab>
+                            </TAjob>
                           </jobs>
                         </course>
                         <minHours>45</minHours>
@@ -133,26 +147,26 @@
                       </job>
                     </application>
                   </applications>
-                  <assignments id="32"/>
+                  <assignments id="35"/>
                 </applicant>
                 <job class="TAjob" reference="6"/>
               </application>
-              <application id="33">
+              <application id="36">
                 <isAccepted>false</isAccepted>
                 <isOffered>false</isOffered>
                 <experience>dum is as dum does</experience>
                 <courseGPA>1.11</courseGPA>
                 <id>6</id>
-                <applicant id="34">
+                <applicant id="37">
                   <name>Gal</name>
                   <id>444444444</id>
                   <cGPA>1.00</cGPA>
                   <skills>Am dum, very stoopid.</skills>
                   <isGraduate>false</isGraduate>
-                  <applications id="35">
-                    <application reference="33"/>
+                  <applications id="38">
+                    <application reference="36"/>
                   </applications>
-                  <assignments id="36"/>
+                  <assignments id="39"/>
                 </applicant>
                 <job class="TAjob" reference="6"/>
               </application>
@@ -164,36 +178,37 @@
         </application>
         <application reference="20"/>
       </applications>
-      <assignments id="37"/>
+      <assignments id="40"/>
     </applicant>
     <applicant reference="10"/>
     <applicant reference="14"/>
-    <applicant reference="34"/>
+    <applicant reference="37"/>
   </applicants>
-  <instructors id="38">
+  <instructors id="41">
     <instructor reference="23"/>
   </instructors>
-  <department id="39">
+  <department id="42">
     <name>ECSE</name>
     <id>000000000</id>
-    <deadline id="40">2017-03-31</deadline>
+    <deadline id="43">2017-03-31</deadline>
   </department>
-  <applications id="41">
+  <applications id="44">
     <application reference="5"/>
     <application reference="20"/>
     <application reference="9"/>
     <application reference="13"/>
     <application reference="16"/>
-    <application reference="33"/>
+    <application reference="36"/>
   </applications>
-  <jobs id="42">
+  <jobs id="45">
     <TAjob reference="6"/>
     <TAjob reference="17"/>
+    <TAjob reference="32"/>
   </jobs>
-  <courses id="43">
+  <courses id="46">
     <course reference="21"/>
     <course reference="28"/>
     <course reference="25"/>
   </courses>
-  <assignments id="44"/>
+  <assignments id="47"/>
 </manager>

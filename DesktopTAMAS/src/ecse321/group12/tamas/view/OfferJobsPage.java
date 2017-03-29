@@ -121,6 +121,7 @@ public class OfferJobsPage extends JFrame {
 		
 		applicationInfoTextArea = new JTextArea();
 		applicationInfoTextArea.setEditable(false);
+		applicationInfoTextArea.setLineWrap(true);
 		
 		offerJobButton = new JButton("Offer Job");
 		logOutButton = new JButton("Sign Out");
@@ -271,7 +272,7 @@ public class OfferJobsPage extends JFrame {
 	            jobList.clear();
 		    	if (selectedCourse != -1) {
 					for (Job j : rm.getCourse(selectedCourse).getJobs()) {
-						if (j.getIsApproved()) {
+						if (j.getIsApproved() && (j.getAssignment() == null)) {
 							jobList.add(j);
 						}
 					}

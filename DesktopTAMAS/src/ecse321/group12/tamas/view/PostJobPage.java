@@ -141,7 +141,9 @@ public class PostJobPage extends JFrame {
 	    deadlineDatePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());
 		
 		requiredSkillsTextArea = new JTextArea(7, 30);
+		requiredSkillsTextArea.setLineWrap(true);
 		requiredExperienceTextArea = new JTextArea(7, 30);
+		requiredExperienceTextArea.setLineWrap(true);
 		
 		requiredCGPATextField = new JTextField();
 		requiredCourseGPATextField = new JTextField();
