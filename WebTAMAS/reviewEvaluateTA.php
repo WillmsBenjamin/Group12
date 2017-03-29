@@ -45,11 +45,9 @@
 
 	
 				echo "Hi Professor " . $name;
-
-			
+		
 				?>
-				
-				
+							
 				<p class="logo">
 				This page is still under developing!
 				
@@ -64,10 +62,7 @@
 				
 				<form class = "logout" action="http://localhost/TAMAS_Web/Group12/WebTAMAS/mainpage.php" >
 				<button type="submit">Main Page</button>
-				</form>
-				
-			
-				
+				</form>			
 				
 				</div>
 				</div>

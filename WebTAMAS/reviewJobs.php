@@ -48,12 +48,7 @@
 				echo "<br>";
 				echo $rm->numberOfJobs();
 				echo "<br>";
-				echo $rm->getCourse_index(0)->numberOfJobs();
-
-			
-				
-				
-				
+				echo $rm->getCourse_index(0)->numberOfJobs();			
 				?>
 				
 				
@@ -72,10 +67,7 @@
 				<form class = "logout" action="http://localhost/TAMAS_Web/Group12/WebTAMAS/mainpage.php" >
 				<button type="submit">Main Page</button>
 				</form>
-				
-			
-				
-				
+							
 				</div>
 				</div>
 				
