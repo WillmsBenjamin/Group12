@@ -7,7 +7,11 @@ import ecse321.group12.tamas.controller.TamasController;
 import ecse321.group12.tamas.controller.DepartmentRegisteredException;
 import ecse321.group12.tamas.controller.InvalidInputException;
 import ecse321.group12.tamas.controller.UserType;
+import ecse321.group12.tamas.model.Applicant;
+import ecse321.group12.tamas.model.Assignment;
+import ecse321.group12.tamas.model.GraderJob;
 import ecse321.group12.tamas.model.ResourceManager;
+import ecse321.group12.tamas.model.TAjob;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -23,6 +27,8 @@ import java.util.Calendar;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.border.EmptyBorder;
 import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
 
@@ -32,13 +38,15 @@ public class ApplicantMainPage extends JFrame{
 
 	private JButton manageApplicationsButton;
 	private JButton logOutButton;
+	private JButton manageJobOffersButton;
+	
+	private JTextArea applicantInfoTextArea;
 	
 	private ResourceManager rm;
+	private JPanel contentPane;
 	
 	private String error = null;
 	private JLabel errorMessage;
-	
-	private GroupLayout layout;
 	
 	/** Creates new form ApplicantMainPage */
 	public ApplicantMainPage(ResourceManager rm) {
@@ -47,11 +55,22 @@ public class ApplicantMainPage extends JFrame{
 	}
 	
 	private void initComponents() {
+		
+		setBounds(100, 100, 493, 273);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		
 	    // elements for navigating department's functions
 		//TODO: add more buttons as more functions are completed.
 		//TODO: add department data view in the form of multiple small unmodifiable TextAreas. Add edit check box which sets the areas to editable, and a submit button.
 		manageApplicationsButton = new JButton("Apply to Jobs");
 		logOutButton = new JButton("Sign Out");
+		manageJobOffersButton = new JButton("Manage Job Offers");
+		
+		applicantInfoTextArea = new JTextArea();
+		applicantInfoTextArea.setLineWrap(true);
+		applicantInfoTextArea.setEditable(false);
 		
 	    // elements for error message
 	    errorMessage = new JLabel();
@@ -68,33 +87,44 @@ public class ApplicantMainPage extends JFrame{
 	    setTitle(rm.getLoggedIn().getName());
 
 	    // layout
-	    layout = new GroupLayout(getContentPane());
-	    getContentPane().setLayout(layout);
-	    layout.setAutoCreateGaps(true);
-	    layout.setAutoCreateContainerGaps(true);
-	    
-
-	    layout.setHorizontalGroup(
-	    	layout.createParallelGroup()
-	        .addComponent(errorMessage)
-	        .addGroup(layout.createSequentialGroup()
-	        	.addComponent(logOutButton)
-	        	.addComponent(manageApplicationsButton))
-	        );
-
-	    layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {logOutButton, manageApplicationsButton});
-
-	    
-	    layout.setVerticalGroup(
-	    	layout.createSequentialGroup()
-		    .addComponent(errorMessage)
-		    .addGroup(layout.createParallelGroup()
-		        .addComponent(logOutButton)
-		        .addComponent(manageApplicationsButton))
-		    );
+	    GroupLayout gl_contentPane = new GroupLayout(contentPane);
+		gl_contentPane.setHorizontalGroup(
+			gl_contentPane.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_contentPane.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+						.addComponent(applicantInfoTextArea, GroupLayout.DEFAULT_SIZE, 441, Short.MAX_VALUE)
+						.addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
+								.addGroup(gl_contentPane.createSequentialGroup()
+									.addComponent(errorMessage, GroupLayout.DEFAULT_SIZE, 265, Short.MAX_VALUE)
+									.addGap(19))
+								.addGroup(gl_contentPane.createSequentialGroup()
+									.addComponent(logOutButton, GroupLayout.DEFAULT_SIZE, 109, Short.MAX_VALUE)
+									.addGap(18)
+									.addComponent(manageJobOffersButton)
+									.addGap(18)))
+							.addComponent(manageApplicationsButton, GroupLayout.DEFAULT_SIZE, 157, Short.MAX_VALUE)))
+					.addContainerGap())
+		);
+		gl_contentPane.setVerticalGroup(
+			gl_contentPane.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_contentPane.createSequentialGroup()
+					.addComponent(errorMessage)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(applicantInfoTextArea, GroupLayout.PREFERRED_SIZE, 143, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+						.addComponent(manageApplicationsButton)
+						.addComponent(manageJobOffersButton)
+						.addComponent(logOutButton))
+					.addContainerGap(50, Short.MAX_VALUE))
+		);
+		contentPane.setLayout(gl_contentPane);
 
 	    this.setLocationRelativeTo(null);
 	    pack();
+	    refreshData();
 	    
 	    logOutButton.addActionListener(new java.awt.event.ActionListener() {
 	        public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -129,9 +159,34 @@ public class ApplicantMainPage extends JFrame{
 	    System.exit(0);
 	}
 	
+	private void displayApplicantInfo() {
+		String appInfo = "Welcome, ";
+		appInfo = appInfo + rm.getLoggedIn().getName() + "! | ID: " + rm.getLoggedIn().getId() + "\n";
+		appInfo = appInfo + "CGPA: " + ((Applicant)rm.getLoggedIn()).getCGPA() + " | Number of Applications: " + ((Applicant)rm.getLoggedIn()).getApplications().size() + "\n";
+		appInfo = appInfo + "Skills: " + ((Applicant)rm.getLoggedIn()).getSkills() + "\n" + "Assignments: ";
+		int i = 0;
+		for(Assignment a : ((Applicant)rm.getLoggedIn()).getAssignments()) {
+			i++;
+			if (a.getJob() instanceof TAjob) {
+				if (((TAjob)a.getJob()).getIsLab()) {
+					appInfo = appInfo + a.getJob().getCourse().getName() + " " + "TA Lab";
+				} else {
+					appInfo = appInfo + a.getJob().getCourse().getName() + " " + "TA Tutorial";
+				}
+			} else if (a.getJob() instanceof GraderJob) {
+				appInfo = appInfo + a.getJob().getCourse().getName() + " " + "Grader";
+			}
+			if(i < ((Applicant)rm.getLoggedIn()).getAssignments().size()) {
+				appInfo = appInfo + ", ";
+			}
+		}
+		applicantInfoTextArea.setText(appInfo);
+	}
+	
 	private void refreshData() {
 		// error
 	    errorMessage.setText(error);
+	    displayApplicantInfo();
 	    pack();
 	}
 }
