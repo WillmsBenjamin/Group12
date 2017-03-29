@@ -487,9 +487,9 @@ public class PostJobPage extends JFrame {
 			// deadline
 			deadlineDatePicker.getModel().setValue(null);
 			//Spinners
-			maxHoursSpinner.setValue(60);
-			minHoursSpinner.setValue(0);
-			hoursSpinner.setValue(60);
+			maxHoursSpinner.setValue(90);
+			minHoursSpinner.setValue(45);
+			hoursSpinner.setValue(90);
 			wageSpinner.setValue(10.0);
 			//CheckBox
 			isLabCheckBox.setSelected(false);
