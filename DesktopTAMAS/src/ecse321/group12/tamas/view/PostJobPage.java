@@ -127,9 +127,9 @@ public class PostJobPage extends JFrame {
 		backButton = new JButton("Back");
 		logOutButton = new JButton("Sign Out");
 		
-		maxHoursSpinner = new JSpinner( new SpinnerNumberModel(60, 0, 120, 1) );
-		minHoursSpinner = new JSpinner( new SpinnerNumberModel(0, 0, 120, 1) );
-		hoursSpinner = new JSpinner( new SpinnerNumberModel(60, 0, 120, 1) );
+		maxHoursSpinner = new JSpinner( new SpinnerNumberModel(90, 45, 180, 1) );
+		minHoursSpinner = new JSpinner( new SpinnerNumberModel(45, 45, 180, 1) );
+		hoursSpinner = new JSpinner( new SpinnerNumberModel(90, 45, 180, 1) );
 		wageSpinner = new JSpinner( new SpinnerNumberModel(10.0, 0.0, 50.0, 0.1) );
 		
 		SqlDateModel model = new SqlDateModel();

@@ -82,12 +82,10 @@ public class OfferJobsPage extends JFrame {
 	
 	public void initComponents() {
 		
-		setBounds(100, 100, 456, 398);
+		setBounds(100, 100, 474, 395);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		
-		errorMessage = new JLabel("New label");
 		
 		courseLabel = new JLabel("Course:");
 		courseLabel.setHorizontalAlignment(SwingConstants.LEFT);
@@ -131,7 +129,7 @@ public class OfferJobsPage extends JFrame {
 		
 		// elements for error message
 	    errorMessage = new JLabel();
-	    errorMessage.setForeground(Color.RED);
+	    errorMessage .setForeground(Color.RED);
 	    
 	    // global settings and listeners
 	    setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
@@ -150,12 +148,13 @@ public class OfferJobsPage extends JFrame {
 					.addContainerGap()
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_contentPane.createSequentialGroup()
+							.addComponent(errorMessage, GroupLayout.DEFAULT_SIZE, 404, Short.MAX_VALUE)
+							.addContainerGap())
+						.addGroup(gl_contentPane.createSequentialGroup()
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 								.addGroup(gl_contentPane.createSequentialGroup()
 									.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-										.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING, false)
-											.addComponent(errorMessage, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-											.addComponent(courseLabel, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 63, Short.MAX_VALUE))
+										.addComponent(courseLabel, GroupLayout.PREFERRED_SIZE, 63, GroupLayout.PREFERRED_SIZE)
 										.addComponent(applicationLabel))
 									.addPreferredGap(ComponentPlacement.UNRELATED)
 									.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
@@ -196,7 +195,7 @@ public class OfferJobsPage extends JFrame {
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
-					.addComponent(errorMessage)
+					.addComponent(errorMessage, GroupLayout.PREFERRED_SIZE, 16, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 						.addComponent(courseLabel)
@@ -327,10 +326,13 @@ public class OfferJobsPage extends JFrame {
 	protected void rejectApplicationButtonActionPerformed() {
 		TamasController tc = new TamasController(rm);
 		error = null;
-		if (selectedApplication < 0) {
+		if (selectedCourse < 0) {
+			error = "Course needs to be selected!";
+		} else if (selectedJob < 0) {
+			error = "Job needs to be selected!";
+		} else if (selectedApplication < 0) {
 			error = "Application needs to be selected!";
-		}
-		if(applicationLists.get(selectedList).get(selectedApplication).getIsOffered()) {
+		} else if(applicationLists.get(selectedList).get(selectedApplication).getIsOffered()) {
 			error = "This application has already been offered the job!";
 		}
 		if (error == null) {
@@ -365,10 +367,13 @@ public class OfferJobsPage extends JFrame {
 	protected void offerJobButtonActionPerformed() {
 		TamasController tc = new TamasController(rm);
 		error = null;
-		if (selectedApplication < 0) {
+		if (selectedCourse < 0) {
+			error = "Course needs to be selected!";
+		} else if (selectedJob < 0) {
+			error = "Job needs to be selected!";
+		} else if (selectedApplication < 0) {
 			error = "Application needs to be selected!";
-		}
-		if(applicationLists.get(selectedList).get(selectedApplication).getIsOffered()) {
+		} else if(applicationLists.get(selectedList).get(selectedApplication).getIsOffered()) {
 			error = "This application has already been offered the job!";
 		}
 		if (error == null) {
