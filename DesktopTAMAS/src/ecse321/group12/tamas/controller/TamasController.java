@@ -499,4 +499,11 @@ public class TamasController {
 		PersistenceXStream.saveToXMLwithXStream(rm);
 	}
 
+	public void submitFeedback(Assignment assignment, String text) {
+		assignment.setFeedback(text);
+		PersistenceXStream.saveToXMLwithXStream(rm);
+	}
+
+
+
 }
