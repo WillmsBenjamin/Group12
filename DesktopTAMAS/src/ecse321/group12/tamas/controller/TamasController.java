@@ -433,6 +433,12 @@ public class TamasController {
 		PersistenceXStream.saveToXMLwithXStream(rm);
 	}
 	
+	/*Finds all applications to the input Job, and ranks them by splitting them into 4 groups: 
+	*List 0: applications where the applicant has applied to both lab and tutorial sections for the same class that the input is for, and is a grad.
+	*List 1: applications where the applicant has applied to both lab and tutorial sections for the same class that the input is for, and is an undergrad.
+	*List 2: graduate student applications to only one of the 2 types of TA job.
+	*List 3: undergraduate student applications to only one of the 2 types of TA job.
+	*/
 	public ArrayList<ArrayList<Application>> rankApplications(Job job) {
 		ArrayList<ArrayList<Application>> ranked = new ArrayList<ArrayList<Application>>(4);
 		ArrayList<Application> tutAndLabGrad = new ArrayList<Application>();
@@ -478,6 +484,16 @@ public class TamasController {
 		ranked.add(grad);			//position 2
 		ranked.add(underGrad);		//position 3
 		return ranked;
+	}
+
+	public void offerJob(Application application) {
+		application.setIsOffered(true);
+		PersistenceXStream.saveToXMLwithXStream(rm);
+	}
+
+	public void rejectApplication(Application application) {
+		application.delete();
+		PersistenceXStream.saveToXMLwithXStream(rm);
 	}
 
 }
