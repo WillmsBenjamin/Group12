@@ -23,6 +23,8 @@ import java.util.Calendar;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.border.EmptyBorder;
 import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
 
@@ -37,6 +39,9 @@ public class DepartmentMainPage extends JFrame{
 	private JButton offerJobsButton;
 	private JButton logOutButton;
 	
+	private JTextArea departmentInfoTextArea;
+	
+	private JPanel contentPane;
 	private ResourceManager rm;
 	
 	private String error = null;
@@ -51,6 +56,11 @@ public class DepartmentMainPage extends JFrame{
 	}
 	
 	private void initComponents() {
+		
+		setBounds(100, 100, 450, 255);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
 	    // elements for navigating department's functions
 		//TODO: add more buttons as more functions are completed.
 		//TODO: add department data view in the form of multiple small unmodifiable TextAreas. Add edit check box which sets the areas to editable, and a submit button.
@@ -60,6 +70,10 @@ public class DepartmentMainPage extends JFrame{
 		approveJobsButton = new JButton("Approve Jobs");
 		offerJobsButton = new JButton("Offer Jobs");
 		logOutButton = new JButton("Sign Out");
+		
+		departmentInfoTextArea = new JTextArea();
+		departmentInfoTextArea.setEditable(false);
+		departmentInfoTextArea.setColumns(10);
 		
 	    // elements for error message
 	    errorMessage = new JLabel();
@@ -76,43 +90,50 @@ public class DepartmentMainPage extends JFrame{
 	    setTitle(rm.getLoggedIn().getName());
 
 	    // layout
-	    layout = new GroupLayout(getContentPane());
-	    getContentPane().setLayout(layout);
-	    layout.setAutoCreateGaps(true);
-	    layout.setAutoCreateContainerGaps(true);
-	    
-
-	    layout.setHorizontalGroup(
-	    	layout.createParallelGroup()
-	        .addComponent(errorMessage)
-	        .addGroup(layout.createSequentialGroup()
-		        	.addComponent(postJobButton)
-		        	.addComponent(manageCoursesButton)
-		        	.addComponent(applyToJobsButton))
-	        .addGroup(layout.createSequentialGroup()
-	        	.addComponent(logOutButton)
-	        	.addComponent(approveJobsButton)
-	        	.addComponent(offerJobsButton))
-	        );
-
-	    layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {logOutButton, postJobButton, manageCoursesButton, applyToJobsButton, approveJobsButton, offerJobsButton});
-
-	    
-	    layout.setVerticalGroup(
-	    	layout.createSequentialGroup()
-		    .addComponent(errorMessage)
-		    .addGroup(layout.createParallelGroup()
-			        .addComponent(postJobButton)
-			        .addComponent(manageCoursesButton)
-			        .addComponent(applyToJobsButton))
-		    .addGroup(layout.createParallelGroup()
-		        .addComponent(logOutButton)
-		        .addComponent(approveJobsButton)
-		        .addComponent(offerJobsButton))
-		    );
-
+	    GroupLayout gl_contentPane = new GroupLayout(contentPane);
+		gl_contentPane.setHorizontalGroup(
+			gl_contentPane.createParallelGroup(Alignment.LEADING)
+				.addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
+						.addComponent(departmentInfoTextArea, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 398, Short.MAX_VALUE)
+						.addComponent(errorMessage, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 398, Short.MAX_VALUE)
+						.addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
+								.addComponent(logOutButton, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+								.addComponent(manageCoursesButton, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+							.addGap(18)
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
+								.addComponent(postJobButton, GroupLayout.DEFAULT_SIZE, 113, Short.MAX_VALUE)
+								.addComponent(approveJobsButton, GroupLayout.DEFAULT_SIZE, 113, Short.MAX_VALUE))
+							.addGap(18)
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING, false)
+								.addComponent(offerJobsButton, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+								.addComponent(applyToJobsButton, GroupLayout.DEFAULT_SIZE, 122, Short.MAX_VALUE))))
+					.addContainerGap())
+		);
+		gl_contentPane.setVerticalGroup(
+			gl_contentPane.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_contentPane.createSequentialGroup()
+					.addComponent(errorMessage)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(departmentInfoTextArea, GroupLayout.PREFERRED_SIZE, 101, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+						.addComponent(manageCoursesButton)
+						.addComponent(applyToJobsButton)
+						.addComponent(postJobButton, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+						.addComponent(logOutButton)
+						.addComponent(offerJobsButton)
+						.addComponent(approveJobsButton, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE))
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+		);
+		contentPane.setLayout(gl_contentPane);
 	    this.setLocationRelativeTo(null);
 	    pack();
+	    refreshData();
 	    
 	    logOutButton.addActionListener(new java.awt.event.ActionListener() {
 	        public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -198,9 +219,19 @@ public class DepartmentMainPage extends JFrame{
 	    System.exit(0);
 	}
 	
+	private void displayUserInfo() {
+		String depInfo = "Welcome, ";
+		depInfo = depInfo + rm.getLoggedIn().getName() + "! | ID: " + rm.getLoggedIn().getId();
+		depInfo = depInfo + "\n" + "Number of Courses: " + rm.getCourses().size() + "\n";
+		depInfo = depInfo + "Number of Instructors: " + rm.getInstructors().size() + "\n";
+		depInfo = depInfo + "Job Posting Deadline: " + rm.getDepartment().getDeadline();
+		departmentInfoTextArea.setText(depInfo);
+	}
+	
 	private void refreshData() {
 		// error
 	    errorMessage.setText(error);
+	    displayUserInfo();
 	    pack();
 	}
 }
