@@ -78,4 +78,8 @@
     <string name="fragment_edit_profile_delete">DELETE</string>
     <string name="fragment_edit_profile_cancel">CANCEL</string>
     <string name="fragment_edit_profile_title">WARNING</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="fragment_current_applications_buttonlabel_edit">EDIT</string>
 </resources>
