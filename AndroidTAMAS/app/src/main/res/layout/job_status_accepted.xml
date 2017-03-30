@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:text="@string/job_status_accepted_button_confirm"
+        android:id="@+id/job_status_accepted_button_confirm"
+        />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"
+        android:layout_above="@id/job_status_accepted_button_confirm"
+        android:id="@+id/job_status_accepted_graphical_bottom_divider"
+        />
+    <RadioGroup
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/job_status_radiobuttongroup_decision"
+        android:layout_above="@id/job_status_accepted_graphical_bottom_divider"
+        android:orientation="horizontal"
+        >
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/job_status_radiobuttonlabel_confirm"
+            android:id="@+id/job_status_radiobutton_confirm"
+            />
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            />
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/job_status_radiobuttonlabel_decline"
+            android:id="@+id/job_status_radiobutton_decline"
+            />
+    </RadioGroup>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_above="@id/job_status_radiobuttongroup_decision"
+        android:id="@+id/job_status_accepted_group_acceptanceletter"
+        >
+        <TextView
+            android:id="@+id/job_status_accepted_textview_acceptance"
+            android:inputType="none"
+            android:textIsSelectable="true"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textSize="24sp"
+            android:ems="10"
+            >
+            <requestFocus />
+        </TextView>
+    </ScrollView>
+
+
+</RelativeLayout>

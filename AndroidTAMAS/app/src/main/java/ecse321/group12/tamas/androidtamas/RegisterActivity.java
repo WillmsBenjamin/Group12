@@ -45,22 +45,22 @@ public class RegisterActivity extends AppCompatActivity {
     }
     private void refreshData()
     {
-        EditText et = (EditText) findViewById(R.id.applicant_name);
+        EditText et = (EditText) findViewById(R.id.register_edittext_applicant_identification);
         if (et!=null)
         {
             et.setText("");
         }
-        et = (EditText) findViewById(R.id.applicant_cgpa);
+        et = (EditText) findViewById(R.id.register_edittext_applicant_cgpa);
         if (et!=null)
         {
             et.setText("");
         }
-        et = (EditText) findViewById(R.id.applicant_skills);
+        et = (EditText) findViewById(R.id.register_edittext_applicant_skills);
         if (et!=null)
         {
             et.setText("");
         }
-        et = (EditText) findViewById(R.id.applicant_identification);
+        et = (EditText) findViewById(R.id.register_edittext_applicant_name);
         if (et!=null)
         {
             et.setText("");
@@ -70,52 +70,45 @@ public class RegisterActivity extends AppCompatActivity {
     {
         TamasController tc = new TamasController(rm);
 
-        TextView tv = (TextView) findViewById(R.id.applicant_name);
+        TextView tv = (TextView) findViewById(R.id.register_edittext_applicant_name);
         String name = tv.getText().toString();
 
-        tv = (TextView) findViewById(R.id.applicant_cgpa);
+        tv = (TextView) findViewById(R.id.register_edittext_applicant_name);
         String cgpa =tv.getText().toString();
 
-        tv = (TextView) findViewById(R.id.applicant_identification);
+        tv = (TextView) findViewById(R.id.register_edittext_applicant_name);
         String id = tv.getText().toString();
 
-        tv = (TextView) findViewById(R.id.applicant_skills);
+        tv = (TextView) findViewById(R.id.register_edittext_applicant_skills);
         String skills = tv.getText().toString();
 
-        RadioButton isGraduate =(RadioButton) findViewById(R.id.graduate_student);
+        RadioButton isGraduate =(RadioButton) findViewById(R.id.register_radiobutton_graduate_student);
         Boolean studentType = isGraduate.isChecked();
         try
         {
             tc.registerApplicant(name,id,cgpa,skills,studentType);
-            refreshData();
             Toast.makeText(getApplicationContext(),"Registered Successfully",Toast.LENGTH_SHORT).show();
-            moveToLoginPage();
+            moveTo(HomeActivity.class);
         }
         catch (InvalidInputException e)
         {
             error=e.getMessage();
             Toast.makeText(getApplicationContext(),error,Toast.LENGTH_SHORT).show();
+            refreshData();
         }
-
-
     }
-
-
+    private void moveTo(Class target)
+    {
+        Intent i = new Intent(getApplicationContext(), target);
+        startActivity(i);
+        finish();
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_login, menu);
         return true;
     }
-
-    public void moveToLoginPage()
-    {
-        Intent i = new Intent(getApplicationContext(), LoginActivity.class);
-
-        startActivity(i);
-        refreshData();
-    }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will

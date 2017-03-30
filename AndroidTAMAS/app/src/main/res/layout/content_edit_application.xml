@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/content_application"
+    android:id="@+id/content_edit_application"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="@dimen/activity_vertical_margin"
@@ -10,11 +10,12 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="ecse321.group12.tamas.androidtamas.ApplicationActivity"
-    tools:showIn="@layout/activity_application">
+    tools:context="ecse321.group12.tamas.androidtamas.EditApplicationActivity"
+    tools:showIn="@layout/activity_edit_application">
+
 
     <TextView
-        android:id="@+id/application_textview_job_title"
+        android:id="@+id/edit_application_job_title"
         android:inputType="none"
         android:textIsSelectable="true"
         android:layout_width="fill_parent"
@@ -26,36 +27,35 @@
         <requestFocus />
     </TextView>
 
-<EditText
+    <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/application_hint_coursegpa"
+        android:hint="@string/application_coursegpa_hint"
         android:gravity="center_horizontal"
-        android:id="@+id/application_edittext_coursegpa"
-        android:layout_below="@id/application_textview_job_title"
+        android:id="@+id/edit_application_coursegpa"
+        android:layout_below="@id/edit_application_job_title"
         />
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@android:color/darker_gray"
-        android:layout_below="@id/application_edittext_coursegpa"
-        android:id="@+id/application_graphical_divider_coursegpa"
+        android:layout_below="@id/edit_application_coursegpa"
         />
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/application_edittext_coursegpa"
+        android:layout_below="@id/edit_application_coursegpa"
         android:layout_above="@id/bottom_divider"
-        android:id="@+id/application_scrollview_group_relevantexperience"
+        android:id="@+id/edit_application_relevantexperience_group"
 
         >
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/application_hint_relevantexperience"
+            android:hint="@string/edit_application_courseexperience_hint"
             android:gravity="center_horizontal"
-            android:id="@+id/application_edittext_relevantexperience"
+            android:id="@+id/edit_application__courseexperience"
             android:paddingTop="12dp"
             />
     </ScrollView>
@@ -63,17 +63,17 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/application_buttonlabel_finishapplication"
+        android:text="@string/edit_application_updateapplication"
         android:onClick="PLACEHOLDER"
-        android:id="@+id/application_button_finishapplication"
+        android:id="@+id/edit_application_button_complete_application"
         android:layout_alignParentBottom="true"
         />
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@android:color/darker_gray"
-        android:layout_above="@id/application_button_finishapplication"
-        android:id="@+id/application_graphical_bottom_divider"
+        android:layout_above="@id/edit_application_button_complete_application"
+        android:id="@+id/bottom_divider"
         />
 
 
