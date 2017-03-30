@@ -39,6 +39,7 @@ public class ApplicantMainPage extends JFrame{
 	private JButton manageApplicationsButton;
 	private JButton logOutButton;
 	private JButton manageJobOffersButton;
+	private JButton manageFeedbackButton;
 	
 	private JTextArea applicantInfoTextArea;
 	
@@ -67,6 +68,7 @@ public class ApplicantMainPage extends JFrame{
 		manageApplicationsButton = new JButton("Apply to Jobs");
 		logOutButton = new JButton("Sign Out");
 		manageJobOffersButton = new JButton("Manage Job Offers");
+		manageFeedbackButton = new JButton("Feedback");
 		
 		applicantInfoTextArea = new JTextArea();
 		applicantInfoTextArea.setLineWrap(true);
@@ -93,19 +95,24 @@ public class ApplicantMainPage extends JFrame{
 				.addGroup(gl_contentPane.createSequentialGroup()
 					.addContainerGap()
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addComponent(applicantInfoTextArea, GroupLayout.DEFAULT_SIZE, 441, Short.MAX_VALUE)
-						.addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
+						.addGroup(gl_contentPane.createSequentialGroup()
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
+								.addComponent(applicantInfoTextArea, GroupLayout.DEFAULT_SIZE, 441, Short.MAX_VALUE)
 								.addGroup(gl_contentPane.createSequentialGroup()
-									.addComponent(errorMessage, GroupLayout.DEFAULT_SIZE, 265, Short.MAX_VALUE)
-									.addGap(19))
-								.addGroup(gl_contentPane.createSequentialGroup()
-									.addComponent(logOutButton, GroupLayout.DEFAULT_SIZE, 109, Short.MAX_VALUE)
-									.addGap(18)
-									.addComponent(manageJobOffersButton)
-									.addGap(18)))
-							.addComponent(manageApplicationsButton, GroupLayout.DEFAULT_SIZE, 157, Short.MAX_VALUE)))
-					.addContainerGap())
+									.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
+										.addGroup(gl_contentPane.createSequentialGroup()
+											.addComponent(errorMessage, GroupLayout.DEFAULT_SIZE, 265, Short.MAX_VALUE)
+											.addGap(19))
+										.addGroup(gl_contentPane.createSequentialGroup()
+											.addComponent(manageFeedbackButton, GroupLayout.PREFERRED_SIZE, 109, GroupLayout.PREFERRED_SIZE)
+											.addPreferredGap(ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+											.addComponent(manageJobOffersButton)
+											.addGap(18)))
+									.addComponent(manageApplicationsButton, GroupLayout.DEFAULT_SIZE, 157, Short.MAX_VALUE)))
+							.addContainerGap())
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addComponent(logOutButton, GroupLayout.DEFAULT_SIZE, 109, Short.MAX_VALUE)
+							.addGap(344))))
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -117,8 +124,10 @@ public class ApplicantMainPage extends JFrame{
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 						.addComponent(manageApplicationsButton)
 						.addComponent(manageJobOffersButton)
-						.addComponent(logOutButton))
-					.addContainerGap(50, Short.MAX_VALUE))
+						.addComponent(manageFeedbackButton))
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(logOutButton)
+					.addContainerGap(33, Short.MAX_VALUE))
 		);
 		contentPane.setLayout(gl_contentPane);
 
@@ -126,6 +135,11 @@ public class ApplicantMainPage extends JFrame{
 	    pack();
 	    refreshData();
 	    
+	    manageFeedbackButton.addActionListener(new java.awt.event.ActionListener() {
+	        public void actionPerformed(java.awt.event.ActionEvent evt) {
+	            manageFeedbackButtonActionPerformed();
+	        }
+	    });
 	    logOutButton.addActionListener(new java.awt.event.ActionListener() {
 	        public void actionPerformed(java.awt.event.ActionEvent evt) {
 	            logOutButtonActionPerformed();
@@ -136,6 +150,12 @@ public class ApplicantMainPage extends JFrame{
 	            manageApplicationsButtonActionPerformed();
 	        }
 	    });
+	}
+	
+	protected void manageFeedbackButtonActionPerformed() {
+		FeedbackPage fp = new FeedbackPage(rm);
+		this.dispose();
+		fp.setVisible(true);
 	}
 	
 	protected void manageApplicationsButtonActionPerformed() {

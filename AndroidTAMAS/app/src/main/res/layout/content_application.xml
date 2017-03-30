@@ -13,16 +13,13 @@
     tools:context="ecse321.group12.tamas.androidtamas.ApplicationActivity"
     tools:showIn="@layout/activity_application">
 
-
-
-
     <TextView
-        android:id="@+id/job_title"
+        android:id="@+id/application_textview_job_title"
         android:inputType="none"
         android:textIsSelectable="true"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
+        android:textSize="24sp"
         android:ems="10"
         android:layout_alignParentTop="true"
         >
@@ -32,32 +29,33 @@
 <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/application_coursegpa_hint"
+        android:hint="@string/application_hint_coursegpa"
         android:gravity="center_horizontal"
-        android:id="@+id/application_coursegpa"
-        android:layout_below="@id/job_title"
+        android:id="@+id/application_edittext_coursegpa"
+        android:layout_below="@id/application_textview_job_title"
         />
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@android:color/darker_gray"
-        android:layout_below="@id/application_coursegpa"
+        android:layout_below="@id/application_edittext_coursegpa"
+        android:id="@+id/application_graphical_divider_coursegpa"
         />
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/application_coursegpa"
+        android:layout_below="@id/application_edittext_coursegpa"
         android:layout_above="@id/bottom_divider"
-        android:id="@+id/relevantexperience_group"
+        android:id="@+id/application_scrollview_group_relevantexperience"
 
         >
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/application_courseexperience_hint"
+            android:hint="@string/application_hint_relevantexperience"
             android:gravity="center_horizontal"
-            android:id="@+id/application_courseexperience"
+            android:id="@+id/application_edittext_relevantexperience"
             android:paddingTop="12dp"
             />
     </ScrollView>
@@ -65,17 +63,17 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/apply_button_complete"
-        android:onClick="createApplication"
-        android:id="@+id/button_complete_application"
+        android:text="@string/application_buttonlabel_finishapplication"
+        android:onClick="PLACEHOLDER"
+        android:id="@+id/application_button_finishapplication"
         android:layout_alignParentBottom="true"
         />
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@android:color/darker_gray"
-        android:layout_above="@id/button_complete_application"
-        android:id="@+id/bottom_divider"
+        android:layout_above="@id/application_button_finishapplication"
+        android:id="@+id/application_graphical_bottom_divider"
         />
 
 

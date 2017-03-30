@@ -31,6 +31,6 @@
         android:layout_gravity="top|end"
         android:layout_margin="@dimen/fab_margin"
         app:srcCompat="@android:drawable/ic_menu_add"
-        app:layout_anchor="@+id/bottom_divider"/>
+        app:layout_anchor="@+id/view_job_bottom_divider"/>
 
 </android.support.design.widget.CoordinatorLayout>
