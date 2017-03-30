@@ -17,9 +17,9 @@ class TAjob extends Job
   // CONSTRUCTOR
   //------------------------
 
-  public function __construct($aMaxHours, $aWage, $aDeadline, $aRequiredSkills, $aRequiredCourseGPA, $aRequiredCGPA, $aRequiredExperience, $aCourse, $aMinHours, $aIsLab)
+  public function __construct($aMaxHours, $aWage, $aDeadline, $aIsApproved, $aRequiredSkills, $aRequiredCourseGPA, $aRequiredCGPA, $aRequiredExperience, $aCourse, $aMinHours, $aIsLab)
   {
-    parent::__construct($aMaxHours, $aWage, $aDeadline, $aRequiredSkills, $aRequiredCourseGPA, $aRequiredCGPA, $aRequiredExperience, $aCourse);
+    parent::__construct($aMaxHours, $aWage, $aDeadline, $aIsApproved, $aRequiredSkills, $aRequiredCourseGPA, $aRequiredCGPA, $aRequiredExperience, $aCourse);
     $this->minHours = $aMinHours;
     $this->isLab = $aIsLab;
   }

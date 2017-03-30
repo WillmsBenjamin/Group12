@@ -59,6 +59,7 @@ public class RegisterStudentPage extends JFrame {
 		idTextField = new JTextField();
 		cGPATextField = new JTextField();
 		skillsTextArea = new JTextArea(7, 30);
+		skillsTextArea.setLineWrap(true);
 		nameLabel = new JLabel("name:");
 		idLabel = new JLabel("Id:");
 		cGPALabel = new JLabel("CGPA:");

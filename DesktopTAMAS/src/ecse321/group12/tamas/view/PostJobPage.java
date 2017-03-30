@@ -127,9 +127,9 @@ public class PostJobPage extends JFrame {
 		backButton = new JButton("Back");
 		logOutButton = new JButton("Sign Out");
 		
-		maxHoursSpinner = new JSpinner( new SpinnerNumberModel(60, 0, 120, 1) );
-		minHoursSpinner = new JSpinner( new SpinnerNumberModel(0, 0, 120, 1) );
-		hoursSpinner = new JSpinner( new SpinnerNumberModel(60, 0, 120, 1) );
+		maxHoursSpinner = new JSpinner( new SpinnerNumberModel(90, 45, 180, 1) );
+		minHoursSpinner = new JSpinner( new SpinnerNumberModel(45, 45, 180, 1) );
+		hoursSpinner = new JSpinner( new SpinnerNumberModel(90, 45, 180, 1) );
 		wageSpinner = new JSpinner( new SpinnerNumberModel(10.0, 0.0, 50.0, 0.1) );
 		
 		SqlDateModel model = new SqlDateModel();
@@ -141,7 +141,9 @@ public class PostJobPage extends JFrame {
 	    deadlineDatePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());
 		
 		requiredSkillsTextArea = new JTextArea(7, 30);
+		requiredSkillsTextArea.setLineWrap(true);
 		requiredExperienceTextArea = new JTextArea(7, 30);
+		requiredExperienceTextArea.setLineWrap(true);
 		
 		requiredCGPATextField = new JTextField();
 		requiredCourseGPATextField = new JTextField();
@@ -487,9 +489,9 @@ public class PostJobPage extends JFrame {
 			// deadline
 			deadlineDatePicker.getModel().setValue(null);
 			//Spinners
-			maxHoursSpinner.setValue(60);
-			minHoursSpinner.setValue(0);
-			hoursSpinner.setValue(60);
+			maxHoursSpinner.setValue(90);
+			minHoursSpinner.setValue(45);
+			hoursSpinner.setValue(90);
 			wageSpinner.setValue(10.0);
 			//CheckBox
 			isLabCheckBox.setSelected(false);

@@ -17,6 +17,7 @@ class Application
 
   //Application Attributes
   private $isAccepted;
+  private $isOffered;
   private $experience;
   private $courseGPA;
 
@@ -31,9 +32,10 @@ class Application
   // CONSTRUCTOR
   //------------------------
 
-  public function __construct($aIsAccepted, $aExperience, $aCourseGPA, $aApplicant, $aJob)
+  public function __construct($aIsAccepted, $aIsOffered, $aExperience, $aCourseGPA, $aApplicant, $aJob)
   {
     $this->isAccepted = $aIsAccepted;
+    $this->isOffered = $aIsOffered;
     $this->experience = $aExperience;
     $this->courseGPA = $aCourseGPA;
     $this->id = self::$nextId++;
@@ -61,6 +63,14 @@ class Application
     return $wasSet;
   }
 
+  public function setIsOffered($aIsOffered)
+  {
+    $wasSet = false;
+    $this->isOffered = $aIsOffered;
+    $wasSet = true;
+    return $wasSet;
+  }
+
   public function setExperience($aExperience)
   {
     $wasSet = false;
@@ -82,6 +92,11 @@ class Application
     return $this->isAccepted;
   }
 
+  public function getIsOffered()
+  {
+    return $this->isOffered;
+  }
+
   public function getExperience()
   {
     return $this->experience;
@@ -100,6 +115,11 @@ class Application
   public function isIsAccepted()
   {
     return $this->isAccepted;
+  }
+
+  public function isIsOffered()
+  {
+    return $this->isOffered;
   }
 
   public function getApplicant()
