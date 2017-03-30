@@ -9,7 +9,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,31 +20,22 @@ import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
 
-import ecse321.group12.tamas.controller.InvalidInputException;
 import ecse321.group12.tamas.controller.TamasController;
-import ecse321.group12.tamas.model.Applicant;
-import ecse321.group12.tamas.model.Job;
+import ecse321.group12.tamas.model.Assignment;
 import ecse321.group12.tamas.model.ResourceManager;
+import ecse321.group12.tamas.model.TAjob;
 import ecse321.group12.tamas.persistence.PersistenceXStream;
 
-public class ApplicationActivity extends AppCompatActivity {
-
+public class CurrentJobActivity extends AppCompatActivity
+{
     private ResourceManager rm;
     private String fileName;
-    String error = null;
-
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
     private GoogleApiClient client;
 
-
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_application);
+        setContentView(R.layout.activity_current_job);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -59,7 +52,10 @@ public class ApplicationActivity extends AppCompatActivity {
                                         }
                                 ).show()
                 );
-        fileName = getFilesDir().getAbsolutePath() + "/tamas_data.xml";
+        Button done = (Button) findViewById(R.id.current_job_button_done);
+        done.setOnClickListener(v -> moveTo(HomeActivity.class));
+
+        fileName = getFilesDir().getAbsolutePath() + "/eventregistration.xml";
         rm = PersistenceXStream.initializeModelManager(fileName);
 
         refreshData();
@@ -69,50 +65,77 @@ public class ApplicationActivity extends AppCompatActivity {
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
-    private void moveTo(Class target)
-    {
+
+    private void moveTo(Class target) {
         Intent i = new Intent(getApplicationContext(), target);
         startActivity(i);
         finish();
     }
     private void refreshData()
     {
-        TextView tv = (TextView) findViewById(R.id.application_edittext_coursegpa);
-        tv.setText("");
-        tv = (TextView) findViewById(R.id.application_edittext_relevantexperience);
-        tv.setText("");
-        tv = (TextView) findViewById(R.id.application_textview_job_title);
-        String name=getIntent().getStringExtra("name");
-        tv.setCompoundDrawablesWithIntrinsicBounds(new TextDrawable(name), null, null, null);
-        tv.setCompoundDrawablePadding(name.length()*10);
+        Spinner spinner = (Spinner) findViewById(R.id.current_job_spinner_activejobs);
+
+        ArrayAdapter<CharSequence> jAdapter = new
+                ArrayAdapter<>(this, android.R.layout.simple_spinner_item);
+
+        jAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        for (Assignment a: rm.getAssignments() )
+        {
+            if (a.getApplicant()==rm.getLoggedIn())
+            {
+                jAdapter.add(a.getJob().getCourse().getName());
+            }
+        }
+        spinner.setAdapter(jAdapter);
+
+        if (jAdapter.isEmpty())
+        {
+            Toast.makeText(getApplicationContext(),"You don't have any current Jobs",Toast.LENGTH_SHORT).show();
+        }
+        else
+        {
+            Assignment a = rm.getAssignment(spinner.getSelectedItemPosition());
+
+            String position;
+            String positiontype;
+
+            if (a.getJob().getClass().equals(TAjob.class))
+            {
+                position = "Teaching Assistant";
+
+                TAjob j =(TAjob)a.getJob();
+                boolean type =j.isIsLab();
+                if(type==true)
+                {
+                    positiontype="Laboratory";
+                }
+                else
+                {
+                    positiontype="Tutorial";
+                }
+            }
+            else
+            {
+                position = "Grader";
+                positiontype="";
+            }
+            drawField(position, positiontype, a.getFeedback());
+        }
 
     }
-    public void createApplication(View v)
+    private void drawField(String position, String positionType, String feedback)
     {
-        TextView tv = (TextView) findViewById(R.id.application_edittext_coursegpa);
-        String coursegpa = tv.getText().toString();
-        tv = (TextView) findViewById(R.id.application_edittext_relevantexperience);
-        String experience = tv.getText().toString();
+        TextView tv = (TextView) findViewById(R.id.current_job_textview_position);
+        tv.setCompoundDrawablesWithIntrinsicBounds(new TextDrawable(position+positionType), null, null, null);
+        tv.setCompoundDrawablePadding((position+" "+positionType).length()*10);
 
-        int jobindex = getIntent().getIntExtra("jindex",-1);
-        Job J = rm.getJob(jobindex);
-        Applicant A = (Applicant) rm.getLoggedIn();
-
-        try
-        {
-            TamasController tc = new TamasController(rm);
-            tc.applyToJob(experience,coursegpa,A,J);
-            refreshData();
-            Toast.makeText(getApplicationContext(),"Application Successful",Toast.LENGTH_SHORT).show();
-            moveTo(ViewJobsActivity.class);
-        }
-        catch(InvalidInputException e)
-        {
-            error=e.getMessage();
-            Toast.makeText(getApplicationContext(),error,Toast.LENGTH_SHORT).show();
-        }
-
+        tv = (TextView) findViewById(R.id.current_job_textview_feedback);
+        tv.setCompoundDrawablesWithIntrinsicBounds(new TextDrawable(feedback), null, null, null);
+        tv.setCompoundDrawablePadding(feedback.length()*10);
     }
+
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -139,8 +162,7 @@ public class ApplicationActivity extends AppCompatActivity {
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      */
-    public Action getIndexApiAction()
-    {
+    public Action getIndexApiAction() {
         Thing object = new Thing.Builder()
                 .setName("Login Page") // TODO: Define a title for the content shown.
                 // TODO: Make sure this auto-generated URL is correct.
@@ -151,24 +173,6 @@ public class ApplicationActivity extends AppCompatActivity {
                 .setActionStatus(Action.STATUS_TYPE_COMPLETED)
                 .build();
     }
-    @Override
-    public void onStart() {
-        super.onStart();
-
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client.connect();
-        AppIndex.AppIndexApi.start(client, getIndexApiAction());
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        AppIndex.AppIndexApi.end(client, getIndexApiAction());
-        client.disconnect();
-    }
+}
 
 }

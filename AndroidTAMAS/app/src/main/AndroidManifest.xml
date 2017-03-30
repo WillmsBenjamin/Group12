@@ -39,6 +39,30 @@
             android:name=".ViewJobsActivity"
             android:label="@string/title_activity_view_jobs"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".EditProfileActivity"
+            android:label="@string/title_activity_edit_profile"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".CurrentApplicationActivity"
+            android:label="@string/title_activity_current_application"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".EditApplicationActivity"
+            android:label="@string/title_activity_edit_application"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".CurrentJobActivity"
+            android:label="@string/title_activity_current_job"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ApplicationStatusActivity"
+            android:label="@string/title_activity_application_status"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ViewJobStatusActivity"
+            android:label="@string/title_activity_view_job_status"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
