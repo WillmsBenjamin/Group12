@@ -40,7 +40,7 @@ public class ApplicantMainPagePlaceholder extends JFrame {
 	 */
 	public ApplicantMainPagePlaceholder() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 493, 273);
+		setBounds(100, 100, 493, 299);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -60,25 +60,32 @@ public class ApplicantMainPagePlaceholder extends JFrame {
 		JButton logOutButton = new JButton("Sign Out");
 		
 		JButton manageJobOffersButton = new JButton("Manage Job Offers");
+		
+		JButton manageFeedbackButton = new JButton("Feedback");
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
 					.addContainerGap()
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addComponent(applicantInfoTextArea, GroupLayout.DEFAULT_SIZE, 441, Short.MAX_VALUE)
-						.addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
+						.addGroup(gl_contentPane.createSequentialGroup()
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
+								.addComponent(applicantInfoTextArea, GroupLayout.DEFAULT_SIZE, 441, Short.MAX_VALUE)
 								.addGroup(gl_contentPane.createSequentialGroup()
-									.addComponent(errorMessage, GroupLayout.DEFAULT_SIZE, 265, Short.MAX_VALUE)
-									.addGap(19))
-								.addGroup(gl_contentPane.createSequentialGroup()
-									.addComponent(logOutButton, GroupLayout.DEFAULT_SIZE, 109, Short.MAX_VALUE)
-									.addGap(18)
-									.addComponent(manageJobOffersButton)
-									.addGap(18)))
-							.addComponent(manageApplicationsButton, GroupLayout.DEFAULT_SIZE, 157, Short.MAX_VALUE)))
-					.addContainerGap())
+									.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
+										.addGroup(gl_contentPane.createSequentialGroup()
+											.addComponent(errorMessage, GroupLayout.DEFAULT_SIZE, 265, Short.MAX_VALUE)
+											.addGap(19))
+										.addGroup(gl_contentPane.createSequentialGroup()
+											.addComponent(manageFeedbackButton, GroupLayout.PREFERRED_SIZE, 109, GroupLayout.PREFERRED_SIZE)
+											.addPreferredGap(ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+											.addComponent(manageJobOffersButton)
+											.addGap(18)))
+									.addComponent(manageApplicationsButton, GroupLayout.DEFAULT_SIZE, 157, Short.MAX_VALUE)))
+							.addContainerGap())
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addComponent(logOutButton, GroupLayout.DEFAULT_SIZE, 109, Short.MAX_VALUE)
+							.addGap(344))))
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -90,8 +97,10 @@ public class ApplicantMainPagePlaceholder extends JFrame {
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 						.addComponent(manageApplicationsButton)
 						.addComponent(manageJobOffersButton)
-						.addComponent(logOutButton))
-					.addContainerGap(50, Short.MAX_VALUE))
+						.addComponent(manageFeedbackButton))
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(logOutButton)
+					.addContainerGap(33, Short.MAX_VALUE))
 		);
 		contentPane.setLayout(gl_contentPane);
 	}

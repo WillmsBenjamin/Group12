@@ -270,6 +270,9 @@ public class TamasController {
 		if(aMaxHours == 0) {
 			throw new InvalidInputException("Maximum hours cannot be 0!");
 		}
+		if(aMaxHours < aMinHours) {
+			throw new InvalidInputException("Maximum hours cannot be less than minimum hours!");
+		}
 		
 		int usedBudget = 0;
 		for (Job j : aCourse.getJobs()) {
@@ -495,5 +498,12 @@ public class TamasController {
 		application.delete();
 		PersistenceXStream.saveToXMLwithXStream(rm);
 	}
+
+	public void submitFeedback(Assignment assignment, String text) {
+		assignment.setFeedback(text);
+		PersistenceXStream.saveToXMLwithXStream(rm);
+	}
+
+
 
 }

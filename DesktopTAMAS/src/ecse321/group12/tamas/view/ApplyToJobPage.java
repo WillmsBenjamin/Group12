@@ -85,8 +85,10 @@ public class ApplyToJobPage extends JFrame {
 	private void initComponents() {
 		jobInfoTextArea = new JTextArea(6, 40);
 		jobInfoTextArea.setEditable(false);
+		jobInfoTextArea.setLineWrap(true);
 		jobInfoLabel = new JLabel("Job Info:");
 		experienceTextArea = new JTextArea(4, 40);
+		experienceTextArea.setLineWrap(true);
 		experienceLabel = new JLabel("Experience:");
 		
 		courseGPALabel = new JLabel("Course GPA:");
@@ -337,7 +339,7 @@ public class ApplyToJobPage extends JFrame {
 	    	approvedJobs.clear();
 	    	int i = 0;
 	    	for (Job j : rm.getJobs()) {
-	    		if (j.getIsApproved()) {
+	    		if (j.getIsApproved() && (j.getAssignment() == null)) {
 					if (j instanceof TAjob) {
 						if (((TAjob) j).getIsLab()) {
 							jobList.addItem(j.getCourse().getName() + " " + "TA Lab " + i);
@@ -348,8 +350,8 @@ public class ApplyToJobPage extends JFrame {
 						jobList.addItem(j.getCourse().getName() + " " + "Grader " + i);
 					}
 					approvedJobs.add(j);
+					i++;
 				}
-				i++;
 	    	}
 	    	selectedJob = -1;
 	    	jobList.setSelectedIndex(selectedJob);
