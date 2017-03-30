@@ -26,7 +26,6 @@
 				require_once '/Users/KevenLiu/Documents/workspace/TAMAS_Web/Group12/WebTAMAS/model/Course.php';
 				require_once '/Users/KevenLiu/Documents/workspace/TAMAS_Web/Group12/WebTAMAS/model/Department.php';
 				require_once '/Users/KevenLiu/Documents/workspace/TAMAS_Web/Group12/WebTAMAS/model/GraderJob.php';
-				require_once '/Users/KevenLiu/Documents/workspace/TAMAS_Web/Group12/WebTAMAS/model/Hours.php';
 				require_once '/Users/KevenLiu/Documents/workspace/TAMAS_Web/Group12/WebTAMAS/model/Instructor.php';
 				require_once '/Users/KevenLiu/Documents/workspace/TAMAS_Web/Group12/WebTAMAS/model/Job.php';
 				require_once '/Users/KevenLiu/Documents/workspace/TAMAS_Web/Group12/WebTAMAS/model/ResourceManager.php';
@@ -41,14 +40,15 @@
 				$ps = new Persistence();
 				$rm = $ps->loadDataFromStore();
 				$c = new Controller();
-				$c->loadCourse();
 				
 				$name = $rm->getInstructor_index($_SESSION["index"])->getName();
+
 	
 				echo "Hi Professor " . $name;
-				
-				
-				
+				echo "<br>";
+				echo $rm->numberOfJobs();
+				echo "<br>";
+				echo $rm->getCourse_index(0)->numberOfJobs();			
 				?>
 				
 				
@@ -62,10 +62,12 @@
 				
 				</p>
 				
+				<hr>
 				
-			
-				
-				
+				<form class = "logout" action="http://localhost/TAMAS_Web/Group12/WebTAMAS/mainpage.php" >
+				<button type="submit">Main Page</button>
+				</form>
+							
 				</div>
 				</div>
 				

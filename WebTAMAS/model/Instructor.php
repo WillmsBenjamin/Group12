@@ -2,8 +2,6 @@
 /*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.25.0-9e8af9e modeling language!*/
 
-
-
 class Instructor extends User
 {
 
@@ -12,7 +10,6 @@ class Instructor extends User
   //------------------------
 
   //Instructor Associations
-  private $contactTimes;
   private $courses;
 
   //------------------------
@@ -22,54 +19,12 @@ class Instructor extends User
   public function __construct($aName, $aId)
   {
     parent::__construct($aName, $aId);
-    $this->contactTimes = array();
     $this->courses = array();
   }
 
   //------------------------
   // INTERFACE
   //------------------------
-
-  public function getContactTime_index($index)
-  {
-    $aContactTime = $this->contactTimes[$index];
-    return $aContactTime;
-  }
-
-  public function getContactTimes()
-  {
-    $newContactTimes = $this->contactTimes;
-    return $newContactTimes;
-  }
-
-  public function numberOfContactTimes()
-  {
-    $number = count($this->contactTimes);
-    return $number;
-  }
-
-  public function hasContactTimes()
-  {
-    $has = $this->numberOfContactTimes() > 0;
-    return $has;
-  }
-
-  public function indexOfContactTime($aContactTime)
-  {
-    $wasFound = false;
-    $index = 0;
-    foreach($this->contactTimes as $contactTime)
-    {
-      if ($contactTime->equals($aContactTime))
-      {
-        $wasFound = true;
-        break;
-      }
-      $index += 1;
-    }
-    $index = $wasFound ? $index : -1;
-    return $index;
-  }
 
   public function getCourse_index($index)
   {
@@ -110,79 +65,6 @@ class Instructor extends User
     }
     $index = $wasFound ? $index : -1;
     return $index;
-  }
-
-  public static function minimumNumberOfContactTimes()
-  {
-    return 0;
-  }
-
-  public function addContactTimeVia($aDate, $aStartTime, $aEndTime)
-  {
-    return new Hours($aDate, $aStartTime, $aEndTime, $this);
-  }
-
-  public function addContactTime($aContactTime)
-  {
-    $wasAdded = false;
-    if ($this->indexOfContactTime($aContactTime) !== -1) { return false; }
-    $existingInstructor = $aContactTime->getInstructor();
-    $isNewInstructor = $existingInstructor != null && $this !== $existingInstructor;
-    if ($isNewInstructor)
-    {
-      $aContactTime->setInstructor($this);
-    }
-    else
-    {
-      $this->contactTimes[] = $aContactTime;
-    }
-    $wasAdded = true;
-    return $wasAdded;
-  }
-
-  public function removeContactTime($aContactTime)
-  {
-    $wasRemoved = false;
-    //Unable to remove aContactTime, as it must always have a instructor
-    if ($this !== $aContactTime->getInstructor())
-    {
-      unset($this->contactTimes[$this->indexOfContactTime($aContactTime)]);
-      $this->contactTimes = array_values($this->contactTimes);
-      $wasRemoved = true;
-    }
-    return $wasRemoved;
-  }
-
-  public function addContactTimeAt($aContactTime, $index)
-  {  
-    $wasAdded = false;
-    if($this->addContactTime($aContactTime))
-    {
-      if($index < 0 ) { $index = 0; }
-      if($index > $this->numberOfContactTimes()) { $index = $this->numberOfContactTimes() - 1; }
-      array_splice($this->contactTimes, $this->indexOfContactTime($aContactTime), 1);
-      array_splice($this->contactTimes, $index, 0, array($aContactTime));
-      $wasAdded = true;
-    }
-    return $wasAdded;
-  }
-
-  public function addOrMoveContactTimeAt($aContactTime, $index)
-  {
-    $wasAdded = false;
-    if($this->indexOfContactTime($aContactTime) !== -1)
-    {
-      if($index < 0 ) { $index = 0; }
-      if($index > $this->numberOfContactTimes()) { $index = $this->numberOfContactTimes() - 1; }
-      array_splice($this->contactTimes, $this->indexOfContactTime($aContactTime), 1);
-      array_splice($this->contactTimes, $index, 0, array($aContactTime));
-      $wasAdded = true;
-    } 
-    else 
-    {
-      $wasAdded = $this->addContactTimeAt($aContactTime, $index);
-    }
-    return $wasAdded;
   }
 
   public static function minimumNumberOfCourses()
@@ -276,14 +158,6 @@ class Instructor extends User
 
   public function delete()
   {
-    while (count($this->contactTimes) > 0)
-    {
-      $aContactTime = $this->contactTimes[count($this->contactTimes) - 1];
-      $aContactTime->delete();
-      unset($this->contactTimes[$this->indexOfContactTime($aContactTime)]);
-      $this->contactTimes = array_values($this->contactTimes);
-    }
-    
     $copyOfCourses = $this->courses;
     $this->courses = array();
     foreach ($copyOfCourses as $aCourse)

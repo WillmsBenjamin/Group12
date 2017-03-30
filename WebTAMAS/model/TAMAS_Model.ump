@@ -18,7 +18,6 @@ class Applicant
 class Instructor
 {
   isA User;
-  1 <@>- * Hours contactTimes;
 }
 
 class Department
@@ -37,6 +36,7 @@ class Application
 {
   autounique id;
   Boolean isAccepted;
+  Boolean isOffered;
   experience;
   courseGPA;
 }
@@ -46,6 +46,7 @@ class Job
   Integer maxHours;
   Double wage;
   Date deadline;
+  Boolean isApproved;
   requiredSkills;
   requiredCourseGPA;
   requiredCGPA;
@@ -72,88 +73,21 @@ class Course
   Integer numTutorialSections;
   Integer numLabSections;
   Integer numStudents;
+  Integer budget;
   
   * courses -- 0..4 Instructor instructors;
   1 course <@>- * Job jobs;
 }
 
-class Hours
-{
-  Date date;
-  Time startTime;
-  Time endTime;
-}
-
 class ResourceManager
 {
  singleton;
- 0..1 -> * Applicant applicants;
- 0..1 -> * Instructor instructors;
- 0..1 -> 0..1 Department department;
- 0..1 -> 0..1 User loggedIn;
- 0..1 -> * Application applications;
- 0..1 -> * Job jobs;
- 0..1 -> * Course courses;
- 0..1 -> * Assignment assignments;
- 0..1 -> * Hours contactTimes;
-}//$?[End_of_model]$?
-
-class User
-{
-  position 50 30 109 45;
-}
-
-class Applicant
-{
-  position 50 130 109 45;
-}
-
-class Instructor
-{
-  position 50 230 109 45;
-}
-
-class Department
-{
-  position 50 330 109 45;
-}
-
-class Assignment
-{
-  position 50 430 109 45;
-}
-
-class Application
-{
-  position 250 30 109 45;
-}
-
-class Job
-{
-  position 250 130 109 45;
-}
-
-class TAjob
-{
-  position 250 230 109 45;
-}
-
-class GraderJob
-{
-  position 250 330 109 45;
-}
-
-class Course
-{
-  position 250 430 109 45;
-}
-
-class Hours
-{
-  position 450 30 109 45;
-}
-
-class ResourceManager
-{
-  position 450 130 109 45;
+ 1 -> * Applicant applicants;
+ 1 -> * Instructor instructors;
+ 1 -> 1 Department department;
+ 1 -> 1 User loggedIn;
+ 1 -> * Application applications;
+ 1 -> * Job jobs;
+ 1 -> * Course courses;
+ 1 -> * Assignment assignments;
 }

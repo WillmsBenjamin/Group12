@@ -6,6 +6,8 @@ include 'User.php';
 
 class Applicant extends User
 {
+	
+
 
   //------------------------
   // MEMBER VARIABLES
@@ -174,7 +176,7 @@ class Applicant extends User
     return 3;
   }
 
-  public function addApplicationVia($aIsAccepted, $aExperience, $aCourseGPA, $aJob)
+  public function addApplicationVia($aIsAccepted, $aIsOffered, $aExperience, $aCourseGPA, $aJob)
   {
     if ($this->numberOfApplications() >= self::maximumNumberOfApplications())
     {
@@ -182,7 +184,7 @@ class Applicant extends User
     }
     else
     {
-      return new Application($aIsAccepted, $aExperience, $aCourseGPA, $this, $aJob);
+      return new Application($aIsAccepted, $aIsOffered, $aExperience, $aCourseGPA, $this, $aJob);
     }
   }
 
