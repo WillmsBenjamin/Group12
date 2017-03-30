@@ -70,7 +70,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/register_buttonlabel_register"
-        android:onClick="PLACEHOLDER"
+        android:onClick="addApplicant"
         android:id="@+id/register_button_register"
         android:layout_alignParentBottom="true"
         />
@@ -84,8 +84,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:id="@+id/applicant_skills"
-            android:hint="@string/applicant_skills_hint"
+            android:id="@+id/register_edittext_applicant_skills"
+            android:hint="@string/register_applicant_skills_hint"
 
             />
     </ScrollView>

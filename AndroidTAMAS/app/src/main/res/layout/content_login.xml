@@ -19,23 +19,23 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/login_button_identification"
-            android:hint="@string/login_hint_identification_number"
+            android:id="@+id/login_edittext_identification"
+            android:hint="@string/login_edittext_hint_identification"
             android:layout_alignParentTop="true"
             android:gravity="center"
             />
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/login_button_login"
-            android:onClick="PLACEHOLDER"
+            android:text="@string/login_buttonlabel_login"
+            android:onClick="login"
             android:id="@+id/button_login"
-            android:layout_below="@id/login_button_identification"
+            android:layout_below="@id/login_edittext_identification"
             />
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/login_button_create_user"
+            android:text="@string/login_buttonlabel_create_user"
             android:onClick="PLACEHOLDER"
             android:id="@+id/login_button_register_newuser"
             android:layout_alignParentBottom="true"

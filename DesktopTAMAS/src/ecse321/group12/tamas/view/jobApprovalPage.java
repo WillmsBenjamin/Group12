@@ -37,7 +37,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.awt.event.ActionEvent;
 
-public class jobApprovalPage extends JFrame {
+public class JobApprovalPage extends JFrame {
 
 	private static final long serialVersionUID = -8121199538996286182L;
 	
@@ -68,8 +68,8 @@ public class jobApprovalPage extends JFrame {
 	private String error = null;
 	private JLabel errorMessage;
 
-	/** Creates new form ApplicantMainPage */
-	public jobApprovalPage(ResourceManager rm) {
+	/** Creates new form JobApprovalPage */
+	public JobApprovalPage(ResourceManager rm) {
 	    this.rm = rm;
 	    initComponents();
 	}

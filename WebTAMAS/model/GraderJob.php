@@ -15,9 +15,9 @@ class GraderJob extends Job
   // CONSTRUCTOR
   //------------------------
 
-  public function __construct($aMaxHours, $aWage, $aDeadline, $aRequiredSkills, $aRequiredCourseGPA, $aRequiredCGPA, $aRequiredExperience, $aCourse)
+  public function __construct($aMaxHours, $aWage, $aDeadline, $aIsApproved, $aRequiredSkills, $aRequiredCourseGPA, $aRequiredCGPA, $aRequiredExperience, $aCourse)
   {
-    parent::__construct($aMaxHours, $aWage, $aDeadline, $aRequiredSkills, $aRequiredCourseGPA, $aRequiredCGPA, $aRequiredExperience, $aCourse);
+    parent::__construct($aMaxHours, $aWage, $aDeadline, $aIsApproved, $aRequiredSkills, $aRequiredCourseGPA, $aRequiredCGPA, $aRequiredExperience, $aCourse);
   }
 
   //------------------------

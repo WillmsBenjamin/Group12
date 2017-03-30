@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -46,8 +47,6 @@ public class ViewJobsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
-
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_jobs);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -56,24 +55,23 @@ public class ViewJobsActivity extends AppCompatActivity {
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener
                 (
-                        new View.OnClickListener() {
+                        view -> Snackbar.make(view, "DONE?", Snackbar.LENGTH_LONG)
+                                .setAction("LOGOUT", v -> {
 
-                            @Override
-                            public void onClick(View view) {
-                                Snackbar.make(view, "DONE?", Snackbar.LENGTH_INDEFINITE)
-                                        .setAction("LOGOUT", new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View v) {
-
-                                                fileName = getFilesDir().getAbsolutePath() + "/tamas_data.xml";
-                                                rm = PersistenceXStream.initializeModelManager(fileName);
-                                                refreshData();
-                                                logout();
-                                            }
-                                        }).show();
-                            }
-                        }
+                                    TamasController tc = new TamasController(rm);
+                                    fileName = getFilesDir().getAbsolutePath() + "/tamas_data.xml";
+                                    rm = PersistenceXStream.initializeModelManager(fileName);
+                                    tc.logOut();
+                                    moveTo(LoginActivity.class, null);
+                                }).show()
                 );
+
+        Button apply = (Button) findViewById(R.id.view_job_button_apply);
+        apply.setOnClickListener(v ->
+        {
+            moveTo(ApplicationActivity.class, bundleJobData(v) );
+
+        });
 
         fileName = getFilesDir().getAbsolutePath() + "/eventregistration.xml";
         rm = PersistenceXStream.initializeModelManager(fileName);
@@ -109,32 +107,31 @@ public class ViewJobsActivity extends AppCompatActivity {
 
             java.sql.Date date = new java.sql.Date(cal.getTimeInMillis());
             tc.postGraderJob(100,10,date,"Being a Duck","3.90","3.90","Being a Duck",C);
-            tc.postTAJob(100,10,date,"Being a Duck","3.90","3.90","Being a Duck",C, 45, true);
+            tc.postTAJob(100,10,date,"Being a DuckerTruck","3.90","3.90","Being a Duck",C, 45, true);
             Toast.makeText(getApplicationContext(),"Dummy Jobs Created",Toast.LENGTH_SHORT).show();
         }
         catch (InvalidInputException e)
         {
             error=e.getMessage();
             Toast.makeText(getApplicationContext(),error,Toast.LENGTH_SHORT).show();
-
         }
 
     }
-
-    private void logout()
+    private void moveTo(Class target, Intent i)
     {
-        TamasController tc = new TamasController(rm);
-        tc.logOut();
-        forceToLoginPage();
-
+        if (i==null) {
+            i = new Intent(getApplicationContext(), target);
+        }
+        startActivity(i);
+        finish();
     }
 
     private void refreshData()
     {
-        Spinner spinnerj = (Spinner) findViewById(R.id.job_spinner);
+        Spinner spinnerj = (Spinner) findViewById(R.id.view_job_job_spinner);
 
         ArrayAdapter<CharSequence> jAdapter = new
-                ArrayAdapter<CharSequence>(this, android.R.layout.simple_spinner_item);
+                ArrayAdapter<>(this, android.R.layout.simple_spinner_item);
 
         jAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
@@ -154,64 +151,48 @@ public class ViewJobsActivity extends AppCompatActivity {
            drawField(J.getRequiredCourseGPA(),J.getRequiredCGPA(),"Experience Required\n\n" + J.getRequiredExperience(), "Skills Required\n\n" + J.getRequiredSkills());
         }
 
-
-
     }
     private void drawField(String gpa, String cgpa, String reqSkills, String jobSkills)
     {
-        TextView tv = (TextView) findViewById(R.id.required_gpa);
+        TextView tv = (TextView) findViewById(R.id.view_job_required_gpa);
         tv.setCompoundDrawablesWithIntrinsicBounds(new TextDrawable(gpa), null, null, null);
         tv.setCompoundDrawablePadding(gpa.length()*10);
 
-        tv = (TextView) findViewById(R.id.required_cgpa);
+        tv = (TextView) findViewById(R.id.view_job_required_cgpa);
         tv.setCompoundDrawablesWithIntrinsicBounds(new TextDrawable(cgpa), null, null, null);
         tv.setCompoundDrawablePadding(cgpa.length()*10);
 
-        tv = (TextView) findViewById(R.id.required_skills);
+        tv = (TextView) findViewById(R.id.view_job_job_skills);
         tv.setCompoundDrawablesWithIntrinsicBounds(new TextDrawable(reqSkills), null, null, null);
         tv.setCompoundDrawablePadding(reqSkills.length()*10);
 
-        tv = (TextView) findViewById(R.id.job_skills);
+        tv = (TextView) findViewById(R.id.view_job_required_skills);
         tv.setCompoundDrawablesWithIntrinsicBounds(new TextDrawable(jobSkills), null, null, null);
         tv.setCompoundDrawablePadding(jobSkills.length()*10);;
     }
-    public void moveToMainPage(View v)
-    {
-        Intent i = new Intent(getApplicationContext(), HomeActivity.class);
 
-        startActivity(i);
-        refreshData();
-    }
-    public void forceToLoginPage()
+    public Intent bundleJobData(View v)
     {
-        Intent i = new Intent(getApplicationContext(), LoginActivity.class);
-        startActivity(i);
-    }
-    public void moveToApplicationPage(View v)
-    {
+        Intent i=null;
         try
         {
-            Spinner spinnerj= (Spinner) findViewById(R.id.job_spinner);
+            Spinner spinnerj= (Spinner) findViewById(R.id.view_job_job_spinner);
             int jindex = spinnerj.getSelectedItemPosition();
 
             Job j = rm.getJob(jindex);
 
             String name = j.getCourse().getName();
 
-            Intent i = new Intent(getApplicationContext(), ApplicationActivity.class);
+            i = new Intent(getApplicationContext(), ApplicationActivity.class);
             i.putExtra("jindex", jindex);
             i.putExtra("name", name);
-            startActivity(i);
-            refreshData();
         }
         catch(IllegalStateException e)
         {
             error=e.getMessage();
-            Toast.makeText(getApplicationContext(),error,Toast.LENGTH_SHORT).show();
-            Toast.makeText(getApplicationContext(),"Please Select a Job",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(),error+ "Please Select a Job",Toast.LENGTH_LONG).show();
         }
-
-
+        return i;
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

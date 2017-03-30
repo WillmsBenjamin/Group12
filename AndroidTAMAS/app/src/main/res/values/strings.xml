@@ -61,7 +61,7 @@
     <string name="current_job_spinnerlabel">Job</string>
     <string name="current_job_buttonlabel_done">done</string>
     <string name="title_activity_application_status">ApplicationStatusActivity</string>
-    <string name="view_job_apply_button">finish application</string>
+    <string name="view_job_apply_button">apply</string>
     <string name="view_job_job_name">Job</string>
     <string name="view_job_required_gpa_header">Course GPA Required</string>
     <string name="view_job_required_cgpa_header">Required CGPA</string>
@@ -70,4 +70,12 @@
     <string name="job_status_radiobuttonlabel_confirm">Accept</string>
     <string name="job_status_radiobuttonlabel_decline">Decline</string>
     <string name="job_status_rejected_button_confirm">Return</string>
+    <string name="login_buttonlabel_login">login</string>
+    <string name="login_edittext_hint_identification">Identification Number</string>
+    <string name="login_buttonlabel_create_user">Create New User</string>
+    <string name="register_applicant_skills_hint">Relevant Skills</string>
+    <string name="fragment_edit_profile_tv_deletion_confirmation">Proceeding with this action will remove your profile and all associated data. Do you wish to proceed?</string>
+    <string name="fragment_edit_profile_delete">DELETE</string>
+    <string name="fragment_edit_profile_cancel">CANCEL</string>
+    <string name="fragment_edit_profile_title">WARNING</string>
 </resources>

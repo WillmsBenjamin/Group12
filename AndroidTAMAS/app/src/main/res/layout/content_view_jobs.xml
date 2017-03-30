@@ -52,6 +52,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:textSize="24sp"
+            android:textAlignment="center"
             android:ems="10"
             >
             <requestFocus />
@@ -81,6 +82,7 @@
             android:layout_height="wrap_content"
             android:textSize="24sp"
             android:ems="10"
+            android:textAlignment="center"
             >
             <requestFocus />
         </TextView>
@@ -93,31 +95,11 @@
         android:layout_centerInParent="true"
         android:id="@+id/view_job_middle_divider"
         />
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/view_job_required_cgpa_group"
-        android:layout_above="@id/view_job_middle_divider"
-        android:id="@+id/view_job_required_experience_group"
-        >
-        <TextView
-            android:id="@+id/view_job_required_skills"
-            android:inputType="none"
-            android:textIsSelectable="true"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:textSize="24sp"
-            android:ems="10"
-            >
-            <requestFocus />
-        </TextView>
-    </ScrollView>
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/view_job_apply_button"
-        android:onClick="PLACEHOLDER"
         android:id="@+id/view_job_button_apply"
         android:layout_alignParentBottom="true"
         />
@@ -149,7 +131,25 @@
         </TextView>
     </ScrollView>
 
-
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/view_job_required_experience_group"
+        android:layout_above="@+id/view_job_required_skills_group"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+        <TextView
+            android:id="@+id/view_job_required_skills"
+            android:inputType="none"
+            android:textIsSelectable="true"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textSize="24sp"
+            android:ems="10"
+            >
+            <requestFocus />
+        </TextView>
+    </ScrollView>
 
 
 </RelativeLayout>
