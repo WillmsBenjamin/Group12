@@ -196,28 +196,22 @@ public class TamasController {
 		}
 	}
 	
-	public void AssignApplicantToJob(Applicant a, Assignment asmt) throws InvalidInputException
-	{
-		//will assign an applicant to the first job that matches the assignment
-		//assumes that an applicant can only create one application per job posting
-		for (Application app: a.getApplications() )
-		{
-			if (app.getIsAccepted() && app.getJob()==asmt.getJob())
-			{
-				asmt.setApplicant(a);
-				//once a job has been assigned, remove all other applications to said job
-				for (Application app1: rm.getApplications())
-				{
-					if (app1.getJob()==asmt.getJob())
-					{
-						rm.removeApplication(app1);
-						app1.delete();
-					}
-				}
-				return;
+	public void AssignApplicantToJob(Application a) throws InvalidInputException {
+		
+		if (!a.getIsAccepted()) {
+			throw new InvalidInputException("This job offer has not been accepted!");
+		} else if(!a.getIsOffered()) {
+			throw new InvalidInputException("This application has not been offered the job!");
+		} else {
+			Assignment asmt = new Assignment("", a.getApplicant(), a.getJob());
+			rm.addAssignment(asmt);
+			//once a job has been assigned, remove all other applications to said job
+			for (Application app: a.getJob().getApplications()) {
+				rm.removeApplication(app);
+				app.delete();
 			}
 		}
-		throw new InvalidInputException("the applicant did not apply to this job or did not accept the job offer!");
+		PersistenceXStream.saveToXMLwithXStream(rm);
 	}
 
 	public void registerDepartment(String name, String id, Date deadline) throws InvalidInputException {
