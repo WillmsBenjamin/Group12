@@ -1,5 +1,5 @@
 <?php 
-require_once '/Users/KevenLiu/Documents/workspace/TAMAS_Web/Group12/WebTAMAS/controller/Controller.php';
+require_once '/Applications/XAMPP/xamppfiles/htdocs/Group12/WebTAMAS/controller/Controller.php';
 
 session_start();
 $_SESSION["errorWrongUser"] = "";
