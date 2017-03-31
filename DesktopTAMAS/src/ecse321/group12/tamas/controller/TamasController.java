@@ -114,11 +114,106 @@ public class TamasController {
 		rm.addApplicant(a);
 		PersistenceXStream.saveToXMLwithXStream(rm);
 	}
-	
+	public void modifyApplicant(String name, String id, String cGPA, String skills, Boolean isGraduate) throws InvalidInputException 
+	{
+		if (name == null || name.trim().length() == 0) {
+			throw new InvalidInputException("Student name cannot be empty!");
+		}
+		if (id == null || id.trim().length() == 0) {
+			throw new InvalidInputException("Student id cannot be empty!");
+		}
+		if(id.length() != 9) {
+			throw new InvalidInputException("Student id must be 9 numbers long!");
+		} else {
+			for(int i = 0; i < 9; i++) {
+				if(id.charAt(i) < 48 || id.charAt(i) > 57) {
+					throw new InvalidInputException("Student id must be all numbers!");
+				}
+			}
+		}
+		for(Applicant a : rm.getApplicants()) {
+			if(a.getId().equals(id)) {
+				throw new InvalidInputException("That ID is already being used!");
+			}
+		}
+		for(Instructor i : rm.getInstructors()) {
+			if(i.getId().equals(id)) {
+				throw new InvalidInputException("That ID is already being used!");
+			}
+		}
+		if(rm.getDepartment() != null) {
+			if(rm.getDepartment().getId().equals(id)) {
+				throw new InvalidInputException("That ID is already being used!");
+			}
+		}
+		if (cGPA == null || cGPA.trim().length() == 0) {
+			throw new InvalidInputException("Student CGPA cannot be empty!");
+		}
+		if(cGPA.length() != 4) {
+			throw new InvalidInputException("Student CGPA must be 4 characters long!");
+		} else {
+			for(int i = 0; i < 4; i++) {
+				if(i == 1 && cGPA.charAt(i) != '.') {
+					throw new InvalidInputException("Student CGPA's second character must be a decimal!");
+				} else if((i != 1) && (cGPA.charAt(i) < 48 || cGPA.charAt(i) > 57)) {
+					throw new InvalidInputException("Student CGPA must be a decimal number!");
+				} else if(i == 0 && cGPA.charAt(i) > 52) {
+					throw new InvalidInputException("Student CGPA cannot be geater than 4.00!");
+				} else if((i==2 || i==3) && (cGPA.charAt(0) == '4') && (cGPA.charAt(i) > 48)) {
+					throw new InvalidInputException("Student CGPA cannot be geater than 4.00!");
+				}
+			}
+		}
+		Applicant A = (Applicant)rm.getLoggedIn();
+		A.setName(name);
+		A.setId(id);
+		A.setSkills(skills);
+		A.setIsGraduate(isGraduate);
+		
+		PersistenceXStream.saveToXMLwithXStream(rm);
+	}
+	public void acceptJobOffer(Application app, Applicant a) throws InvalidInputException
+	{
+		//assumes that the boolean isAccepted is for when the application is offered and accepted by the applicant
+		//and isOffered is for when the powers that be offer the person the job
+		if (app.getApplicant()!=a)
+		{
+			throw new InvalidInputException("This application is not for this applicant!");
+		}
+		if(!app.getIsOffered())
+		{
+			throw new InvalidInputException("This application has not yet been offered a job!");
+		}
+		
+		app.setIsAccepted(true);
+	}
 	public void checkDepartmentExistence() throws DepartmentRegisteredException {
 		if(rm.getDepartment() instanceof Department) {
 			throw new DepartmentRegisteredException("A department exists. No more can be added!");
 		}
+	}
+	
+	public void AssignApplicantToJob(Applicant a, Assignment asmt) throws InvalidInputException
+	{
+		//will assign an applicant to the first job that matches the assignment
+		//assumes that an applicant can only create one application per job posting
+		for (Application app: a.getApplications() )
+		{
+			if (app.getIsAccepted() && app.getJob()==asmt.getJob())
+			{
+				asmt.setApplicant(a);
+				//once a job has been assigned, remove all other applications to said job
+				for (Application app1: rm.getApplications())
+				{
+					if (app1.getJob()==asmt.getJob())
+					{
+						rm.removeApplication(app1);
+					}
+				}
+				return;
+			}
+		}
+		throw new InvalidInputException("the applicant did not apply to this job or did not accept the job offer!")
 	}
 
 	public void registerDepartment(String name, String id, Date deadline) throws InvalidInputException {
@@ -163,6 +258,64 @@ public class TamasController {
 		rm.setDepartment(d);
 		PersistenceXStream.saveToXMLwithXStream(rm);
 	}
+	public void modifyDepartment(String name, String id, Date deadline) throws InvalidInputException 
+	{
+		//since this is the admin, they can change whatever they want!
+		if (name == null || name.trim().length() == 0) 
+		{
+			throw new InvalidInputException("Department name cannot be empty!");
+		}
+		if (id == null || id.trim().length() == 0) 
+		{
+			throw new InvalidInputException("Department id cannot be empty!");
+		}
+		if(id.length() != 9) 
+		{
+			throw new InvalidInputException("Department id must be 9 numbers long!");
+		} 
+		else 
+		{
+			for(int i = 0; i < 9; i++) 
+			{
+				if(id.charAt(i) < 48 || id.charAt(i) > 57) {
+					throw new InvalidInputException("Department id must be all numbers!");
+				}
+			}
+		}
+		for(Applicant a : rm.getApplicants()) 
+		{
+			if(a.getId().equals(id)) 
+			{
+				throw new InvalidInputException("That ID is already being used!");
+			}
+		}
+		for(Instructor i : rm.getInstructors()) 
+		{
+			if(i.getId().equals(id)) 
+			{
+				throw new InvalidInputException("That ID is already being used!");
+			}
+		}
+		if(rm.getDepartment() != null) 
+		{
+			if(rm.getDepartment().getId().equals(id)) 
+			{
+				throw new InvalidInputException("That ID is already being used!");
+			}
+		}
+		Calendar calobj = Calendar.getInstance();
+		if (deadline == null) {
+			throw new InvalidInputException("Deadline cannot be empty!");
+		}
+		if (deadline.before(calobj.getTime())) {
+			throw new InvalidInputException("Deadline cannot be before today!");
+		}
+		Department D=(Department)rm.getLoggedIn();
+		D.setName(name);
+		D.setId(id);
+		D.setDeadline(deadline);
+		PersistenceXStream.saveToXMLwithXStream(rm);
+	}
 
 	public void registerInstructor(String name, String id) throws InvalidInputException {
 		if (name == null || name.trim().length() == 0) {
@@ -200,6 +353,44 @@ public class TamasController {
 		PersistenceXStream.saveToXMLwithXStream(rm);
 		
 	}
+	public void modifyInstructor(String name, String id) throws InvalidInputException {
+		if (name == null || name.trim().length() == 0) {
+			throw new InvalidInputException("Instructor name cannot be empty!");
+		}
+		if (id == null || id.trim().length() == 0) {
+			throw new InvalidInputException("Instructor id cannot be empty!");
+		}
+		if(id.length() != 9) {
+			throw new InvalidInputException("Instructor id must be 9 numbers long!");
+		} else {
+			for(int i = 0; i < 9; i++) {
+				if(id.charAt(i) < 48 || id.charAt(i) > 57) {
+					throw new InvalidInputException("Instructor id must be all numbers!");
+				}
+			}
+		}
+		for(Applicant a : rm.getApplicants()) {
+			if(a.getId().equals(id)) {
+				throw new InvalidInputException("That ID is already being used!");
+			}
+		}
+		for(Instructor i : rm.getInstructors()) {
+			if(i.getId().equals(id)) {
+				throw new InvalidInputException("That ID is already being used!");
+			}
+		}
+		if(rm.getDepartment() != null) {
+			if(rm.getDepartment().getId().equals(id)) {
+				throw new InvalidInputException("That ID is already being used!");
+			}
+		}
+		Instructor I = (Instructor) rm.getLoggedIn();
+		I.setName(name);
+		I.setId(id);
+		PersistenceXStream.saveToXMLwithXStream(rm);
+		
+	}
+	
 
 	public void postTAJob(int aMaxHours, double aWage, Date aDeadline, String aRequiredSkills, String aRequiredCourseGPA,
 			String aRequiredCGPA, String aRequiredExperience, Course aCourse, int aMinHours, boolean aIsLab, boolean approval) throws InvalidInputException {

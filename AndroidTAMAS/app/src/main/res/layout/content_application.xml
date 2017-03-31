@@ -64,7 +64,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/application_buttonlabel_finishapplication"
-        android:onClick="PLACEHOLDER"
+        android:onClick="createApplication"
         android:id="@+id/application_button_finishapplication"
         android:layout_alignParentBottom="true"
         />
