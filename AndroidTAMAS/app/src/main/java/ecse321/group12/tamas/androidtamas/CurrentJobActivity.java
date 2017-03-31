@@ -20,8 +20,14 @@ import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
 
+import java.util.Calendar;
+
+import ecse321.group12.tamas.controller.InvalidInputException;
 import ecse321.group12.tamas.controller.TamasController;
+import ecse321.group12.tamas.model.Applicant;
 import ecse321.group12.tamas.model.Assignment;
+import ecse321.group12.tamas.model.Course;
+import ecse321.group12.tamas.model.Instructor;
 import ecse321.group12.tamas.model.ResourceManager;
 import ecse321.group12.tamas.model.TAjob;
 import ecse321.group12.tamas.persistence.PersistenceXStream;
@@ -30,6 +36,7 @@ public class CurrentJobActivity extends AppCompatActivity
 {
     private ResourceManager rm;
     private String fileName;
+    private String error=null;
     private GoogleApiClient client;
 
     @Override
@@ -38,6 +45,13 @@ public class CurrentJobActivity extends AppCompatActivity
         setContentView(R.layout.activity_current_job);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        fileName = getFilesDir().getAbsolutePath() + "/eventregistration.xml";
+        rm = PersistenceXStream.initializeModelManager(fileName);
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener
@@ -54,15 +68,7 @@ public class CurrentJobActivity extends AppCompatActivity
                 );
         Button done = (Button) findViewById(R.id.current_job_button_done);
         done.setOnClickListener(v -> moveTo(HomeActivity.class));
-
-        fileName = getFilesDir().getAbsolutePath() + "/eventregistration.xml";
-        rm = PersistenceXStream.initializeModelManager(fileName);
-
         refreshData();
-
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
 
@@ -91,7 +97,8 @@ public class CurrentJobActivity extends AppCompatActivity
 
         if (jAdapter.isEmpty())
         {
-            Toast.makeText(getApplicationContext(),"You don't have any current Jobs",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(),"Creating Dummy Jobs",Toast.LENGTH_SHORT).show();
+            //createDummyAssignments();
         }
         else
         {
@@ -122,8 +129,45 @@ public class CurrentJobActivity extends AppCompatActivity
             }
             drawField(position, positiontype, a.getFeedback());
         }
+        refreshData();
+    }
+
+    private void createDummyAssignments()
+    {
+        TamasController tc = new TamasController(rm);
+        Applicant A=(Applicant)rm.getLoggedIn();
+        try {
+            Course C= new Course("ECSE321-001",2,0,50,400);
+            Instructor I= new Instructor("Daniel Varro","133713371");
+            tc.addInstructorToCourse(I,C);
+
+            int year=2050;
+            int month=11;
+            int day = 12;
+
+            Calendar cal = Calendar.getInstance();
+            cal.set(Calendar.YEAR, year);
+            cal.set(Calendar.MONTH, month - 1);
+            cal.set(Calendar.DAY_OF_MONTH, day);
+
+            java.sql.Date date = new java.sql.Date(cal.getTimeInMillis());
+            tc.postGraderJob(100,10,date,"Being a Duck","3.90","3.90","not Being a Duck",C,true);
+            tc.postTAJob(100,10.0,date,"Being a DuckerTruck","3.90","3.90","Being a Duck",C, 45, true,true);
+
+            /*
+            tc.assignToJob(Applicant,Assignment);
+            tc.assignToJob(A,);
+             */
+            Toast.makeText(getApplicationContext(),"Dummy Jobs Created",Toast.LENGTH_SHORT).show();
+        }
+        catch (InvalidInputException e)
+        {
+            error=e.getMessage();
+            Toast.makeText(getApplicationContext(),error,Toast.LENGTH_SHORT);
+        }
 
     }
+
     private void drawField(String position, String positionType, String feedback)
     {
         TextView tv = (TextView) findViewById(R.id.current_job_textview_position);
@@ -173,6 +217,4 @@ public class CurrentJobActivity extends AppCompatActivity
                 .setActionStatus(Action.STATUS_TYPE_COMPLETED)
                 .build();
     }
-}
-
 }

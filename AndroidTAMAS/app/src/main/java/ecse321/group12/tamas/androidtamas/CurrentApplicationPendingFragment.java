@@ -1,6 +1,5 @@
 package ecse321.group12.tamas.androidtamas;
 
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -23,54 +22,51 @@ import ecse321.group12.tamas.model.TAjob;
 import ecse321.group12.tamas.persistence.PersistenceXStream;
 
 
-public abstract class CurrentApplicationPendingFragment extends Fragment implements View.OnClickListener
+public class CurrentApplicationPendingFragment extends Fragment implements View.OnClickListener
 {
     private int applicationNumber;
     private ResourceManager rm;
     private String fileName;
-    interface OnButtonPressListener
-    {
-        void OnButtonAction(int data);
-    }
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      */
     private GoogleApiClient client;
 
-    private OnButtonPressListener mlistener;
-
-    public void setButtonPressListener(OnButtonPressListener listener)
-    {
-        mlistener = listener;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        applicationNumber=getActivity().getIntent().getIntExtra("applicationIndex",-1);
+        Bundle bundle = getArguments();
+        applicationNumber=bundle.getInt("applicationIndex", -1);
         fileName = getContext().getApplicationContext().getFilesDir().getAbsolutePath() + "/tamas_data.xml";
         rm = PersistenceXStream.initializeModelManager(fileName);
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(getContext().getApplicationContext()).addApi(AppIndex.API).build();
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-
         View view = inflater.inflate(R.layout.fragment_current_application_pending, container, false);
         Button edit = (Button) view.findViewById(R.id.fragment_current_applications_button_edit);
-        edit.setOnClickListener(v ->
-                                {
-                                    moveTo(EditApplicationActivity.class);
-                                }
-        );
+        edit.setOnClickListener(this);
         TextView tv = (TextView) view.findViewById(R.id.fragment_current_applications_tv_application_position_and_type);
         tv.setText(getApplicationInformation());
         return view;
     }
+    @Override
+    public void onClick(View v)
+    {
+            moveTo(EditApplicationActivity.class);
+    }
+
+    public void setArguments (Bundle bundle)
+    {
+        applicationNumber=bundle.getInt("ApplicationIndex",-1);
+    }
+
     private void moveTo(Class target)
     {
         Intent i = new Intent(getActivity().getApplicationContext(), target);
@@ -86,7 +82,7 @@ public abstract class CurrentApplicationPendingFragment extends Fragment impleme
         if (J.getClass().equals(TAjob.class))
         {
             position="Teaching Assistant";
-            if (((TAjob) J).getIsLab()==true)
+            if (((TAjob) J).getIsLab())
             {
                 positionType="Laboratory";
             }
@@ -102,21 +98,14 @@ public abstract class CurrentApplicationPendingFragment extends Fragment impleme
         }
         return (a.getApplication(applicationNumber).getJob().getCourse().getName()+" "+position+" "+positionType);
     }
-    @Override
-    public void onAttach(Context context)
-    {
-        super.onAttach(context);
-        // Verify that the host activity implements the callback interface
-        try
-        {
-            // Instantiate the EditNameDialogListener so we can send events to the host
-            EditProfileFragment.ProfileDeletionListener listener = (EditProfileFragment.ProfileDeletionListener) context;
-        }
-        catch (ClassCastException e) {
-            // The activity doesn't implement the interface, throw exception
-            throw new ClassCastException(context.toString()
-                    + " must implement EditNameDialogListener");
-        }
+    public static CurrentApplicationPendingFragment newInstance(String text) {
+
+        CurrentApplicationPendingFragment f = new CurrentApplicationPendingFragment();
+
+        Bundle b = new Bundle();
+        b.putString("text", text);
+        f.setArguments(b);
+        return f;
     }
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.

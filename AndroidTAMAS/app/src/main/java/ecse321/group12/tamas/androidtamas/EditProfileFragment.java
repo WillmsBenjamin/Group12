@@ -29,10 +29,12 @@ public class EditProfileFragment extends DialogFragment
                 .setPositiveButton(R.string.fragment_edit_profile_delete, (Dialog, id) ->
                 {
                     mlistener.OnDeletionAction(1);
+                    dismiss();
                 })
                 .setNegativeButton(R.string.fragment_edit_profile_cancel, (dialog, id) ->
                 {
                     mlistener.OnDeletionAction(0);
+                    dismiss();
                 });
         // Create the AlertDialog object and return it
         return builder.create();

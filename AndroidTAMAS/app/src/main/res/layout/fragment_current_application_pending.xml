@@ -1,29 +1,38 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     tools:context="ecse321.group12.tamas.androidtamas.CurrentApplicationPendingFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:weightSum="1">
 
         <TextView
             android:id="@+id/fragment_current_applications_tv_application_position_and_type"
             android:inputType="none"
             android:textIsSelectable="true"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:textSize="24sp"
-            android:ems="9"
-            />
-        <View
             android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            />
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:ems="15"
+            android:layout_weight="1" />
+
+        <TextView
+            android:id="@+id/fragment_current_applications_tv_pending"
+            android:inputType="none"
+            android:text="@string/fragment_current_applications_tv_pending"
+            android:textIsSelectable="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:ems="3" />
+
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
