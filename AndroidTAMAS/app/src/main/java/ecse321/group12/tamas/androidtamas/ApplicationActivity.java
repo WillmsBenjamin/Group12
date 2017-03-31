@@ -61,17 +61,16 @@ public class ApplicationActivity extends AppCompatActivity {
                 );
         fileName = getFilesDir().getAbsolutePath() + "/tamas_data.xml";
         rm = PersistenceXStream.initializeModelManager(fileName);
-
-        refreshData();
-
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+        refreshData();
     }
 
     private void moveTo(Class target)
     {
         Intent i = new Intent(getApplicationContext(), target);
+
         startActivity(i);
         finish();
     }
@@ -94,15 +93,14 @@ public class ApplicationActivity extends AppCompatActivity {
         tv = (TextView) findViewById(R.id.application_edittext_relevantexperience);
         String experience = tv.getText().toString();
 
-        int jobindex = getIntent().getIntExtra("jindex",-1);
+        Bundle bundle = getIntent().getExtras();
+        int jobindex = bundle.getInt("jindex",-1);
         Job J = rm.getJob(jobindex);
         Applicant A = (Applicant) rm.getLoggedIn();
-
         try
         {
             TamasController tc = new TamasController(rm);
             tc.applyToJob(experience,coursegpa,A,J);
-            refreshData();
             Toast.makeText(getApplicationContext(),"Application Successful",Toast.LENGTH_SHORT).show();
             moveTo(ViewJobsActivity.class);
         }
@@ -110,6 +108,7 @@ public class ApplicationActivity extends AppCompatActivity {
         {
             error=e.getMessage();
             Toast.makeText(getApplicationContext(),error,Toast.LENGTH_SHORT).show();
+            refreshData();
         }
 
     }

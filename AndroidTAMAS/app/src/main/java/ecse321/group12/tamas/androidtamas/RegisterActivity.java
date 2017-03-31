@@ -32,7 +32,8 @@ public class RegisterActivity extends AppCompatActivity {
     private GoogleApiClient client;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -73,10 +74,10 @@ public class RegisterActivity extends AppCompatActivity {
         TextView tv = (TextView) findViewById(R.id.register_edittext_applicant_name);
         String name = tv.getText().toString();
 
-        tv = (TextView) findViewById(R.id.register_edittext_applicant_name);
+        tv = (TextView) findViewById(R.id.register_edittext_applicant_cgpa);
         String cgpa =tv.getText().toString();
 
-        tv = (TextView) findViewById(R.id.register_edittext_applicant_name);
+        tv = (TextView) findViewById(R.id.register_edittext_applicant_identification);
         String id = tv.getText().toString();
 
         tv = (TextView) findViewById(R.id.register_edittext_applicant_skills);
@@ -88,7 +89,7 @@ public class RegisterActivity extends AppCompatActivity {
         {
             tc.registerApplicant(name,id,cgpa,skills,studentType);
             Toast.makeText(getApplicationContext(),"Registered Successfully",Toast.LENGTH_SHORT).show();
-            moveTo(HomeActivity.class);
+            moveTo(LoginActivity.class);
         }
         catch (InvalidInputException e)
         {
