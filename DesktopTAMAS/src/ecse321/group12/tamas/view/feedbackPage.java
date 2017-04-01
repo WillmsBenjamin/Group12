@@ -33,6 +33,7 @@ import javax.swing.JTextArea;
 import javax.swing.WindowConstants;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JScrollPane;
 
 public class FeedbackPage extends JFrame {
 
@@ -48,11 +49,12 @@ public class FeedbackPage extends JFrame {
 	private JComboBox<String> assignmentComboBox;
 	private JComboBox<String> courseComboBox;
 	
-	private JTextArea feedbackTextArea;
-	
 	private JButton logOutButton;
 	private JButton submitFeedbackButton;
 	private JButton backButton;
+	
+	private JScrollPane feedbackScrollPane;
+	private JTextArea feedbackTextArea;
 	
 	private JCheckBox viewCheckBox;
 	
@@ -85,15 +87,14 @@ public class FeedbackPage extends JFrame {
 		assignmentComboBox = new JComboBox<String>(new String[0]);
 		courseComboBox = new JComboBox<String>(new String[0]);
 		
-		feedbackTextArea = new JTextArea();
-		feedbackTextArea.setLineWrap(true);
-		
 		logOutButton = new JButton("Sign Out");
 		submitFeedbackButton = new JButton("Submit Feedback");
 		backButton = new JButton("Back");
 		
 		viewCheckBox = new JCheckBox("View");
 		viewCheckBox.setSelected(false);
+		
+		feedbackScrollPane = new JScrollPane();
 		
 		errorMessage = new JLabel();
 		errorMessage.setForeground(Color.RED);
@@ -108,16 +109,17 @@ public class FeedbackPage extends JFrame {
 	    });
 	    setTitle(rm.getLoggedIn().getName());
 		
+		//layout
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
 					.addContainerGap()
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addComponent(feedbackLabel)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(feedbackTextArea, GroupLayout.PREFERRED_SIZE, 388, GroupLayout.PREFERRED_SIZE)
+							.addComponent(feedbackScrollPane, GroupLayout.DEFAULT_SIZE, 388, Short.MAX_VALUE)
 							.addContainerGap())
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addComponent(courseLabel)
@@ -126,11 +128,11 @@ public class FeedbackPage extends JFrame {
 							.addPreferredGap(ComponentPlacement.UNRELATED)
 							.addComponent(assignmentLabel, GroupLayout.PREFERRED_SIZE, 83, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(assignmentComboBox, 0, 108, Short.MAX_VALUE)
+							.addComponent(assignmentComboBox, 0, 115, Short.MAX_VALUE)
 							.addGap(18)
 							.addComponent(viewCheckBox)
 							.addGap(21))
-						.addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
+						.addGroup(gl_contentPane.createSequentialGroup()
 							.addComponent(logOutButton, GroupLayout.PREFERRED_SIZE, 120, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.UNRELATED)
 							.addComponent(backButton, GroupLayout.PREFERRED_SIZE, 152, GroupLayout.PREFERRED_SIZE)
@@ -153,14 +155,19 @@ public class FeedbackPage extends JFrame {
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 						.addComponent(feedbackLabel)
-						.addComponent(feedbackTextArea, GroupLayout.PREFERRED_SIZE, 131, GroupLayout.PREFERRED_SIZE))
-					.addGap(18)
+						.addComponent(feedbackScrollPane, GroupLayout.PREFERRED_SIZE, 147, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 						.addComponent(logOutButton)
 						.addComponent(backButton)
 						.addComponent(submitFeedbackButton))
 					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 		);
+		
+		feedbackTextArea = new JTextArea();
+		feedbackTextArea.setWrapStyleWord(true);
+		feedbackTextArea.setLineWrap(true);
+		feedbackScrollPane.setViewportView(feedbackTextArea);
 		gl_contentPane.setHonorsVisibility(false);
 		contentPane.setLayout(gl_contentPane);
 		

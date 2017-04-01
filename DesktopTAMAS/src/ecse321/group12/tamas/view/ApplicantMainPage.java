@@ -8,6 +8,7 @@ import ecse321.group12.tamas.controller.DepartmentRegisteredException;
 import ecse321.group12.tamas.controller.InvalidInputException;
 import ecse321.group12.tamas.controller.UserType;
 import ecse321.group12.tamas.model.Applicant;
+import ecse321.group12.tamas.model.Application;
 import ecse321.group12.tamas.model.Assignment;
 import ecse321.group12.tamas.model.GraderJob;
 import ecse321.group12.tamas.model.ResourceManager;
@@ -62,9 +63,7 @@ public class ApplicantMainPage extends JFrame{
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		
-	    // elements for navigating department's functions
-		//TODO: add more buttons as more functions are completed.
-		//TODO: add department data view in the form of multiple small unmodifiable TextAreas. Add edit check box which sets the areas to editable, and a submit button.
+	    // elements for navigating applicant's functions
 		manageApplicationsButton = new JButton("Apply to Jobs");
 		logOutButton = new JButton("Sign Out");
 		manageJobOffersButton = new JButton("Manage Job Offers");
@@ -183,6 +182,14 @@ public class ApplicantMainPage extends JFrame{
 		String appInfo = "Welcome, ";
 		appInfo = appInfo + rm.getLoggedIn().getName() + "! | ID: " + rm.getLoggedIn().getId() + "\n";
 		appInfo = appInfo + "CGPA: " + ((Applicant)rm.getLoggedIn()).getCGPA() + " | Number of Applications: " + ((Applicant)rm.getLoggedIn()).getApplications().size() + "\n";
+		appInfo = appInfo + "Number of Job Offers: ";
+		int numOffs = 0;
+		for(Application a : ((Applicant)rm.getLoggedIn()).getApplications()) {
+			if(a.getIsOffered()) {
+				numOffs++;
+			}
+		}
+		appInfo = appInfo + numOffs + "\n";
 		appInfo = appInfo + "Skills: " + ((Applicant)rm.getLoggedIn()).getSkills() + "\n" + "Assignments: ";
 		int i = 0;
 		for(Assignment a : ((Applicant)rm.getLoggedIn()).getAssignments()) {
