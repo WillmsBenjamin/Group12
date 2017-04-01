@@ -20,6 +20,7 @@ import ecse321.group12.tamas.model.TAjob;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JTextArea;
 import javax.swing.JButton;
@@ -62,6 +63,9 @@ public class ApplyToJobPage extends JFrame {
 	private JButton backButton;
 	private JButton logOutButton;
 	
+	private JScrollPane experienceScrollPane;
+	private JScrollPane jobInfoScrollPane;
+	
 	private JLabel applicationDeadlineLabel;
 
 	private ResourceManager rm;
@@ -86,10 +90,15 @@ public class ApplyToJobPage extends JFrame {
 		jobInfoTextArea = new JTextArea(6, 40);
 		jobInfoTextArea.setEditable(false);
 		jobInfoTextArea.setLineWrap(true);
+		jobInfoTextArea.setWrapStyleWord(true);
 		jobInfoLabel = new JLabel("Job Info:");
 		experienceTextArea = new JTextArea(4, 40);
 		experienceTextArea.setLineWrap(true);
+		experienceTextArea.setWrapStyleWord(true);
 		experienceLabel = new JLabel("Experience:");
+		
+		experienceScrollPane = new JScrollPane();
+		jobInfoScrollPane = new JScrollPane();
 		
 		courseGPALabel = new JLabel("Course GPA:");
 		courseGPATextField = new JTextField();
@@ -105,6 +114,8 @@ public class ApplyToJobPage extends JFrame {
 		logOutButton = new JButton("Sign Out");
 		
 		applicationDeadlineLabel = new JLabel("Application Deadline:");
+		
+		experienceScrollPane = new JScrollPane();
 	    
 	    // elements for error message
 	    errorMessage = new JLabel();
@@ -143,10 +154,10 @@ public class ApplyToJobPage extends JFrame {
 	    	        		.addComponent(courseGPATextField))
 	    	        .addGroup(layout.createSequentialGroup()
 	    	        		.addComponent(jobInfoLabel)
-	    	        		.addComponent(jobInfoTextArea))
+	    	        		.addComponent(jobInfoScrollPane))
 	    	        .addGroup(layout.createSequentialGroup()
 	    	        		.addComponent(experienceLabel)
-	    	        		.addComponent(experienceTextArea)))
+	    	        		.addComponent(experienceScrollPane)))
 	        .addGroup(layout.createSequentialGroup()
 	        		.addComponent(logOutButton)
 	        		.addComponent(backButton)
@@ -173,15 +184,17 @@ public class ApplyToJobPage extends JFrame {
 		    	        		.addComponent(courseGPATextField))
 		    	        .addGroup(layout.createParallelGroup()
 		    	        		.addComponent(jobInfoLabel)
-		    	        		.addComponent(jobInfoTextArea))
+		    	        		.addComponent(jobInfoScrollPane))
 		    	        .addGroup(layout.createParallelGroup()
 		    	        		.addComponent(experienceLabel)
-		    	        		.addComponent(experienceTextArea)))
+		    	        		.addComponent(experienceScrollPane)))
 		        .addGroup(layout.createParallelGroup()
 		        		.addComponent(logOutButton)
 		        		.addComponent(backButton)
 		        		.addComponent(applyButton))
 		        );
+	    experienceScrollPane.setViewportView(experienceTextArea);
+	    jobInfoScrollPane.setViewportView(jobInfoTextArea);
 
 	    layout.setHonorsVisibility(false);
 	    if(rm.getLoggedIn() instanceof Department) {

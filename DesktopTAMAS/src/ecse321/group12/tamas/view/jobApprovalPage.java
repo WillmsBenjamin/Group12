@@ -36,6 +36,7 @@ import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.List;
 import java.awt.event.ActionEvent;
+import javax.swing.JScrollPane;
 
 public class JobApprovalPage extends JFrame {
 
@@ -53,9 +54,10 @@ public class JobApprovalPage extends JFrame {
 	
 	private JLabel jobInfoLabel;
 	private JLabel courseInfoLabel;
-	
-	private JTextArea jobInfoTextArea;
 	private JTextArea courseInfoTextArea;
+	private JTextArea jobInfoTextArea;
+	
+	private JScrollPane jobInfoScrollPane;
 	
 	private JButton approvalButton;	
 	private JButton backButton;
@@ -90,13 +92,12 @@ public class JobApprovalPage extends JFrame {
 		jobInfoLabel = new JLabel("Job Info:");
 		courseInfoLabel = new JLabel("Course Info:");
 		
-		jobInfoTextArea = new JTextArea(8, 40);
-		jobInfoTextArea.setEditable(false);
-		jobInfoTextArea.setLineWrap(true);
-		
 		courseInfoTextArea = new JTextArea();
+		courseInfoTextArea.setWrapStyleWord(true);
 		courseInfoTextArea.setEditable(false);
 		courseInfoTextArea.setLineWrap(true);
+		
+		jobInfoScrollPane = new JScrollPane();
 		
 		approvalButton = new JButton("Approve");	
 		backButton = new JButton("Back");
@@ -116,16 +117,17 @@ public class JobApprovalPage extends JFrame {
 	    });
 	    setTitle(rm.getLoggedIn().getName());
 		
+	    //layout
 	    GroupLayout gl_contentPane = new GroupLayout(contentPane);
 	    gl_contentPane.setHorizontalGroup(
 	    	gl_contentPane.createParallelGroup(Alignment.LEADING)
 	    		.addGroup(gl_contentPane.createSequentialGroup()
 	    			.addContainerGap()
-	    			.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+	    			.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
 	    				.addGroup(gl_contentPane.createSequentialGroup()
 	    					.addComponent(errorMessage, GroupLayout.DEFAULT_SIZE, 398, Short.MAX_VALUE)
 	    					.addContainerGap())
-	    				.addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
+	    				.addGroup(gl_contentPane.createSequentialGroup()
 	    					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 	    						.addGroup(gl_contentPane.createSequentialGroup()
 	    							.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING, false)
@@ -133,8 +135,8 @@ public class JobApprovalPage extends JFrame {
 	    								.addComponent(courseInfoLabel, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 	    							.addPreferredGap(ComponentPlacement.RELATED)
 	    							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-	    								.addComponent(courseInfoTextArea, GroupLayout.DEFAULT_SIZE, 322, Short.MAX_VALUE)
-	    								.addComponent(jobInfoTextArea, GroupLayout.DEFAULT_SIZE, 322, Short.MAX_VALUE)))
+	    								.addComponent(jobInfoScrollPane, GroupLayout.DEFAULT_SIZE, 322, Short.MAX_VALUE)
+	    								.addComponent(courseInfoTextArea, GroupLayout.DEFAULT_SIZE, 322, Short.MAX_VALUE)))
 	    						.addGroup(gl_contentPane.createSequentialGroup()
 	    							.addComponent(logOutButton, GroupLayout.PREFERRED_SIZE, 121, GroupLayout.PREFERRED_SIZE)
 	    							.addPreferredGap(ComponentPlacement.RELATED)
@@ -142,7 +144,7 @@ public class JobApprovalPage extends JFrame {
 	    							.addPreferredGap(ComponentPlacement.RELATED)
 	    							.addComponent(approvalButton, GroupLayout.DEFAULT_SIZE, 127, Short.MAX_VALUE)))
 	    					.addContainerGap())
-	    				.addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
+	    				.addGroup(gl_contentPane.createSequentialGroup()
 	    					.addComponent(courseLabel, GroupLayout.DEFAULT_SIZE, 71, Short.MAX_VALUE)
 	    					.addPreferredGap(ComponentPlacement.RELATED)
 	    					.addComponent(courseComboBox, GroupLayout.PREFERRED_SIZE, 86, GroupLayout.PREFERRED_SIZE)
@@ -169,8 +171,8 @@ public class JobApprovalPage extends JFrame {
 	    			.addPreferredGap(ComponentPlacement.UNRELATED)
 	    			.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 	    				.addComponent(jobInfoLabel)
-	    				.addComponent(jobInfoTextArea, GroupLayout.PREFERRED_SIZE, 82, GroupLayout.PREFERRED_SIZE))
-	    			.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+	    				.addComponent(jobInfoScrollPane, GroupLayout.DEFAULT_SIZE, 93, Short.MAX_VALUE))
+	    			.addPreferredGap(ComponentPlacement.RELATED)
 	    			.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 	    				.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 	    					.addComponent(approvalButton)
@@ -178,6 +180,12 @@ public class JobApprovalPage extends JFrame {
 	    				.addComponent(logOutButton))
 	    			.addContainerGap())
 	    );
+	    
+	    jobInfoTextArea = new JTextArea();
+	    jobInfoTextArea.setWrapStyleWord(true);
+	    jobInfoTextArea.setEditable(false);
+	    jobInfoTextArea.setLineWrap(true);
+	    jobInfoScrollPane.setViewportView(jobInfoTextArea);
 		contentPane.setLayout(gl_contentPane);
 		
 		this.setLocationRelativeTo(null);

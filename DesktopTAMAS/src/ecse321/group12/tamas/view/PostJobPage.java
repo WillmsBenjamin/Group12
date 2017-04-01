@@ -19,6 +19,7 @@ import ecse321.group12.tamas.model.ResourceManager;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JTextArea;
 import javax.swing.JButton;
@@ -78,6 +79,9 @@ public class PostJobPage extends JFrame {
 	private JTextField requiredCGPATextField;
 	private JTextField requiredCourseGPATextField;
 	private JComboBox<String> courseList;
+	
+	private JScrollPane requiredSkillsScrollPane;
+	private JScrollPane requiredExperienceScrollPane;
 	
 	private ResourceManager rm;
 	
@@ -141,6 +145,7 @@ public class PostJobPage extends JFrame {
 	    deadlineDatePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());
 		
 		requiredSkillsTextArea = new JTextArea(7, 30);
+		requiredSkillsTextArea.setWrapStyleWord(true);
 		requiredSkillsTextArea.setLineWrap(true);
 		requiredExperienceTextArea = new JTextArea(7, 30);
 		requiredExperienceTextArea.setLineWrap(true);
@@ -149,6 +154,9 @@ public class PostJobPage extends JFrame {
 		requiredCourseGPATextField = new JTextField();
 		
 		courseList = new JComboBox<String>(new String[0]);
+		
+		requiredSkillsScrollPane = new JScrollPane();
+		requiredExperienceScrollPane = new JScrollPane();
 	    
 	    // elements for error message
 	    errorMessage = new JLabel();
@@ -205,10 +213,10 @@ public class PostJobPage extends JFrame {
 	        		        	.addComponent(isLabCheckBox))
 	        			.addGroup(layout.createSequentialGroup()
 	        					.addComponent(requiredSkillsLabel)
-	        		        	.addComponent(requiredSkillsTextArea))
+	        		        	.addComponent(requiredSkillsScrollPane))
 	        			.addGroup(layout.createSequentialGroup()
 	        					.addComponent(requiredExperienceLabel)
-	        		        	.addComponent(requiredExperienceTextArea))))
+	        		        	.addComponent(requiredExperienceScrollPane))))
 	        .addGroup(layout.createSequentialGroup()
 	        		.addComponent(logOutButton)
 	        		.addComponent(backButton)
@@ -253,15 +261,17 @@ public class PostJobPage extends JFrame {
 		        		        	.addComponent(isLabCheckBox))
 		        			.addGroup(layout.createParallelGroup()
 		        					.addComponent(requiredSkillsLabel)
-		        		        	.addComponent(requiredSkillsTextArea))
+		        		        	.addComponent(requiredSkillsScrollPane))
 		        			.addGroup(layout.createParallelGroup()
 		        					.addComponent(requiredExperienceLabel)
-		        		        	.addComponent(requiredExperienceTextArea))))
+		        		        	.addComponent(requiredExperienceScrollPane))))
 		        .addGroup(layout.createParallelGroup()
 		        		.addComponent(logOutButton)
 		        		.addComponent(backButton)
 		        		.addComponent(postJobButton))
 		        );
+	    requiredSkillsScrollPane.setViewportView(requiredSkillsTextArea);
+	    requiredExperienceScrollPane.setViewportView(requiredExperienceTextArea);
 
 	    layout.setHonorsVisibility(false);
 	    this.setLocationRelativeTo(null);
