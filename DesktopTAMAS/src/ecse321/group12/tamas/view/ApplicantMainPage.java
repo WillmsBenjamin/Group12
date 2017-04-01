@@ -16,6 +16,7 @@ import ecse321.group12.tamas.model.TAjob;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -44,6 +45,8 @@ public class ApplicantMainPage extends JFrame{
 	
 	private JTextArea applicantInfoTextArea;
 	
+	private JScrollPane applicantInfoScrollPane;
+	
 	private ResourceManager rm;
 	private JPanel contentPane;
 	
@@ -69,9 +72,7 @@ public class ApplicantMainPage extends JFrame{
 		manageJobOffersButton = new JButton("Manage Job Offers");
 		manageFeedbackButton = new JButton("Feedback");
 		
-		applicantInfoTextArea = new JTextArea();
-		applicantInfoTextArea.setLineWrap(true);
-		applicantInfoTextArea.setEditable(false);
+		applicantInfoScrollPane = new JScrollPane();
 		
 	    // elements for error message
 	    errorMessage = new JLabel();
@@ -95,19 +96,19 @@ public class ApplicantMainPage extends JFrame{
 					.addContainerGap()
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_contentPane.createSequentialGroup()
+							.addComponent(applicantInfoScrollPane, GroupLayout.DEFAULT_SIZE, 441, Short.MAX_VALUE)
+							.addContainerGap())
+						.addGroup(gl_contentPane.createSequentialGroup()
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
-								.addComponent(applicantInfoTextArea, GroupLayout.DEFAULT_SIZE, 441, Short.MAX_VALUE)
 								.addGroup(gl_contentPane.createSequentialGroup()
-									.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
-										.addGroup(gl_contentPane.createSequentialGroup()
-											.addComponent(errorMessage, GroupLayout.DEFAULT_SIZE, 265, Short.MAX_VALUE)
-											.addGap(19))
-										.addGroup(gl_contentPane.createSequentialGroup()
-											.addComponent(manageFeedbackButton, GroupLayout.PREFERRED_SIZE, 109, GroupLayout.PREFERRED_SIZE)
-											.addPreferredGap(ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
-											.addComponent(manageJobOffersButton)
-											.addGap(18)))
-									.addComponent(manageApplicationsButton, GroupLayout.DEFAULT_SIZE, 157, Short.MAX_VALUE)))
+									.addComponent(errorMessage, GroupLayout.DEFAULT_SIZE, 265, Short.MAX_VALUE)
+									.addGap(19))
+								.addGroup(gl_contentPane.createSequentialGroup()
+									.addComponent(manageFeedbackButton, GroupLayout.PREFERRED_SIZE, 109, GroupLayout.PREFERRED_SIZE)
+									.addPreferredGap(ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+									.addComponent(manageJobOffersButton)
+									.addGap(18)))
+							.addComponent(manageApplicationsButton, GroupLayout.DEFAULT_SIZE, 157, Short.MAX_VALUE)
 							.addContainerGap())
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addComponent(logOutButton, GroupLayout.DEFAULT_SIZE, 109, Short.MAX_VALUE)
@@ -118,7 +119,7 @@ public class ApplicantMainPage extends JFrame{
 				.addGroup(gl_contentPane.createSequentialGroup()
 					.addComponent(errorMessage)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(applicantInfoTextArea, GroupLayout.PREFERRED_SIZE, 143, GroupLayout.PREFERRED_SIZE)
+					.addComponent(applicantInfoScrollPane, GroupLayout.PREFERRED_SIZE, 143, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 						.addComponent(manageApplicationsButton)
@@ -126,8 +127,14 @@ public class ApplicantMainPage extends JFrame{
 						.addComponent(manageFeedbackButton))
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addComponent(logOutButton)
-					.addContainerGap(33, Short.MAX_VALUE))
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 		);
+		
+		applicantInfoTextArea = new JTextArea();
+		applicantInfoTextArea.setWrapStyleWord(true);
+		applicantInfoTextArea.setLineWrap(true);
+		applicantInfoTextArea.setEditable(false);
+		applicantInfoScrollPane.setViewportView(applicantInfoTextArea);
 		contentPane.setLayout(gl_contentPane);
 
 	    this.setLocationRelativeTo(null);
