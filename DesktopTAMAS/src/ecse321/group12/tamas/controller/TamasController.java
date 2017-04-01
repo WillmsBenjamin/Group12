@@ -172,20 +172,29 @@ public class TamasController {
 		
 		PersistenceXStream.saveToXMLwithXStream(rm);
 	}
-	public void acceptJobOffer(Application app, Applicant a) throws InvalidInputException
+	public void acceptJobOffer(Application A) throws InvalidInputException
 	{
-		//assumes that the boolean isAccepted is for when the application is offered and accepted by the applicant
-		//and isOffered is for when the powers that be offer the person the job
-		if (app.getApplicant()!=a)
+		if (!A.getIsOffered())
 		{
-			throw new InvalidInputException("This application is not for this applicant!");
+			throw new InvalidInputException("This application was not offered a job!");
 		}
-		if(!app.getIsOffered())
+		if (!A.getIsAccepted())
 		{
-			throw new InvalidInputException("This application has not yet been offered a job!");
+			throw new InvalidInputException("This application has already been accepted for the position! ");
 		}
-		
-		app.setIsAccepted(true);
+		int hours;
+		for (Application app: A.getApplicant().getApplications())
+		{
+			if (app.getJob().getClass()==TAjob.class)
+			{
+				Job J=(TAjob)app.getJob();
+				hours+=J.getMaxHours();
+			}
+		}
+		if (hours>180)
+		{
+			throw new InvalidInputException("accepting this TA job puts you over the 180 hour maximum for a single TA!")
+		}
 	}
 	public void checkDepartmentExistence() throws DepartmentRegisteredException {
 		if(rm.getDepartment() instanceof Department) {
