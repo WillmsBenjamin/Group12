@@ -1,167 +1,101 @@
 <manager id="1">
   <applicants id="2">
     <applicant id="3">
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-      <name>qwqer</name>
-      <id>222222222</id>
-      <cGPA>3.22</cGPA>
-      <skills>afsdfasdf</skills>
-      <isGraduate>false</isGraduate>
-=======
       <name>Guy</name>
       <id>111111111</id>
-      <cGPA>2.77</cGPA>
-      <skills>qweasdffawjdsxnbxfsfaggbv</skills>
+      <cGPA>3.44</cGPA>
+      <skills>asgkldfacmwxefscsdkmlgjawnfdsa</skills>
       <isGraduate>true</isGraduate>
->>>>>>> origin/master
       <applications id="4">
         <application id="5">
           <isAccepted>false</isAccepted>
-          <isOffered>true</isOffered>
-          <experience>asldkjfnac sdfwaeifadvs csajklsdmca sdcwe</experience>
-          <courseGPA>1.11</courseGPA>
-          <id>1</id>
+          <isOffered>false</isOffered>
+          <experience>asdvsvzfewf</experience>
+          <courseGPA>2.22</courseGPA>
+          <id>2</id>
           <applicant reference="3"/>
           <job class="TAjob" id="6">
-            <maxHours>71</maxHours>
-            <wage>10.799999999999999</wage>
-            <deadline id="7">2017-03-31</deadline>
+            <maxHours>90</maxHours>
+            <wage>10.0</wage>
+            <deadline id="7">2017-04-04</deadline>
             <isApproved>true</isApproved>
-            <requiredSkills>twtwtwtw</requiredSkills>
-            <requiredCourseGPA>3.22</requiredCourseGPA>
-            <requiredCGPA>3.22</requiredCGPA>
-            <requiredExperience>wttwwtwtwtw</requiredExperience>
+            <requiredSkills>qwfasfdfqwefasdfdcqew</requiredSkills>
+            <requiredCourseGPA>2.22</requiredCourseGPA>
+            <requiredCGPA>2.11</requiredCGPA>
+            <requiredExperience>qwefasdfdvsvsergfd</requiredExperience>
             <applications id="8">
               <application reference="5"/>
-              <application id="9">
-                <isAccepted>false</isAccepted>
-                <isOffered>false</isOffered>
-                <experience>sadfavryh</experience>
-                <courseGPA>3.22</courseGPA>
-                <id>3</id>
-                <applicant id="10">
-                  <name>Dude</name>
-                  <id>222222222</id>
-                  <cGPA>2.11</cGPA>
-                  <skills>qwerfdsdbcsd asfgrbe ent gbdgbvr</skills>
-                  <isGraduate>false</isGraduate>
-                  <applications id="11">
-                    <application reference="9"/>
-                  </applications>
-                  <assignments id="12"/>
-                </applicant>
-                <job class="TAjob" reference="6"/>
-              </application>
             </applications>
-            <course id="13">
-              <name>321</name>
-              <numTutorialSections>4</numTutorialSections>
-              <numLabSections>1</numLabSections>
+            <course id="9">
+              <name>DSD</name>
+              <numTutorialSections>6</numTutorialSections>
+              <numLabSections>10</numLabSections>
               <numStudents>150</numStudents>
-              <budget>3150</budget>
-              <instructors id="14"/>
-              <jobs id="15">
-                <TAjob reference="6"/>
-                <TAjob id="16">
-                  <maxHours>49</maxHours>
-                  <wage>12.2</wage>
-                  <deadline id="17">2017-03-31</deadline>
+              <budget>9450</budget>
+              <instructors id="10">
+                <instructor id="11">
+                  <name>Donald Davis</name>
+                  <id>666666666</id>
+                  <courses id="12">
+                    <course reference="9"/>
+                  </courses>
+                </instructor>
+              </instructors>
+              <jobs id="13">
+                <TAjob id="14">
+                  <maxHours>90</maxHours>
+                  <wage>10.0</wage>
+                  <deadline id="15">2017-04-04</deadline>
                   <isApproved>true</isApproved>
-                  <requiredSkills>rtjgfhserdgfgbfthn</requiredSkills>
-                  <requiredCourseGPA>3.44</requiredCourseGPA>
-                  <requiredCGPA>3.11</requiredCGPA>
-                  <requiredExperience>dhytfngbdvaffgr</requiredExperience>
-                  <applications id="18">
-                    <application id="19">
+                  <requiredSkills>qwefsadfwe</requiredSkills>
+                  <requiredCourseGPA>3.22</requiredCourseGPA>
+                  <requiredCGPA>3.44</requiredCGPA>
+                  <requiredExperience>asdfqwefasdf</requiredExperience>
+                  <applications id="16">
+                    <application id="17">
                       <isAccepted>false</isAccepted>
                       <isOffered>false</isOffered>
-                      <experience>qwefsfdvcacsgwerxfdfcwer weg sdvfv </experience>
+                      <experience>asdfscdacwec</experience>
                       <courseGPA>3.33</courseGPA>
-                      <id>2</id>
+                      <id>3</id>
                       <applicant reference="3"/>
-                      <job class="TAjob" reference="16"/>
+                      <job class="TAjob" reference="14"/>
                     </application>
                   </applications>
-                  <course reference="13"/>
-                  <minHours>10</minHours>
-                  <isLab>false</isLab>
+                  <course reference="9"/>
+                  <minHours>45</minHours>
+                  <isLab>true</isLab>
                 </TAjob>
+                <TAjob reference="6"/>
               </jobs>
             </course>
             <minHours>45</minHours>
-            <isLab>true</isLab>
+            <isLab>false</isLab>
           </job>
         </application>
-        <application reference="19"/>
+        <application reference="17"/>
       </applications>
-<<<<<<< HEAD
-      <assignments id="36"/>
-=======
-      <name>212121211</name>
-      <id>212121211</id>
-      <cGPA>0.91</cGPA>
-      <skills></skills>
-      <isGraduate>true</isGraduate>
-      <applications id="4"/>
-      <assignments id="5"/>
->>>>>>> Stashed changes
-=======
-      <assignments id="20"/>
->>>>>>> origin/master
+      <assignments id="18"/>
     </applicant>
-    <applicant reference="10"/>
   </applicants>
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-  <instructors id="37"/>
-  <department id="38">
-=======
-  <instructors id="21"/>
-  <department id="22">
->>>>>>> origin/master
+  <instructors id="19">
+    <instructor reference="11"/>
+  </instructors>
+  <department id="20">
     <name>ECSE</name>
     <id>000000000</id>
-    <deadline id="23">2017-03-31</deadline>
+    <deadline id="21">2017-04-04</deadline>
   </department>
-  <applications id="24">
+  <applications id="22">
     <application reference="5"/>
-    <application reference="19"/>
-    <application reference="9"/>
+    <application reference="17"/>
   </applications>
-  <jobs id="25">
+  <jobs id="23">
+    <TAjob reference="14"/>
     <TAjob reference="6"/>
-    <TAjob reference="16"/>
   </jobs>
-  <courses id="26">
-    <course reference="13"/>
-    <course id="27">
-      <name>323</name>
-      <numTutorialSections>3</numTutorialSections>
-      <numLabSections>6</numLabSections>
-      <numStudents>300</numStudents>
-      <budget>6450</budget>
-      <instructors id="28"/>
-      <jobs id="29"/>
-    </course>
+  <courses id="24">
+    <course reference="9"/>
   </courses>
-<<<<<<< HEAD
-  <assignments id="43"/>
-  <contactTimes id="44"/>
-=======
-  <instructors id="6"/>
-  <department id="7">
-    <name>DUCKINGTON UNI</name>
-    <id>121212121</id>
-    <deadline id="8">2017-02-28</deadline>
-  </department>
-  <applications id="9"/>
-  <jobs id="10"/>
-  <courses id="11"/>
-  <assignments id="12"/>
-  <contactTimes id="13"/>
->>>>>>> Stashed changes
-=======
-  <assignments id="30"/>
->>>>>>> origin/master
+  <assignments id="25"/>
 </manager>

@@ -114,6 +114,7 @@ public class TamasController {
 		rm.addApplicant(a);
 		PersistenceXStream.saveToXMLwithXStream(rm);
 	}
+
 	public void modifyApplicant(String name, String id, String cGPA, String skills, Boolean isGraduate) throws InvalidInputException 
 	{
 		if (name == null || name.trim().length() == 0) {
@@ -172,7 +173,12 @@ public class TamasController {
 		
 		PersistenceXStream.saveToXMLwithXStream(rm);
 	}
+<<<<<<< HEAD
 	public void acceptJobOffer(Application A) throws InvalidInputException
+=======
+
+	public void acceptJobOffer(Application app, Applicant a) throws InvalidInputException
+>>>>>>> master
 	{
 		if (!A.getIsOffered())
 		{
@@ -200,33 +206,29 @@ public class TamasController {
 			A.setIsAccepted(true);
 		}
 	}
+
 	public void checkDepartmentExistence() throws DepartmentRegisteredException {
 		if(rm.getDepartment() instanceof Department) {
 			throw new DepartmentRegisteredException("A department exists. No more can be added!");
 		}
 	}
 	
-	public void AssignApplicantToJob(Applicant a, Assignment asmt) throws InvalidInputException
-	{
-		//will assign an applicant to the first job that matches the assignment
-		//assumes that an applicant can only create one application per job posting
-		for (Application app: a.getApplications() )
-		{
-			if (app.getIsAccepted() && app.getJob()==asmt.getJob())
-			{
-				asmt.setApplicant(a);
-				//once a job has been assigned, remove all other applications to said job
-				for (Application app1: rm.getApplications())
-				{
-					if (app1.getJob()==asmt.getJob())
-					{
-						rm.removeApplication(app1);
-					}
-				}
-				return;
+	public void AssignApplicantToJob(Application a) throws InvalidInputException {
+		
+		if (!a.getIsAccepted()) {
+			throw new InvalidInputException("This job offer has not been accepted!");
+		} else if(!a.getIsOffered()) {
+			throw new InvalidInputException("This application has not been offered the job!");
+		} else {
+			Assignment asmt = new Assignment("", a.getApplicant(), a.getJob());
+			rm.addAssignment(asmt);
+			//once a job has been assigned, remove all other applications to said job
+			for (Application app: a.getJob().getApplications()) {
+				rm.removeApplication(app);
+				app.delete();
 			}
 		}
-		throw new InvalidInputException("the applicant did not apply to this job or did not accept the job offer!")
+		PersistenceXStream.saveToXMLwithXStream(rm);
 	}
 
 	public void registerDepartment(String name, String id, Date deadline) throws InvalidInputException {
@@ -271,6 +273,7 @@ public class TamasController {
 		rm.setDepartment(d);
 		PersistenceXStream.saveToXMLwithXStream(rm);
 	}
+
 	public void modifyDepartment(String name, String id, Date deadline) throws InvalidInputException 
 	{
 		//since this is the admin, they can change whatever they want!
@@ -366,6 +369,7 @@ public class TamasController {
 		PersistenceXStream.saveToXMLwithXStream(rm);
 		
 	}
+
 	public void modifyInstructor(String name, String id) throws InvalidInputException {
 		if (name == null || name.trim().length() == 0) {
 			throw new InvalidInputException("Instructor name cannot be empty!");
@@ -404,7 +408,6 @@ public class TamasController {
 		
 	}
 	
-
 	public void postTAJob(int aMaxHours, double aWage, Date aDeadline, String aRequiredSkills, String aRequiredCourseGPA,
 			String aRequiredCGPA, String aRequiredExperience, Course aCourse, int aMinHours, boolean aIsLab, boolean approval) throws InvalidInputException {
 		Calendar calobj = Calendar.getInstance();
@@ -699,6 +702,7 @@ public class TamasController {
 	}
 
 	public void rejectApplication(Application application) {
+		rm.removeApplication(application);
 		application.delete();
 		PersistenceXStream.saveToXMLwithXStream(rm);
 	}
@@ -707,7 +711,5 @@ public class TamasController {
 		assignment.setFeedback(text);
 		PersistenceXStream.saveToXMLwithXStream(rm);
 	}
-
-
 
 }
