@@ -141,6 +141,11 @@ public class ApplicantMainPage extends JFrame{
 	    pack();
 	    refreshData();
 	    
+	    manageJobOffersButton.addActionListener(new java.awt.event.ActionListener() {
+	        public void actionPerformed(java.awt.event.ActionEvent evt) {
+	            manageJobOffersButtonActionPerformed();
+	        }
+	    });
 	    manageFeedbackButton.addActionListener(new java.awt.event.ActionListener() {
 	        public void actionPerformed(java.awt.event.ActionEvent evt) {
 	            manageFeedbackButtonActionPerformed();
@@ -158,6 +163,12 @@ public class ApplicantMainPage extends JFrame{
 	    });
 	}
 	
+	protected void manageJobOffersButtonActionPerformed() {
+		ManageJobOffersPage mjp = new ManageJobOffersPage(rm);
+		this.dispose();
+		mjp.setVisible(true);
+	}
+
 	protected void manageFeedbackButtonActionPerformed() {
 		FeedbackPage fp = new FeedbackPage(rm);
 		this.dispose();
@@ -196,7 +207,14 @@ public class ApplicantMainPage extends JFrame{
 				numOffs++;
 			}
 		}
-		appInfo = appInfo + numOffs + "\n";
+		appInfo = appInfo + numOffs + " | Number of Accepted Offers: ";
+		int numAcc = 0;
+		for(Application a : ((Applicant)rm.getLoggedIn()).getApplications()) {
+			if(a.getIsOffered() && a.getIsAccepted()) {
+				numAcc++;
+			}
+		}
+		appInfo = appInfo + numAcc + "\n";
 		appInfo = appInfo + "Skills: " + ((Applicant)rm.getLoggedIn()).getSkills() + "\n" + "Assignments: ";
 		int i = 0;
 		for(Assignment a : ((Applicant)rm.getLoggedIn()).getAssignments()) {

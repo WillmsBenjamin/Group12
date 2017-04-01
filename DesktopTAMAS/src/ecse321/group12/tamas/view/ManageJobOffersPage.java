@@ -1,5 +1,6 @@
 package ecse321.group12.tamas.view;
 
+import java.awt.Color;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
@@ -73,8 +74,6 @@ public class ManageJobOffersPage extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		
-		errorMessage = new JLabel("New label");
-		
 		applicantLabel = new JLabel("Applicant:");
 		applicantComboBox = new JComboBox();
 		
@@ -87,6 +86,10 @@ public class ManageJobOffersPage extends JFrame {
 		logOutButton = new JButton("Sign Out");
 		backButton = new JButton("Back");
 		acceptOfferButton = new JButton("Accept Job Offer");
+		
+		// elements for error message
+	    errorMessage = new JLabel();
+	    errorMessage .setForeground(Color.RED);
 		
 		// global settings and listeners
 	    setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
@@ -192,20 +195,23 @@ public class ManageJobOffersPage extends JFrame {
 	            selectedApplicant = cb.getSelectedIndex();
 	            int i = 0;
 		    	if (rm.getLoggedIn() instanceof Department) {
-					for (Application a : rm.getApplicant(selectedApplicant).getApplications()) {
-						if (a.getIsOffered() && (a.getJob().getAssignment() == null) && !(a.getIsAccepted())) {
-							if (a.getJob() instanceof TAjob) {
-								if (((TAjob)a.getJob()).getIsLab()) {
-									jobComboBox.addItem(a.getJob().getCourse().getName() + " " + "TA Lab " + i);
-								} else {
-									jobComboBox.addItem(a.getJob().getCourse().getName() + " " + "TA Tutorial " + i);
+					if (selectedApplicant != -1) {
+						for (Application a : rm.getApplicant(selectedApplicant).getApplications()) {
+							if (a.getIsOffered() && (a.getJob().getAssignment() == null) && !(a.getIsAccepted())) {
+								if (a.getJob() instanceof TAjob) {
+									if (((TAjob) a.getJob()).getIsLab()) {
+										jobComboBox.addItem(a.getJob().getCourse().getName() + " " + "TA Lab " + i);
+									} else {
+										jobComboBox
+												.addItem(a.getJob().getCourse().getName() + " " + "TA Tutorial " + i);
+									}
+								} else if (a.getJob() instanceof GraderJob) {
+									jobComboBox.addItem(a.getJob().getCourse().getName() + " " + "Grader " + i);
 								}
-							} else if (a.getJob() instanceof GraderJob) {
-								jobComboBox.addItem(a.getJob().getCourse().getName() + " " + "Grader " + i);
+								offeredJobs.add(a);
+								i++;
 							}
-							offeredJobs.add(a);
-							i++;
-						}
+						} 
 					} 
 				}
 	        }
@@ -294,7 +300,7 @@ public class ManageJobOffersPage extends JFrame {
 			}
 			if (error == null) {
 				try {
-					tc.applyToJob(experienceTextArea.getText(), courseGPATextField.getText(), rm.getApplicant(selectedApplicant), approvedJobs.get(selectedJob));
+					tc.acceptJobOffer(offeredJobs.get(selectedJob));
 				} catch (InvalidInputException e) {
 					error = e.getMessage();
 				}
@@ -302,7 +308,7 @@ public class ManageJobOffersPage extends JFrame {
 		} else if (rm.getLoggedIn() instanceof Applicant) {
 			if (error == null) {
 				try {
-					tc.applyToJob(experienceTextArea.getText(), courseGPATextField.getText(),(Applicant)rm.getLoggedIn(), approvedJobs.get(selectedJob));
+					tc.acceptJobOffer(offeredJobs.get(selectedJob));
 				} catch (InvalidInputException e) {
 					error = e.getMessage();
 				}

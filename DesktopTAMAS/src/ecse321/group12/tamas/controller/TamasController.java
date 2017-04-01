@@ -173,32 +173,27 @@ public class TamasController {
 		
 		PersistenceXStream.saveToXMLwithXStream(rm);
 	}
-	public void acceptJobOffer(Application A) throws InvalidInputException
-	{
-		if (!A.getIsOffered())
-		{
+	public void acceptJobOffer(Application a) throws InvalidInputException {
+		if (!a.getIsOffered()) {
 			throw new InvalidInputException("This application was not offered a job!");
 		}
-		if (!A.getIsAccepted())
-		{
-			throw new InvalidInputException("This application has already been accepted for the position! ");
+		if (a.getIsAccepted()) {
+			throw new InvalidInputException("This offer has already been accepted! ");
 		}
-		int hours;
-		for (Application app: A.getApplicant().getApplications())
-		{
-			if (app.getJob().getClass()==TAjob.class)
-			{
-				Job J=(TAjob)app.getJob();
-				hours+=J.getMaxHours();
+		int hours = a.getJob().getMaxHours();
+		for (Application app: a.getApplicant().getApplications()) {
+			Job j = app.getJob();
+			
+			if (app.getIsAccepted()) {
+				hours += j.getMaxHours();
 			}
 		}
-		if (hours>180)
-		{
-			throw new InvalidInputException("accepting this TA job puts you over the 180 hour maximum for a single TA!")
+		if (hours > 180) {
+			throw new InvalidInputException("Accepting this job puts the applicant over the 180 hour maximum!");
 		}
-		else
-		{
-			A.setIsAccepted(true);
+		else {
+			a.setIsAccepted(true);
+			PersistenceXStream.saveToXMLwithXStream(rm);
 		}
 	}
 
@@ -566,6 +561,9 @@ public class TamasController {
 		}
 		if(course.getInstructors().size() == 4) {
 			throw new InvalidInputException("This course has the maximum number of instructors (4)!");
+		}
+		if(course.getInstructors().contains(instructor)) {
+			throw new InvalidInputException("This instructor has already been added to this course!");
 		}
 		course.addInstructor(instructor);
 		PersistenceXStream.saveToXMLwithXStream(rm);

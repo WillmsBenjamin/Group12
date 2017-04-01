@@ -377,20 +377,24 @@ public class AssignJobsPage extends JFrame {
 						isLab = false;
 					}
 					for(Application a : applicationLists.get(selectedList).get(selectedApplication).getApplicant().getApplications()) {
-						if(isLab && !(a == applicationLists.get(selectedList).get(selectedApplication))) {
-							if(a.getJob() instanceof TAjob) {
-								if(a.getJob().getCourse() == applicationLists.get(selectedList).get(selectedApplication).getJob().getCourse()) {
-									if(!((TAjob)a.getJob()).getIsLab() && a.getIsOffered()) {
-										try {
-											tc.assignApplicantToJob(applicationLists.get(selectedList).get(selectedApplication));
-										} catch (InvalidInputException e) {
-											error = e.getMessage();
-											refreshData();
-											return;
+						if (!(applicationLists.get(selectedList).get(selectedApplication) == a)) {
+							if (isLab && !(a == applicationLists.get(selectedList).get(selectedApplication))) {
+								if (a.getJob() instanceof TAjob) {
+									if (a.getJob().getCourse() == applicationLists.get(selectedList)
+											.get(selectedApplication).getJob().getCourse()) {
+										if (!((TAjob) a.getJob()).getIsLab() && a.getIsOffered()) {
+											try {
+												tc.assignApplicantToJob(
+														applicationLists.get(selectedList).get(selectedApplication));
+											} catch (InvalidInputException e) {
+												error = e.getMessage();
+												refreshData();
+												return;
+											}
 										}
 									}
 								}
-							}
+							} 
 						}
 					}
 				}
