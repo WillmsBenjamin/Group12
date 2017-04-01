@@ -173,32 +173,27 @@ public class TamasController {
 		
 		PersistenceXStream.saveToXMLwithXStream(rm);
 	}
-	public void acceptJobOffer(Application A) throws InvalidInputException
-	{
-		if (!A.getIsOffered())
-		{
+	public void acceptJobOffer(Application a) throws InvalidInputException {
+		if (!a.getIsOffered()) {
 			throw new InvalidInputException("This application was not offered a job!");
 		}
-		if (!A.getIsAccepted())
-		{
-			throw new InvalidInputException("This application has already been accepted for the position! ");
+		if (a.getIsAccepted()) {
+			throw new InvalidInputException("This offer has already been accepted! ");
 		}
-		int hours;
-		for (Application app: A.getApplicant().getApplications())
-		{
-			if (app.getJob().getClass()==TAjob.class)
-			{
-				Job J=(TAjob)app.getJob();
-				hours+=J.getMaxHours();
+		int hours = a.getJob().getMaxHours();
+		for (Application app: a.getApplicant().getApplications()) {
+			Job j = app.getJob();
+			
+			if (app.getIsAccepted()) {
+				hours += j.getMaxHours();
 			}
 		}
-		if (hours>180)
-		{
-			throw new InvalidInputException("accepting this TA job puts you over the 180 hour maximum for a single TA!")
+		if (hours > 180) {
+			throw new InvalidInputException("Accepting this job puts the applicant over the 180 hour maximum!");
 		}
-		else
-		{
-			A.setIsAccepted(true);
+		else {
+			a.setIsAccepted(true);
+			PersistenceXStream.saveToXMLwithXStream(rm);
 		}
 	}
 
@@ -208,7 +203,7 @@ public class TamasController {
 		}
 	}
 	
-	public void AssignApplicantToJob(Application a) throws InvalidInputException {
+	public void assignApplicantToJob(Application a) throws InvalidInputException {
 		
 		if (!a.getIsAccepted()) {
 			throw new InvalidInputException("This job offer has not been accepted!");
@@ -567,6 +562,9 @@ public class TamasController {
 		if(course.getInstructors().size() == 4) {
 			throw new InvalidInputException("This course has the maximum number of instructors (4)!");
 		}
+		if(course.getInstructors().contains(instructor)) {
+			throw new InvalidInputException("This instructor has already been added to this course!");
+		}
 		course.addInstructor(instructor);
 		PersistenceXStream.saveToXMLwithXStream(rm);
 	}
@@ -683,6 +681,58 @@ public class TamasController {
 					underGrad.add(a);
 				} 
 			}
+		}
+		ranked.add(tutAndLabGrad); 	//position 0
+		ranked.add(tutAndLab);		//position 1
+		ranked.add(grad);			//position 2
+		ranked.add(underGrad);		//position 3
+		return ranked;
+	}
+	
+	//The same method as the other ranker, except it ranks accepted offers, instead of all applications. 
+	public ArrayList<ArrayList<Application>> rankAcceptedOffers(Job job) {
+		ArrayList<ArrayList<Application>> ranked = new ArrayList<ArrayList<Application>>(4);
+		ArrayList<Application> tutAndLabGrad = new ArrayList<Application>();
+		ArrayList<Application> tutAndLab = new ArrayList<Application>();
+		ArrayList<Application> grad = new ArrayList<Application>();
+		ArrayList<Application> underGrad = new ArrayList<Application>();
+		
+		Course c = job.getCourse();
+		for(Application a : job.getApplications()) {
+			Applicant stud = a.getApplicant();
+			Boolean labApp = false;
+			Boolean tutApp = false;
+			
+			//Check each application's applicant to see if they have accepted offers to both tutorial and lab jobs for the same course.
+			for(Application application : stud.getApplications()) {
+				if (application.getIsOffered() && application.getIsAccepted()) {
+					if (application.getJob().getCourse() == c) {
+						if (application.getJob() instanceof TAjob) {
+							if (((TAjob) application.getJob()).getIsLab()) {
+								labApp = true;
+							} else {
+								tutApp = true;
+							}
+						}
+					} 
+				}
+			}
+			//depending on which applications the applicants made, and their graduate status, and the status of the job offers, add their applications to the corresponding list.
+			if (a.getIsOffered() && a.getIsAccepted()) {
+				if (stud.getIsGraduate()) {
+					if (labApp && tutApp) {
+						tutAndLabGrad.add(a);
+					} else {
+						grad.add(a);
+					}
+				} else {
+					if (labApp && tutApp) {
+						tutAndLab.add(a);
+					} else {
+						underGrad.add(a);
+					}
+				} 
+			} 
 		}
 		ranked.add(tutAndLabGrad); 	//position 0
 		ranked.add(tutAndLab);		//position 1
