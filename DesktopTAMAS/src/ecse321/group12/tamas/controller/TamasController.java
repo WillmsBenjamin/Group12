@@ -173,12 +173,7 @@ public class TamasController {
 		
 		PersistenceXStream.saveToXMLwithXStream(rm);
 	}
-<<<<<<< HEAD
 	public void acceptJobOffer(Application A) throws InvalidInputException
-=======
-
-	public void acceptJobOffer(Application app, Applicant a) throws InvalidInputException
->>>>>>> master
 	{
 		if (!A.getIsOffered())
 		{
