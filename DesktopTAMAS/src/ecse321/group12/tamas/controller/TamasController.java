@@ -195,6 +195,10 @@ public class TamasController {
 		{
 			throw new InvalidInputException("accepting this TA job puts you over the 180 hour maximum for a single TA!")
 		}
+		else
+		{
+			A.setIsAccepted(true);
+		}
 	}
 	public void checkDepartmentExistence() throws DepartmentRegisteredException {
 		if(rm.getDepartment() instanceof Department) {
