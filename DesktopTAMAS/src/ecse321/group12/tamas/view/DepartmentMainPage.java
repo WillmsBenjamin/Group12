@@ -1,22 +1,16 @@
 package ecse321.group12.tamas.view;
 
 import javax.swing.JFrame;
-import javax.swing.JTextField;
 
 import ecse321.group12.tamas.controller.TamasController;
-import ecse321.group12.tamas.controller.DepartmentRegisteredException;
-import ecse321.group12.tamas.controller.InvalidInputException;
-import ecse321.group12.tamas.controller.UserType;
 import ecse321.group12.tamas.model.ResourceManager;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 
 import java.awt.Color;
-import java.awt.event.ItemEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.Calendar;
@@ -25,7 +19,6 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
-import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
 
 public class DepartmentMainPage extends JFrame{
@@ -50,8 +43,6 @@ public class DepartmentMainPage extends JFrame{
 	private String error = null;
 	private JLabel errorMessage;
 	
-	private GroupLayout layout;
-	
 	/** Creates new form DepartmentMainPage */
 	public DepartmentMainPage(ResourceManager rm) {
 	    this.rm = rm;
@@ -64,9 +55,8 @@ public class DepartmentMainPage extends JFrame{
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
+		
 	    // elements for navigating department's functions
-		//TODO: add more buttons as more functions are completed.
-		//TODO: add department data view in the form of multiple small unmodifiable TextAreas. Add edit check box which sets the areas to editable, and a submit button.
 		postJobButton = new JButton("Post a Job");
 		manageCoursesButton = new JButton("Manage Courses");
 		applyToJobsButton = new JButton("Apply to Jobs");

@@ -16,7 +16,6 @@ import ecse321.group12.tamas.model.Applicant;
 import ecse321.group12.tamas.model.Application;
 import ecse321.group12.tamas.model.Department;
 import ecse321.group12.tamas.model.GraderJob;
-import ecse321.group12.tamas.model.Job;
 import ecse321.group12.tamas.model.ResourceManager;
 import ecse321.group12.tamas.model.TAjob;
 
@@ -38,9 +37,9 @@ public class ManageJobOffersPage extends JFrame {
 	private JLabel jobInfoLabel;
 
 	private JLabel applicantLabel;
-	private JComboBox/*<String>*/ applicantComboBox;
+	private JComboBox<String> applicantComboBox;
 	private JLabel jobLabel;
-	private JComboBox/*<String>*/ jobComboBox;
+	private JComboBox<String> jobComboBox;
 	private JButton acceptOfferButton;
 	private JButton backButton;
 	private JButton logOutButton;
@@ -75,10 +74,10 @@ public class ManageJobOffersPage extends JFrame {
 		setContentPane(contentPane);
 		
 		applicantLabel = new JLabel("Applicant:");
-		applicantComboBox = new JComboBox();
+		applicantComboBox = new JComboBox<String>(new String[0]);
 		
 		jobLabel = new JLabel("Job Offer:");
-		jobComboBox = new JComboBox();
+		jobComboBox = new JComboBox<String>(new String[0]);
 
 		jobInfoLabel = new JLabel("Job Info:");
 		jobInfoScrollPane = new JScrollPane();

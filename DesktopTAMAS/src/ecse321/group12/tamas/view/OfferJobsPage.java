@@ -1,7 +1,6 @@
 package ecse321.group12.tamas.view;
 
 import java.awt.Color;
-import java.awt.EventQueue;
 import java.awt.event.ItemEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -32,7 +31,6 @@ import javax.swing.JCheckBox;
 import javax.swing.JTextArea;
 import javax.swing.JButton;
 import javax.swing.JScrollPane;
-import javax.swing.DropMode;
 
 public class OfferJobsPage extends JFrame {
 
@@ -49,9 +47,9 @@ public class OfferJobsPage extends JFrame {
 	private JLabel jobInfoLabel;
 	private JLabel applicationInfoLabel;
 	
-	private JComboBox/*<String>*/ courseComboBox;
-	private JComboBox/*<String>*/ jobComboBox;
-	private JComboBox/*<String>*/ applicationComboBox;
+	private JComboBox<String> courseComboBox;
+	private JComboBox<String> jobComboBox;
+	private JComboBox<String> applicationComboBox;
 
 	private JCheckBox labTutCheckBox;	
 	private JCheckBox gradCheckBox;
@@ -95,16 +93,16 @@ public class OfferJobsPage extends JFrame {
 		courseLabel = new JLabel("Course:");
 		courseLabel.setHorizontalAlignment(SwingConstants.LEFT);
 		
-		courseComboBox = new JComboBox()/*<String>(new String[0])*/;
+		courseComboBox = new JComboBox<String>(new String[0]);
 		
 		jobLabel = new JLabel("Job:");
 		jobLabel.setHorizontalAlignment(SwingConstants.LEFT);
 		
-		jobComboBox = new JComboBox()/*<String>(new String[0])*/;
+		jobComboBox = new JComboBox<String>(new String[0]);
 		
 		applicationLabel = new JLabel("Applicant:");
 		
-		applicationComboBox = new JComboBox()/*<String>(new String[0])*/;
+		applicationComboBox = new JComboBox<String>(new String[0]);
 		
 		filterLabel = new JLabel("Applicant Filter:");
 		

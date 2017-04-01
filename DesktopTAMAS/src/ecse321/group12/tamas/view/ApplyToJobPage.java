@@ -2,26 +2,18 @@ package ecse321.group12.tamas.view;
 
 import javax.swing.JFrame;
 import javax.swing.JTextField;
-import javax.swing.SpinnerDateModel;
-import javax.swing.SpinnerNumberModel;
 
 import ecse321.group12.tamas.controller.TamasController;
-import ecse321.group12.tamas.controller.DepartmentRegisteredException;
 import ecse321.group12.tamas.controller.InvalidInputException;
-import ecse321.group12.tamas.controller.UserType;
 import ecse321.group12.tamas.model.Applicant;
-import ecse321.group12.tamas.model.Course;
 import ecse321.group12.tamas.model.Department;
 import ecse321.group12.tamas.model.GraderJob;
-import ecse321.group12.tamas.model.Instructor;
 import ecse321.group12.tamas.model.Job;
 import ecse321.group12.tamas.model.ResourceManager;
 import ecse321.group12.tamas.model.TAjob;
 
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JSpinner;
 import javax.swing.JTextArea;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -29,21 +21,12 @@ import javax.swing.JComboBox;
 import java.awt.Color;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.sql.Time;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.Properties;
 
 import javax.swing.GroupLayout;
 import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
-import javax.swing.GroupLayout.Alignment;
-
-import org.jdatepicker.impl.JDatePanelImpl;
-import org.jdatepicker.impl.JDatePickerImpl;
-import org.jdatepicker.impl.SqlDateModel;
 
 public class ApplyToJobPage extends JFrame {
 

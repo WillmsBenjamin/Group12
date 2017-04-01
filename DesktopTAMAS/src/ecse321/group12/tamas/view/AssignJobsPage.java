@@ -1,7 +1,6 @@
 package ecse321.group12.tamas.view;
 
 import java.awt.Color;
-import java.awt.EventQueue;
 import java.awt.event.ItemEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -16,7 +15,6 @@ import ecse321.group12.tamas.controller.InvalidInputException;
 import ecse321.group12.tamas.controller.TamasController;
 import ecse321.group12.tamas.model.Application;
 import ecse321.group12.tamas.model.Course;
-import ecse321.group12.tamas.model.Department;
 import ecse321.group12.tamas.model.GraderJob;
 import ecse321.group12.tamas.model.Job;
 import ecse321.group12.tamas.model.ResourceManager;
@@ -49,9 +47,9 @@ public class AssignJobsPage extends JFrame {
 	private JLabel jobInfoLabel;
 	private JLabel applicationInfoLabel;
 	
-	private JComboBox/*<String>*/ courseComboBox;
-	private JComboBox/*<String>*/ jobComboBox;
-	private JComboBox/*<String>*/ applicationComboBox;
+	private JComboBox<String> courseComboBox;
+	private JComboBox<String> jobComboBox;
+	private JComboBox<String> applicationComboBox;
 	
 	private JTextArea applicationInfoTextArea;
 	private JTextArea jobInfoTextArea;
@@ -94,16 +92,16 @@ public class AssignJobsPage extends JFrame {
 		courseLabel = new JLabel("Course:");
 		courseLabel.setHorizontalAlignment(SwingConstants.LEFT);
 		
-		courseComboBox = new JComboBox()/*<String>(new String[0])*/;
+		courseComboBox = new JComboBox<String>(new String[0]);
 		
 		jobLabel = new JLabel("Job:");
 		jobLabel.setHorizontalAlignment(SwingConstants.LEFT);
 		
-		jobComboBox = new JComboBox()/*<String>(new String[0])*/;
+		jobComboBox = new JComboBox<String>(new String[0]);
 		
 		applicationLabel = new JLabel("Applicant:");
 		
-		applicationComboBox = new JComboBox()/*<String>(new String[0])*/;
+		applicationComboBox = new JComboBox<String>(new String[0]);
 		
 		filterLabel = new JLabel("Applicant Filter:");
 		

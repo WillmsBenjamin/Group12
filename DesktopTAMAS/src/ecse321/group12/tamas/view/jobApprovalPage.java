@@ -1,41 +1,30 @@
 package ecse321.group12.tamas.view;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
-import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.ColumnSpec;
-import com.jgoodies.forms.layout.RowSpec;
 
-import ecse321.group12.tamas.controller.InvalidInputException;
 import ecse321.group12.tamas.controller.TamasController;
-import ecse321.group12.tamas.model.Applicant;
 import ecse321.group12.tamas.model.Course;
-import ecse321.group12.tamas.model.Department;
 import ecse321.group12.tamas.model.GraderJob;
 import ecse321.group12.tamas.model.Job;
 import ecse321.group12.tamas.model.ResourceManager;
 import ecse321.group12.tamas.model.TAjob;
 
-import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JComboBox;
 import javax.swing.JTextArea;
 import javax.swing.WindowConstants;
 import javax.swing.JButton;
-import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.List;
-import java.awt.event.ActionEvent;
 import javax.swing.JScrollPane;
 
 public class JobApprovalPage extends JFrame {

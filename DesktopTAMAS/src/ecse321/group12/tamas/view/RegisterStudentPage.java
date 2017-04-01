@@ -4,13 +4,10 @@ import javax.swing.JFrame;
 import javax.swing.JTextField;
 
 import ecse321.group12.tamas.controller.TamasController;
-import ecse321.group12.tamas.controller.DepartmentRegisteredException;
 import ecse321.group12.tamas.controller.InvalidInputException;
-import ecse321.group12.tamas.controller.UserType;
 import ecse321.group12.tamas.model.ResourceManager;
 
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JButton;
@@ -79,7 +76,6 @@ public class RegisterStudentPage extends JFrame {
 	    // elements for error messages
 	    errorMessage = new JLabel();
 	    errorMessage.setForeground(Color.RED);
-
 
 	    // global settings and listeners
 	    setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
