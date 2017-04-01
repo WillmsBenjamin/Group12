@@ -35,7 +35,7 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JScrollPane;
 
-public class FeedbackPage extends JFrame {
+public class ManageFeedbackPage extends JFrame {
 
 	private static final long serialVersionUID = -2329371986114703271L;
 	
@@ -69,7 +69,7 @@ public class FeedbackPage extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public FeedbackPage(ResourceManager rm) {
+	public ManageFeedbackPage(ResourceManager rm) {
 		this.rm = rm;
 		initComponents();
 	}
@@ -125,11 +125,11 @@ public class FeedbackPage extends JFrame {
 							.addComponent(courseLabel)
 							.addGap(18)
 							.addComponent(courseComboBox, GroupLayout.PREFERRED_SIZE, 90, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(assignmentLabel, GroupLayout.PREFERRED_SIZE, 83, GroupLayout.PREFERRED_SIZE)
+							.addGap(6)
+							.addComponent(assignmentLabel, GroupLayout.PREFERRED_SIZE, 76, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(assignmentComboBox, 0, 115, Short.MAX_VALUE)
-							.addGap(18)
+							.addComponent(assignmentComboBox, 0, 143, Short.MAX_VALUE)
+							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(viewCheckBox)
 							.addGap(21))
 						.addGroup(gl_contentPane.createSequentialGroup()
@@ -149,9 +149,9 @@ public class FeedbackPage extends JFrame {
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 						.addComponent(courseLabel)
 						.addComponent(courseComboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(viewCheckBox)
 						.addComponent(assignmentLabel)
-						.addComponent(assignmentComboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(viewCheckBox))
+						.addComponent(assignmentComboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 						.addComponent(feedbackLabel)
@@ -226,6 +226,7 @@ public class FeedbackPage extends JFrame {
 				if (evt.getStateChange() == ItemEvent.DESELECTED) {
 					isViewSelected = false;
 					feedbackTextArea.setEditable(true);
+					feedbackTextArea.setText("");
 			    	submitFeedbackButton.setVisible(true);
 				} else if (evt.getStateChange() == ItemEvent.SELECTED) {
 					isViewSelected = true;
@@ -255,13 +256,13 @@ public class FeedbackPage extends JFrame {
 						for (Assignment a : assignmentList) {
 							if (a.getJob() instanceof TAjob) {
 								if (((TAjob) a.getJob()).getIsLab()) {
-									assignmentComboBox.addItem(a.getJob().getCourse().getName() + " " + "TA Lab " + i);
+									assignmentComboBox.addItem(a.getJob().getCourse().getName() + " " + "TA Lab " + a.getApplicant().getName() + " " + i);
 								} else {
 									assignmentComboBox
-											.addItem(a.getJob().getCourse().getName() + " " + "TA Tutorial " + i);
+											.addItem(a.getJob().getCourse().getName() + " " + "TA Tutorial " + a.getApplicant().getName() + " " + i);
 								}
 							} else if (a.getJob() instanceof GraderJob) {
-								assignmentComboBox.addItem(a.getJob().getCourse().getName() + " " + "Grader " + i);
+								assignmentComboBox.addItem(a.getJob().getCourse().getName() + " " + "Grader " + a.getApplicant().getName() + " " + i);
 							}
 							i++;
 						} 
@@ -276,35 +277,18 @@ public class FeedbackPage extends JFrame {
 						for (Assignment a : assignmentList) {
 							if (a.getJob() instanceof TAjob) {
 								if (((TAjob) a.getJob()).getIsLab()) {
-									assignmentComboBox.addItem(a.getJob().getCourse().getName() + " " + "TA Lab " + i);
+									assignmentComboBox.addItem(a.getJob().getCourse().getName() + " " + "TA Lab " + a.getApplicant().getName() + " " + i);
 								} else {
 									assignmentComboBox
-											.addItem(a.getJob().getCourse().getName() + " " + "TA Tutorial " + i);
+											.addItem(a.getJob().getCourse().getName() + " " + "TA Tutorial " + a.getApplicant().getName() + " " + i);
 								}
 							} else if (a.getJob() instanceof GraderJob) {
-								assignmentComboBox.addItem(a.getJob().getCourse().getName() + " " + "Grader " + i);
+								assignmentComboBox.addItem(a.getJob().getCourse().getName() + " " + "Grader " + a.getApplicant().getName() + " " + i);
 							}
 							i++;
 						} 
 					} else if(rm.getLoggedIn() instanceof Applicant) {
-						for (Assignment a : ((Applicant)rm.getLoggedIn()).getAssignments()) {
-							assignmentList.add(a);
-						}
-						assignmentComboBox.removeAllItems();
-						int i = 0;
-						for (Assignment a : assignmentList) {
-							if (a.getJob() instanceof TAjob) {
-								if (((TAjob) a.getJob()).getIsLab()) {
-									assignmentComboBox.addItem(a.getJob().getCourse().getName() + " " + "TA Lab " + i);
-								} else {
-									assignmentComboBox
-											.addItem(a.getJob().getCourse().getName() + " " + "TA Tutorial " + i);
-								}
-							} else if (a.getJob() instanceof GraderJob) {
-								assignmentComboBox.addItem(a.getJob().getCourse().getName() + " " + "Grader " + i);
-							}
-							i++;
-						} 
+						feedbackTextArea.setText(assignmentList.get(selectedAssignment).getFeedback());
 					}
 					selectedAssignment = -1;
 					assignmentComboBox.setSelectedIndex(selectedAssignment);
@@ -369,6 +353,25 @@ public class FeedbackPage extends JFrame {
 	    errorMessage.setText(error);
 	    if (error == null || error.length() == 0) {
 	    	assignmentComboBox.removeAllItems();
+	    	if(rm.getLoggedIn() instanceof Applicant) {
+	    		for(Assignment a : ((Applicant)rm.getLoggedIn()).getAssignments()) {
+	    			assignmentList.add(a);
+	    		}
+	    		int i = 0;
+	    		for(Assignment a : assignmentList) {
+	    			if (a.getJob() instanceof TAjob) {
+						if (((TAjob) a.getJob()).getIsLab()) {
+							assignmentComboBox.addItem(a.getJob().getCourse().getName() + " " + "TA Lab " + i);
+						} else {
+							assignmentComboBox
+									.addItem(a.getJob().getCourse().getName() + " " + "TA Tutorial " + i);
+						}
+					} else if (a.getJob() instanceof GraderJob) {
+						assignmentComboBox.addItem(a.getJob().getCourse().getName() + " " + "Grader " + i);
+					}
+					i++;
+	    		}
+	    	}
 	    	selectedAssignment = -1;
 	    	assignmentComboBox.setSelectedIndex(selectedAssignment);
 	    	

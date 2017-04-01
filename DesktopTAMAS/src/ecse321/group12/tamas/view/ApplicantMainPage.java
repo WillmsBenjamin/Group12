@@ -170,7 +170,7 @@ public class ApplicantMainPage extends JFrame{
 	}
 
 	protected void manageFeedbackButtonActionPerformed() {
-		FeedbackPage fp = new FeedbackPage(rm);
+		ManageFeedbackPage fp = new ManageFeedbackPage(rm);
 		this.dispose();
 		fp.setVisible(true);
 	}
