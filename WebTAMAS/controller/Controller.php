@@ -115,7 +115,7 @@ class Controller
 		
 	}
 	
-	public function createTAJob($aMaxHours, $aWage, $aDeadline, $aIsApproved,$aRequiredSkills, $aRequiredCourseGPA, $aRequiredCGPA, $aRequiredExperience, $aCourse, $aMinHours, $aIsLab){
+	public function createTAJob($aMaxHours, $aWage, $aDeadline, $aIsApproved,$aRequiredSkills, $aRequiredCourseGPA, $aRequiredCGPA, $aRequiredExperience, Course $aCourse, $aMinHours, $aIsLab){
 		$maxHour = InputValidator::validate_input($aMaxHours);
 		$wage = InputValidator::validate_input($aWage);
 		$deadline = InputValidator::validate_input($aDeadline);
@@ -125,6 +125,7 @@ class Controller
 		$experience = InputValidator::validate_input($aRequiredExperience);
 		
 		$error = "";
+
 		
 		if(ctype_digit($maxHour) == FALSE || $maxHour > 180){
 			$error .= "@1Max hour must be digits and smaller than 180! ";
@@ -145,14 +146,18 @@ class Controller
 		if(strlen(trim($error)) == 0){
 		$ps = new Persistence();
 		$rm = $ps->loadDataFromStore();
-
 		
-		$taJob = new TAjob($aMaxHours, $aWage, $aDeadline, $aIsApproved, $aRequiredSkills, $aRequiredCourseGPA, $aRequiredCGPA, $aRequiredExperience, $aCourse, $aMinHours, $aIsLab);
+		
+		$taJob = new TAjob($aMaxHours, $aWage, $aDeadline, $aIsApproved, $aRequiredSkills, $aRequiredCourseGPA, $aRequiredCGPA, $aRequiredExperience, $aCourse, $aMinHours, "No");
 		$rm->addJob($taJob);
-		$rm->getCourse_index(0)->addJob($taJob);	
-
-
-		
+		foreach ($rm->getCourses() as $course){
+			if($course == $aCourse ){
+				$rm->getCourse_index(indexOfCourse($course))->addJob($taJob);
+			}
+			
+		}
+			
+		$_SESSION["message"] = "Job posted!";
 		$ps->writeDataToStore($rm);
 		}
 		else{
@@ -160,7 +165,57 @@ class Controller
 		}
 	}
 	
-	public  function createGraderJob($aMaxHours, $aWage, $aDeadline, $aIsApproved,$aRequiredSkills, $aRequiredCourseGPA, $aRequiredCGPA, $aRequiredExperience, $aCourse){
+	public function createTALabJob($aMaxHours, $aWage, $aDeadline, $aIsApproved,$aRequiredSkills, $aRequiredCourseGPA, $aRequiredCGPA, $aRequiredExperience, Course $aCourse, $aMinHours, $aIsLab){
+		$maxHour = InputValidator::validate_input($aMaxHours);
+		$wage = InputValidator::validate_input($aWage);
+		$deadline = InputValidator::validate_input($aDeadline);
+		$courseGPA = InputValidator::validate_input($aRequiredCourseGPA);
+		$cGPA = InputValidator::validate_input($aRequiredCGPA);
+		$skills = InputValidator::validate_input($aRequiredSkills);
+		$experience = InputValidator::validate_input($aRequiredExperience);
+	
+		$error = "";
+	
+	
+		if(ctype_digit($maxHour) == FALSE || $maxHour > 180){
+			$error .= "@1Max hour must be digits and smaller than 180! ";
+		}
+		if(ctype_digit($wage) == FALSE){
+			$error .= "@2Wage per hour must be digits! ";
+		}
+		if(!strtotime($deadline)){
+			$error .= "@3Deadline date must be specified correctly (YYYY-MM-DD)! ";
+		}
+		if(ctype_digit($courseGPA[0]) == FALSE || $courseGPA[1] != "." || ctype_digit(substr($courseGPA, 2)) == FALSE){
+			$error .= "@4GPA must be specified correctly (x.xx)! ";
+		}
+		if(ctype_digit($cGPA[0]) == FALSE || $cGPA[1] != "." || ctype_digit(substr($cGPA, 2)) == FALSE){
+			$error .= "@5GPA must be specified correctly (x.xx)! ";
+		}
+	
+		if(strlen(trim($error)) == 0){
+			$ps = new Persistence();
+			$rm = $ps->loadDataFromStore();
+	
+	
+			$taJob = new TAjob($aMaxHours, $aWage, $aDeadline, $aIsApproved, $aRequiredSkills, $aRequiredCourseGPA, $aRequiredCGPA, $aRequiredExperience, $aCourse, $aMinHours, "Yes");
+			$rm->addJob($taJob);
+			foreach ($rm->getCourses() as $course){
+				if($course == $aCourse ){
+					$rm->getCourse_index(indexOfCourse($course))->addJob($taJob);
+				}
+					
+			}
+				
+			$_SESSION["message"] = "Job posted!";
+			$ps->writeDataToStore($rm);
+		}
+		else{
+			throw new Exception(trim($error));
+		}
+	}
+	
+	public  function createGraderJob($aMaxHours, $aWage, $aDeadline, $aIsApproved,$aRequiredSkills, $aRequiredCourseGPA, $aRequiredCGPA, $aRequiredExperience, Course $aCourse){
 		$maxHour = InputValidator::validate_input($aMaxHours);
 		$wage = InputValidator::validate_input($aWage);
 		$deadline = InputValidator::validate_input($aDeadline);
@@ -170,6 +225,7 @@ class Controller
 		$experience = InputValidator::validate_input($aRequiredExperience);
 		
 		$error = "";
+
 		
 		if(ctype_digit($maxHour) == FALSE || $maxHour > 180){
 			$error .= "@1Max hour must be digits and smaller than 180! ";
@@ -195,7 +251,13 @@ class Controller
 		
 		$graderJob = new GraderJob($aMaxHours, $aWage, $aDeadline,$aIsApproved, $aRequiredSkills, $aRequiredCourseGPA, $aRequiredCGPA, $aRequiredExperience, $aCourse);
 		$rm->addJob($graderJob);
-		$rm->getCourse_index(0)->addJob($graderJob);
+		foreach ($rm->getCourses() as $course){
+			if($course == $aCourse ){
+				$rm->getCourse_index(indexOfCourse($course))->addJob($graderJob);
+			}
+				
+		}
+		$_SESSION["message"] = "Job posted!";
 		
 		$ps->writeDataToStore($rm);
 		}
@@ -215,7 +277,7 @@ class Controller
 				$hasCourse = TRUE;		
 			}
 		}
-		if($hasCourse != TRUE){
+		if($hasCourse == FALSE ){
 			$rm->getInstructor_index($_SESSION["index"])->addCourse($course);
 			$ps->writeDataToStore($rm);
 		}

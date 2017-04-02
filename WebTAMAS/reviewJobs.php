@@ -44,25 +44,45 @@
 				$name = $rm->getInstructor_index($_SESSION["index"])->getName();
 
 	
-				echo "Hi Professor " . $name;
-				echo "<br>";
-				echo $rm->numberOfJobs();
-				echo "<br>";
-				echo $rm->getCourse_index(0)->numberOfJobs();			
+				echo "Hi Professor " . $name;	
 				?>
 				
 				
-				<p class="logo">
-				This page is still under developing!
+				<p class="jobReview">
+				<?php 
+	
+				for($i = 0; $i < $rm->numberOfJobs(); $i++){
+				
+					echo $i+1 . ". " . $rm->getJob_index($i)->getCourse()->getName();
+					if($rm->getJob_index($i) instanceof TAjob ){
+						echo " TA" ."<br>";
+						echo "Deadline: " . $rm->getJob_index($i)->getDeadline() . "<br>";
+						echo  "Lab: ". $rm->getJob_index($i)->getIsLab() . " | "
+								. "Wage: " . $rm->getJob_index($i)->getWage() ."/hr"  . "<br>";	
+						echo "Course GPA: " . $rm->getJob_index($i)->getRequiredCourseGPA() . " | " . "CGPA: " . 
+								$rm->getJob_index($i)->getRequiredCGPA() . "<br>";
+						echo "Skills: " . $rm->getJob_index($i)->getRequiredSkills() . "<br>";
+						echo "Experience: " . $rm->getJob_index($i)->getRequiredExperience();
+						
+					}
+					else {
+						echo " Grader" ."<br>";
+						echo "Deadline: " . $rm->getJob_index($i)->getDeadline() . "<br>";
+						echo  "Wage: " . $rm->getJob_index($i)->getWage()."/hr" . "<br>";
+						echo "Course GPA: " . $rm->getJob_index($i)->getRequiredCourseGPA() . " | " . "CGPA: " .
+								$rm->getJob_index($i)->getRequiredCGPA() . "<br>";
+						echo "Skills: " . $rm->getJob_index($i)->getRequiredSkills() . "<br>";
+						echo "Experience: " . $rm->getJob_index($i)->getRequiredExperience();
+					}
+		
+					echo "<hr>";
+			
+				}
+				?>
 				
 				</p>
 				
-					<p class="logo">
-				Please check back later!
-				
-				</p>
-				
-				<hr>
+
 				
 				<form class = "logout" action="http://localhost/Group12/WebTAMAS/mainpage.php" >
 				<button type="submit">Main Page</button>

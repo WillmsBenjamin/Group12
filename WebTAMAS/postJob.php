@@ -36,6 +36,8 @@
 				
 				session_start();
 				
+				
+				
 				$ps = new Persistence();
 				$rm = $ps->loadDataFromStore();
 				$c = new Controller();
@@ -55,6 +57,7 @@
 				echo "<p>&nbsp&nbsp Job Type <select name='jobSpinner'>";
 				
 					echo "<option>" . "TA" . "</option>";
+					echo "<option>" . "TALab" . "</option>";
 					echo "<option>" . "Grader" . "</option>";
 				
 				echo "</select>";
@@ -124,7 +127,14 @@
 				
 				<p>Required Experiences: <textarea  class="experience" name="experience" cols="5" rows="4"></textarea></p>
 				
+				<p class="message">
+				<?php 
+				if(isset($_SESSION['message']) && !empty($_SESSION['message']))
+				echo $_SESSION["message"];
+				?>
+				</p>
 				
+
 				<button type="submit">Post</button>
 				</form>
 				

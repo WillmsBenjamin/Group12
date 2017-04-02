@@ -13,10 +13,23 @@ body
 {
 	color: #FF0000;
 }
+.message
+{
+	
+	color: #4CAF50;
+	font-size:20px;
+	font-family: "Roboto", sans-serif;
+	font-weight:600;
+}
+
 
 .logo{
 	  font-family: "Roboto", sans-serif;
 	font-size: 20px;
+}
+.jobReview{
+	 font-family: "Roboto", sans-serif;
+	font-size: 15px;
 }
 .login_panel {
   width: 360px;

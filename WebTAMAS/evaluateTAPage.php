@@ -53,10 +53,7 @@
 				
 				<p class="logo">
 				This page is still under developing!
-				
-				</p>
-				
-					<p class="logo">
+
 				Please check back later!
 				
 				</p>

@@ -23,6 +23,7 @@ $_SESSION["errorWage"] = "";
 $_SESSION["errorDeadline"] = "";
 $_SESSION["errorCourseGPA"] = "";
 $_SESSION["errorCGPA"] = "";
+$_SESSION["message"] = "";
 
 
 $c = new Controller();	
@@ -39,9 +40,14 @@ try{
 	if($_POST['jobSpinner'] == "TA"){
 		$c->profAddCourse($course);
 		$c->createTAJob($_POST['maxHours'], $_POST['wage'], $_POST['deadline'],FALSE, $_POST['skills'], 
-				$_POST['courseGPA'], $_POST['CGPA'], $_POST['experience'], $course, 0, FALSE);
+				$_POST['courseGPA'], $_POST['CGPA'], $_POST['experience'], $course, 0, "No");
 	
-
+	}
+	else if($_POST['jobSpinner'] == "TALab"){
+		$c->profAddCourse($course);
+		$c->createTALabJob($_POST['maxHours'], $_POST['wage'], $_POST['deadline'],FALSE, $_POST['skills'],
+				$_POST['courseGPA'], $_POST['CGPA'], $_POST['experience'], $course, 0, "Yes");
+	
 	}
 	else if($_POST['jobSpinner'] == "Grader"){
 		$c->profAddCourse($course);
