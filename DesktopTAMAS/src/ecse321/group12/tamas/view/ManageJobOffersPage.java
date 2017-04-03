@@ -37,12 +37,13 @@ public class ManageJobOffersPage extends JFrame {
 	private JLabel jobInfoLabel;
 
 	private JLabel applicantLabel;
-	private JComboBox<String> applicantComboBox;
+	private JComboBox/*<String>*/ applicantComboBox;
 	private JLabel jobLabel;
-	private JComboBox<String> jobComboBox;
+	private JComboBox/*<String>*/ jobComboBox;
 	private JButton acceptOfferButton;
 	private JButton backButton;
 	private JButton logOutButton;
+	private JButton rejectOfferButton;
 	
 	private JScrollPane jobInfoScrollPane;
 	
@@ -68,23 +69,24 @@ public class ManageJobOffersPage extends JFrame {
 	
 	public void initComponents() {
 		
-		setBounds(100, 100, 430, 300);
+		setBounds(100, 100, 439, 300);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		
 		applicantLabel = new JLabel("Applicant:");
-		applicantComboBox = new JComboBox<String>(new String[0]);
+		applicantComboBox = new JComboBox()/*<String>(new String[0])*/;
 		
 		jobLabel = new JLabel("Job Offer:");
-		jobComboBox = new JComboBox<String>(new String[0]);
+		jobComboBox = new JComboBox()/*<String>(new String[0])*/;
 
 		jobInfoLabel = new JLabel("Job Info:");
 		jobInfoScrollPane = new JScrollPane();
 		
 		logOutButton = new JButton("Sign Out");
 		backButton = new JButton("Back");
-		acceptOfferButton = new JButton("Accept Job Offer");
+		acceptOfferButton = new JButton("Accept Offer");
+		rejectOfferButton = new JButton("Reject Offer");
 		
 		// elements for error message
 	    errorMessage = new JLabel();
@@ -107,26 +109,30 @@ public class ManageJobOffersPage extends JFrame {
 				.addGroup(gl_contentPane.createSequentialGroup()
 					.addContainerGap()
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addComponent(errorMessage, GroupLayout.DEFAULT_SIZE, 390, Short.MAX_VALUE)
+						.addComponent(errorMessage, GroupLayout.DEFAULT_SIZE, 403, Short.MAX_VALUE)
 						.addGroup(gl_contentPane.createSequentialGroup()
-							.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING, false)
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
 								.addGroup(gl_contentPane.createSequentialGroup()
-									.addComponent(logOutButton, GroupLayout.PREFERRED_SIZE, 102, GroupLayout.PREFERRED_SIZE)
-									.addGap(18)
-									.addComponent(backButton, GroupLayout.PREFERRED_SIZE, 87, GroupLayout.PREFERRED_SIZE)
-									.addGap(18)
-									.addComponent(acceptOfferButton, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-								.addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
+									.addComponent(logOutButton, GroupLayout.PREFERRED_SIZE, 94, GroupLayout.PREFERRED_SIZE)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(backButton)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(rejectOfferButton, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(acceptOfferButton, GroupLayout.PREFERRED_SIZE, 106, GroupLayout.PREFERRED_SIZE))
+								.addGroup(gl_contentPane.createSequentialGroup()
 									.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING, false)
 										.addComponent(jobInfoLabel, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 										.addComponent(jobLabel, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 										.addComponent(applicantLabel, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 									.addPreferredGap(ComponentPlacement.RELATED)
 									.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-										.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
-											.addComponent(jobComboBox, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-											.addComponent(applicantComboBox, 0, 93, Short.MAX_VALUE))
-										.addComponent(jobInfoScrollPane, GroupLayout.PREFERRED_SIZE, 306, GroupLayout.PREFERRED_SIZE))))
+										.addGroup(gl_contentPane.createSequentialGroup()
+											.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
+												.addComponent(jobComboBox, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+												.addComponent(applicantComboBox, 0, 93, Short.MAX_VALUE))
+											.addGap(213))
+										.addComponent(jobInfoScrollPane, GroupLayout.DEFAULT_SIZE, 319, Short.MAX_VALUE))))
 							.addPreferredGap(ComponentPlacement.RELATED, 22, Short.MAX_VALUE)))
 					.addContainerGap())
 		);
@@ -149,8 +155,9 @@ public class ManageJobOffersPage extends JFrame {
 					.addPreferredGap(ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 						.addComponent(logOutButton)
+						.addComponent(acceptOfferButton)
 						.addComponent(backButton)
-						.addComponent(acceptOfferButton))
+						.addComponent(rejectOfferButton))
 					.addContainerGap())
 		);
 		
@@ -188,12 +195,19 @@ public class ManageJobOffersPage extends JFrame {
 	        	acceptOfferButtonActionPerformed();
 	        }
 	    });
+	    rejectOfferButton.addActionListener(new java.awt.event.ActionListener() {
+	        public void actionPerformed(java.awt.event.ActionEvent evt) {
+	        	rejectOfferButtonActionPerformed();
+	        }
+	    });
 	    applicantComboBox.addActionListener(new java.awt.event.ActionListener() {
 	        public void actionPerformed(java.awt.event.ActionEvent evt) {
 	            JComboBox<String> cb = (JComboBox<String>) evt.getSource();
 	            selectedApplicant = cb.getSelectedIndex();
 	            int i = 0;
 		    	if (rm.getLoggedIn() instanceof Department) {
+		    		jobComboBox.removeAllItems();
+			    	offeredJobs.clear();
 					if (selectedApplicant != -1) {
 						for (Application a : rm.getApplicant(selectedApplicant).getApplications()) {
 							if (a.getIsOffered() && (a.getJob().getAssignment() == null) && !(a.getIsAccepted())) {
@@ -211,7 +225,9 @@ public class ManageJobOffersPage extends JFrame {
 								i++;
 							}
 						} 
-					} 
+					}
+					selectedJob = -1;
+			    	jobComboBox.setSelectedIndex(selectedJob);
 				}
 	        }
 	    });
@@ -224,6 +240,29 @@ public class ManageJobOffersPage extends JFrame {
 	    });
 	}
 	
+	protected void rejectOfferButtonActionPerformed() {
+		// create and call the controller 
+		TamasController tc = new TamasController(rm);
+		error = null;
+		if (selectedJob < 0) {
+			error = "Job needs to be selected!";
+		}
+		if (rm.getLoggedIn() instanceof Department) {
+			if (selectedApplicant < 0) {
+				error = "Applicant needs to be selected!";
+			}
+			if (error == null) {
+				tc.deleteApplication(offeredJobs.get(selectedJob));
+			} 
+		} else if (rm.getLoggedIn() instanceof Applicant) {
+			if (error == null) {
+				tc.deleteApplication(offeredJobs.get(selectedJob));
+			} 
+		}
+		//update visuals
+		refreshData();
+	}
+
 	protected void displayJobInfo() {
 		String jobInfo;
 		if (selectedJob >= 0) {

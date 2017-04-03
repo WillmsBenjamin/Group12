@@ -347,7 +347,7 @@ public class OfferJobsPage extends JFrame {
 			error = "This applicant has already been offered the job!";
 		}
 		if (error == null) {
-			tc.rejectApplication(applicationLists.get(selectedList).get(selectedApplication));
+			tc.deleteApplication(applicationLists.get(selectedList).get(selectedApplication));
 		} 
 		//update visuals
 		refreshData();

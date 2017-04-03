@@ -181,19 +181,13 @@ public class TamasController {
 			throw new InvalidInputException("This offer has already been accepted! ");
 		}
 		int hours=0;
-		for (Application app: A.getApplicant().getApplications())
-		{
-			if (app.getJob().getClass()==TAjob.class)
-			{
-				Job J=(TAjob)app.getJob();
-				hours+=J.getMaxHours();
-			}
+		for (Application app: a.getApplicant().getApplications()) {
+			Job j = app.getJob();
+			hours += j.getMaxHours();
 		}
-		if (hours>180)
-		{
-			throw new InvalidInputException("accepting this TA job puts you over the 180 hour maximum for a single TA!");
-		}
-		else {
+		if (hours>180) {
+			throw new InvalidInputException("Accepting this TA job puts you over the 180 hour maximum for a single TA!");
+		} else {
 			a.setIsAccepted(true);
 			PersistenceXStream.saveToXMLwithXStream(rm);
 		}
@@ -206,7 +200,6 @@ public class TamasController {
 	}
 	
 	public void assignApplicantToJob(Application a) throws InvalidInputException {
-		
 		if (!a.getIsAccepted()) {
 			throw new InvalidInputException("This job offer has not been accepted!");
 		} else if(!a.getIsOffered()) {
@@ -215,9 +208,11 @@ public class TamasController {
 			Assignment asmt = new Assignment("", a.getApplicant(), a.getJob());
 			rm.addAssignment(asmt);
 			//once a job has been assigned, remove all other applications to said job
-			for (Application app: a.getJob().getApplications()) {
-				rm.removeApplication(app);
-				app.delete();
+			for (int i = a.getJob().getApplications().size()-1; i >=0; i--) {
+				Application app = a.getJob().getApplication(i);
+				if (app != a) {
+					app.delete();
+				}
 			}
 		}
 		PersistenceXStream.saveToXMLwithXStream(rm);
@@ -748,7 +743,7 @@ public class TamasController {
 		PersistenceXStream.saveToXMLwithXStream(rm);
 	}
 
-	public void rejectApplication(Application application) {
+	public void deleteApplication(Application application) {
 		rm.removeApplication(application);
 		application.delete();
 		PersistenceXStream.saveToXMLwithXStream(rm);

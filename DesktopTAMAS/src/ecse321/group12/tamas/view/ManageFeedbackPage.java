@@ -312,8 +312,10 @@ public class ManageFeedbackPage extends JFrame {
 		refreshData();
 	}
 	protected void displayFeedback() {
-		feedbackTextArea.setText(assignmentList.get(selectedAssignment).getFeedback());
-		pack();
+		if (selectedAssignment != -1) {
+			feedbackTextArea.setText(assignmentList.get(selectedAssignment).getFeedback());
+			pack();
+		}
 	}
 	protected void logOutButtonActionPerformed() {
 		TamasController tc = new TamasController(rm);
