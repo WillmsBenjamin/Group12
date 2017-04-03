@@ -57,9 +57,9 @@
 					if($rm->getJob_index($i) instanceof TAjob ){
 						echo " TA" ."<br>";
 						echo "Deadline: " . $rm->getJob_index($i)->getDeadline() . "<br>";
-						echo  "Lab: ". $rm->getJob_index($i)->getIsLab() . " | "
-								. "Wage: " . $rm->getJob_index($i)->getWage() ."/hr"  . "<br>";	
-						echo "Course GPA: " . $rm->getJob_index($i)->getRequiredCourseGPA() . " | " . "CGPA: " . 
+						echo  "Lab: ". $rm->getJob_index($i)->getIsLab() . "  |  "
+								. "Wage: $" . $rm->getJob_index($i)->getWage() ."/hr"  . "<br>";	
+						echo "Course GPA: " . $rm->getJob_index($i)->getRequiredCourseGPA() . "   |   " . "CGPA: " . 
 								$rm->getJob_index($i)->getRequiredCGPA() . "<br>";
 						echo "Skills: " . $rm->getJob_index($i)->getRequiredSkills() . "<br>";
 						echo "Experience: " . $rm->getJob_index($i)->getRequiredExperience();
@@ -68,8 +68,8 @@
 					else {
 						echo " Grader" ."<br>";
 						echo "Deadline: " . $rm->getJob_index($i)->getDeadline() . "<br>";
-						echo  "Wage: " . $rm->getJob_index($i)->getWage()."/hr" . "<br>";
-						echo "Course GPA: " . $rm->getJob_index($i)->getRequiredCourseGPA() . " | " . "CGPA: " .
+						echo  "Wage: $" . $rm->getJob_index($i)->getWage()."/hr" . "<br>";
+						echo "Course GPA: " . $rm->getJob_index($i)->getRequiredCourseGPA() . "   |   " . "CGPA: " .
 								$rm->getJob_index($i)->getRequiredCGPA() . "<br>";
 						echo "Skills: " . $rm->getJob_index($i)->getRequiredSkills() . "<br>";
 						echo "Experience: " . $rm->getJob_index($i)->getRequiredExperience();
