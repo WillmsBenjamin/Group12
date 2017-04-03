@@ -16,6 +16,7 @@
 		
 				<p class = "logo"> McGill TAMAS - Instructor </p>
 				<hr>
+				<form action='evaluateTA.php' method='post'>
 					
 				<p class = "logo">
 			
@@ -36,6 +37,7 @@
 					require_once '/Applications/XAMPP/xamppfiles/htdocs/Group12/WebTAMAS/controller/Controller.php';
 				
 				session_start();
+
 				
 				$ps = new Persistence();
 				$rm = $ps->loadDataFromStore();
@@ -44,19 +46,57 @@
 				
 				$name = $rm->getInstructor_index($_SESSION["index"])->getName();
 	
-				echo "Hi Professor " . $name;
+				echo "Hi Professor " . $name . "<br>";
 				
+				$ps = new Persistence();
+				$rm = $ps->loadDataFromStore();
 				
-				
-				?>
-				
-				
-				<p class="logo">
-				This page is still under developing!
+				if($rm->numberOfApplicants() == 0){
+					$Tom = new Applicant("Tom", "1", "4.00", "Java", "Yes");
+					$Jack = new Applicant("Jack", "2", "3.80", "Java, PHP", "No");
+					
+					$rm->addApplicant($Tom);
+					$rm->addApplicant($Jack);
+	
+					
 
-				Please check back later!
+					$ps->writeDataToStore($rm);
+				}
 				
+			
+	
+	
+				
+				echo "<p> Select TA <select name='TASpinner'>";
+				if($rm->numberOfJobs()!= 0){
+				foreach ($rm-> getApplicants() as $applicant){
+					echo "<option>" . $applicant->getName() . "</option>";
+			
+					}
+				}
+					
+				echo "</select>";
+				echo "</p>";
+
+								
+				?>
 				</p>
+				<p>Feeadback <br> <textarea  class="experience" name="feedback" cols="5" rows="10"></textarea></p>
+				
+				
+				
+				<p class="message">
+				<?php 
+				if(isset($_SESSION['feedbackMessage']) && !empty($_SESSION['feedbackMessage']))
+				echo $_SESSION["feedbackMessage"];
+				?>
+				</p>
+				
+				<button type="submit">Post</button>
+			
+			
+				
+				</form>
 				
 				<hr>
 				

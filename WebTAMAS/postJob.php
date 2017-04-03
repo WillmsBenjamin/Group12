@@ -47,7 +47,7 @@
 				
 				echo "<p>Please fill in the job requirements!</p>";
 								
-				echo "<p> Select course <select name='courseSpinner'>";
+				echo "<p> Select Course <select name='courseSpinner'>";
 						for($i = 0; $i < $rm->numberOfCourses(); $i++){
 							echo "<option>" . $rm->getCourse_index($i)->getName() . "</option>";
 				}

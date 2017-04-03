@@ -89,12 +89,12 @@ class Controller
 	
 		
 		if($rm->numberOfCourses() == 0){
-			$ECSE321 = new Course("ECSE321", 2, 0, 200);
-			$ECSE421 = new Course("ECSE421", 1, 2, 100);
-			$ECSE521 = NEW Course("ECSE521", 1, 4, 60);
-			$ECSE600 = new Course("ECSE600", 1, 4, 40);
-			$COMP350 = new Course("COMP350", 2, 0, 150);
-			$FACC200 = new Course("FACC200", 0, 0, 300);
+			$ECSE321 = new Course("ECSE321", 2, 0, 200,1000);
+			$ECSE421 = new Course("ECSE421", 1, 2, 100,2000);
+			$ECSE521 = NEW Course("ECSE521", 1, 4, 60,30000);
+			$ECSE600 = new Course("ECSE600", 1, 4, 40,40000);
+			$COMP350 = new Course("COMP350", 2, 0, 150,5000);
+			$FACC200 = new Course("FACC200", 0, 0, 300,2000);
 			
 			$rm->addCourse($ECSE321);
 			$rm->addCourse($ECSE421);
@@ -106,14 +106,31 @@ class Controller
 		$ps->writeDataToStore($rm);
 	}
 	
-	public function addCourse(Course $course){
-		
+	public function loadApplications(Job $aJob){
 		$ps = new Persistence();
 		$rm = $ps->loadDataFromStore();
-		$rm->addCourse($course);		
+	
+		if($rm->numberOfApplications() == 0){
+			$Tom = new Applicant("Tom", "1", "4.00", "Java", "Yes");
+			$Jack = new Applicant("Jack", "2", "3.80", "Java, PHP", "No");
+			
+			foreach ($rm->getJobs() as $job){
+				if($aJob == $job){
+			$Tom->addApplication(new Application(True, True, "None", "4.00", $Tom, $job));
+			$Jack->addApplication(new Application(True, True, "TAed ECSE 321", "4.00", $Jack, $job));
+			
+			$rm->addApplication(new Application(True, True, "None", "4.00", $Tom, $job));
+			$rm->addApplication(new Application(True, True, "TAed ECSE 321", "4.00", $Jack, $job));
+
+
+				}
+			}
+		}
 		$ps->writeDataToStore($rm);
-		
+	
+	
 	}
+
 	
 	public function createTAJob($aMaxHours, $aWage, $aDeadline, $aIsApproved,$aRequiredSkills, $aRequiredCourseGPA, $aRequiredCGPA, $aRequiredExperience, Course $aCourse, $aMinHours, $aIsLab){
 		$maxHour = InputValidator::validate_input($aMaxHours);
@@ -150,14 +167,18 @@ class Controller
 		
 		$taJob = new TAjob($aMaxHours, $aWage, $aDeadline, $aIsApproved, $aRequiredSkills, $aRequiredCourseGPA, $aRequiredCGPA, $aRequiredExperience, $aCourse, $aMinHours, "No");
 		$rm->addJob($taJob);
-		foreach ($rm->getCourses() as $course){
-			if($course == $aCourse ){
-				$rm->getCourse_index(indexOfCourse($course))->addJob($taJob);
-			}
-			
+		for($i = 0; $i < $rm->numberOfCourses(); $i++){
+	
+			if($rm->getCourse_index($i)->getName() == $aCourse->getName()){
+				//$rm->getInstructor_index($_SESSION["index"])->getCourse_index($i)->addJob($taJob);
+				$rm->getCourse_index($i)->addJob($taJob);		
+			}			
 		}
-			
+		
+		//$this->loadApplications($taJob);
+		
 		$_SESSION["message"] = "Job posted!";
+	
 		$ps->writeDataToStore($rm);
 		}
 		else{
@@ -198,15 +219,21 @@ class Controller
 			$rm = $ps->loadDataFromStore();
 	
 	
-			$taJob = new TAjob($aMaxHours, $aWage, $aDeadline, $aIsApproved, $aRequiredSkills, $aRequiredCourseGPA, $aRequiredCGPA, $aRequiredExperience, $aCourse, $aMinHours, "Yes");
-			$rm->addJob($taJob);
-			foreach ($rm->getCourses() as $course){
-				if($course == $aCourse ){
-					$rm->getCourse_index(indexOfCourse($course))->addJob($taJob);
+			$taLabJob = new TAjob($aMaxHours, $aWage, $aDeadline, $aIsApproved, $aRequiredSkills, $aRequiredCourseGPA, $aRequiredCGPA, $aRequiredExperience, $aCourse, $aMinHours, "Yes");
+			$rm->addJob($taLabJob);
+			for($i = 0; $i < $rm->numberOfCourses(); $i++){
+			
+				if($rm->getCourse_index($i)->getName() == $aCourse->getName()){
+					//$rm->getInstructor_index($_SESSION["index"])->getCourse_index($i)->addJob($taLabJob);
+					$rm->getCourse_index($i)->addJob($taLabJob);
+			
 				}
 					
 			}
 				
+			//$this->loadApplications($taLabJob);
+
+			
 			$_SESSION["message"] = "Job posted!";
 			$ps->writeDataToStore($rm);
 		}
@@ -251,12 +278,20 @@ class Controller
 		
 		$graderJob = new GraderJob($aMaxHours, $aWage, $aDeadline,$aIsApproved, $aRequiredSkills, $aRequiredCourseGPA, $aRequiredCGPA, $aRequiredExperience, $aCourse);
 		$rm->addJob($graderJob);
-		foreach ($rm->getCourses() as $course){
-			if($course == $aCourse ){
-				$rm->getCourse_index(indexOfCourse($course))->addJob($graderJob);
+		
+		$this->profAddCourse($aCourse);
+		for($i = 0; $i < $rm->numberOfCourses(); $i++){
+		
+			if($rm->getCourse_index($i)->getName() == $aCourse->getName()){
+				//$rm->getInstructor_index($_SESSION["index"])->getCourse_index($i)->addJob($graderJob);
+				$rm->getCourse_index($i)->addJob($graderJob);
+		
 			}
 				
 		}
+		//$this->loadApplications($graderJob);
+
+		
 		$_SESSION["message"] = "Job posted!";
 		
 		$ps->writeDataToStore($rm);
@@ -272,16 +307,59 @@ class Controller
 		$rm = $ps->loadDataFromStore();
 		$hasCourse = FALSE;
 		
+		if($rm->getInstructor_index($_SESSION["index"])->numberOfCourses() == 0){
+			$rm->getInstructor_index($_SESSION["index"])->addCourse($course);
+	
+		}
+		else{
 		for($i = 0; $i < $rm->getInstructor_index($_SESSION["index"])->numberOfCourses(); $i++){
-			if($rm->getInstructor_index($_SESSION["index"])->getCourse_index($i) == $course){				
-				$hasCourse = TRUE;		
+			if($rm->getInstructor_index($_SESSION["index"])->getCourse_index($i)->getName() == $course->getName()){				
+				$hasCourse = TRUE;
+				}			
+			}
+			if($hasCourse == FALSE){
+				$rm->getInstructor_index($_SESSION["index"])->addCourse($course);
 			}
 		}
-		if($hasCourse == FALSE ){
-			$rm->getInstructor_index($_SESSION["index"])->addCourse($course);
-			$ps->writeDataToStore($rm);
-		}
+
+		$ps->writeDataToStore($rm);
 	}
+	
+	
+	//Sent feedback method
+	public function sendFeedback($aFeedback, Applicant $aApplicant){
+		$feedback = InputValidator::validate_input($aFeedback);
+		
+		$ps = new Persistence();
+		$rm = $ps->loadDataFromStore();
+
+	
+
+
+		foreach ($rm->getApplicants() as $applicant){
+			if($applicant == $aApplicant){
+				
+		
+				if($rm->getJob_index(0)->hasAssignment() == FALSE){
+				$a = new Assignment($feedback, $applicant, $rm->getJob_index(0));
+				$rm->addAssignment($a);
+				}
+				else{
+					$b = new Assignment($feedback, $applicant, $rm->getJob_index(1));
+					$rm->addAssignment($b);
+				}
+			}
+		
+		}
+		
+		$_SESSION["feedbackMessage"] = "Feedback Sent!";
+		
+		$ps->writeDataToStore($rm);
+		
+		
+	}
+	
+
 }
 
 ?>
