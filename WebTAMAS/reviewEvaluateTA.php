@@ -44,19 +44,16 @@
 				$name = $rm->getInstructor_index($_SESSION["index"])->getName();
 
 	
-				echo "Hi Professor " . $name;
+				echo "Hi Professor " . $name . "<br>";
+				
+				for($i = 0; $i < $rm->numberOfAssignments(); $i++){
+					echo $i+1 . ". " . $rm->getAssignment_index($i)->getApplicant()->getName() . "<br>";
+					echo "Feedback: " . $rm->getAssignment_index($i)->getFeedback() . "<br>" . "<br>";
+				}
 		
 				?>
 							
-				<p class="logo">
-				This page is still under developing!
-				
-				</p>
-				
-					<p class="logo">
-				Please check back later!
-				
-				</p>
+
 				
 				<hr>
 				
