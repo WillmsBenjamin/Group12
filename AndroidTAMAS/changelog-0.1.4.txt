@@ -1,0 +1,62 @@
+<<<<<<<<<<<<<<<<<CHANGELOG>>>>>>>>>>>>>>>>>>>>>>
+
+ver 0.1.4
+
+<<<<<<<<<<<<<<<<<General>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+-updated a missing colon in the TAMAS.jar
+-implemented a back button on all the pages, uses the moveTo
+ method, but sends the user to a logical parent page
+
+TODO
+
+-ensure each logged in page has an FAB that gives them access to
+the logout option 
+-alert dialog for each page that has user input when using the logout
+
+<<<<<<<<<<<<<<<<CurrentApplicationActivity>>>>>>>>>>>>>>
+
+-dynamically adds in the current applications for a user
+	-has a button that links to a function
+	-has a description of the application
+	-displays if the application is pending
+-functionality is determined by if the application has been offered 
+ a job or not, in conjunction with the deadline (before or after)
+-change the linear layout background colour for accepted vs rejected 
+ applications
+
+<<<<<<<<<<<<<<<AlertDialogFragment>>>>>>>>>>>>>>>>>>
+
+TODO
+
+-generalise to accept bundles with the following data:
+	-title
+	-positive header
+	-negative header
+	-message
+
+<<<<<<<<<<<<<<<EditApplicationActivity>>>>>>>>>>>>>>>>
+
+TODO
+
+-need to duplicate the application activity, but lock the courseGPA 
+ field
+
+<<<<<<<<<<<<<<<ApplicationStatusActivity>>>>>>>>>>>>>>
+
+TODO
+
+-implement dynamic UI for accepted vs rejected applications (done
+ by passing information via bundle)
+-display the following information on the page:
+	-accepted
+	-course
+	-position
+	-wage
+	-hours
+	OR
+	-declined
+-return to current applications page
+-use the alert dialog to ensure the user knows the result of their 
+ choice (declining an accepted offer will still remove the application,
+ returning from the declined status will also remove the application)

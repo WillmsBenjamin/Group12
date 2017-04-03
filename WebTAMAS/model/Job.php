@@ -13,6 +13,7 @@ class Job
   private $maxHours;
   private $wage;
   private $deadline;
+  private $isApproved;
   private $requiredSkills;
   private $requiredCourseGPA;
   private $requiredCGPA;
@@ -27,11 +28,12 @@ class Job
   // CONSTRUCTOR
   //------------------------
 
-  public function __construct($aMaxHours, $aWage, $aDeadline, $aRequiredSkills, $aRequiredCourseGPA, $aRequiredCGPA, $aRequiredExperience, $aCourse)
+  public function __construct($aMaxHours, $aWage, $aDeadline, $aIsApproved, $aRequiredSkills, $aRequiredCourseGPA, $aRequiredCGPA, $aRequiredExperience, $aCourse)
   {
     $this->maxHours = $aMaxHours;
     $this->wage = $aWage;
     $this->deadline = $aDeadline;
+    $this->isApproved = $aIsApproved;
     $this->requiredSkills = $aRequiredSkills;
     $this->requiredCourseGPA = $aRequiredCourseGPA;
     $this->requiredCGPA = $aRequiredCGPA;
@@ -68,6 +70,14 @@ class Job
   {
     $wasSet = false;
     $this->deadline = $aDeadline;
+    $wasSet = true;
+    return $wasSet;
+  }
+
+  public function setIsApproved($aIsApproved)
+  {
+    $wasSet = false;
+    $this->isApproved = $aIsApproved;
     $wasSet = true;
     return $wasSet;
   }
@@ -119,6 +129,11 @@ class Job
     return $this->deadline;
   }
 
+  public function getIsApproved()
+  {
+    return $this->isApproved;
+  }
+
   public function getRequiredSkills()
   {
     return $this->requiredSkills;
@@ -137,6 +152,11 @@ class Job
   public function getRequiredExperience()
   {
     return $this->requiredExperience;
+  }
+
+  public function isIsApproved()
+  {
+    return $this->isApproved;
   }
 
   public function getAssignment()
@@ -228,9 +248,9 @@ class Job
     return 0;
   }
 
-  public function addApplicationVia($aIsAccepted, $aExperience, $aCourseGPA, $aApplicant)
+  public function addApplicationVia($aIsAccepted, $aIsOffered, $aExperience, $aCourseGPA, $aApplicant)
   {
-    return new Application($aIsAccepted, $aExperience, $aCourseGPA, $aApplicant, $this);
+    return new Application($aIsAccepted, $aIsOffered, $aExperience, $aCourseGPA, $aApplicant, $this);
   }
 
   public function addApplication($aApplication)

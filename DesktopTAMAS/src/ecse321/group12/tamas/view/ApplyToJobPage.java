@@ -2,25 +2,18 @@ package ecse321.group12.tamas.view;
 
 import javax.swing.JFrame;
 import javax.swing.JTextField;
-import javax.swing.SpinnerDateModel;
-import javax.swing.SpinnerNumberModel;
 
 import ecse321.group12.tamas.controller.TamasController;
-import ecse321.group12.tamas.controller.DepartmentRegisteredException;
 import ecse321.group12.tamas.controller.InvalidInputException;
-import ecse321.group12.tamas.controller.UserType;
 import ecse321.group12.tamas.model.Applicant;
-import ecse321.group12.tamas.model.Course;
 import ecse321.group12.tamas.model.Department;
 import ecse321.group12.tamas.model.GraderJob;
-import ecse321.group12.tamas.model.Instructor;
 import ecse321.group12.tamas.model.Job;
 import ecse321.group12.tamas.model.ResourceManager;
 import ecse321.group12.tamas.model.TAjob;
 
 import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JSpinner;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -28,21 +21,12 @@ import javax.swing.JComboBox;
 import java.awt.Color;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.sql.Time;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.Properties;
 
 import javax.swing.GroupLayout;
 import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
-import javax.swing.GroupLayout.Alignment;
-
-import org.jdatepicker.impl.JDatePanelImpl;
-import org.jdatepicker.impl.JDatePickerImpl;
-import org.jdatepicker.impl.SqlDateModel;
 
 public class ApplyToJobPage extends JFrame {
 
@@ -61,6 +45,9 @@ public class ApplyToJobPage extends JFrame {
 	private JButton applyButton;
 	private JButton backButton;
 	private JButton logOutButton;
+	
+	private JScrollPane experienceScrollPane;
+	private JScrollPane jobInfoScrollPane;
 	
 	private JLabel applicationDeadlineLabel;
 
@@ -85,9 +72,16 @@ public class ApplyToJobPage extends JFrame {
 	private void initComponents() {
 		jobInfoTextArea = new JTextArea(6, 40);
 		jobInfoTextArea.setEditable(false);
+		jobInfoTextArea.setLineWrap(true);
+		jobInfoTextArea.setWrapStyleWord(true);
 		jobInfoLabel = new JLabel("Job Info:");
 		experienceTextArea = new JTextArea(4, 40);
+		experienceTextArea.setLineWrap(true);
+		experienceTextArea.setWrapStyleWord(true);
 		experienceLabel = new JLabel("Experience:");
+		
+		experienceScrollPane = new JScrollPane();
+		jobInfoScrollPane = new JScrollPane();
 		
 		courseGPALabel = new JLabel("Course GPA:");
 		courseGPATextField = new JTextField();
@@ -103,6 +97,8 @@ public class ApplyToJobPage extends JFrame {
 		logOutButton = new JButton("Sign Out");
 		
 		applicationDeadlineLabel = new JLabel("Application Deadline:");
+		
+		experienceScrollPane = new JScrollPane();
 	    
 	    // elements for error message
 	    errorMessage = new JLabel();
@@ -141,10 +137,10 @@ public class ApplyToJobPage extends JFrame {
 	    	        		.addComponent(courseGPATextField))
 	    	        .addGroup(layout.createSequentialGroup()
 	    	        		.addComponent(jobInfoLabel)
-	    	        		.addComponent(jobInfoTextArea))
+	    	        		.addComponent(jobInfoScrollPane))
 	    	        .addGroup(layout.createSequentialGroup()
 	    	        		.addComponent(experienceLabel)
-	    	        		.addComponent(experienceTextArea)))
+	    	        		.addComponent(experienceScrollPane)))
 	        .addGroup(layout.createSequentialGroup()
 	        		.addComponent(logOutButton)
 	        		.addComponent(backButton)
@@ -171,15 +167,17 @@ public class ApplyToJobPage extends JFrame {
 		    	        		.addComponent(courseGPATextField))
 		    	        .addGroup(layout.createParallelGroup()
 		    	        		.addComponent(jobInfoLabel)
-		    	        		.addComponent(jobInfoTextArea))
+		    	        		.addComponent(jobInfoScrollPane))
 		    	        .addGroup(layout.createParallelGroup()
 		    	        		.addComponent(experienceLabel)
-		    	        		.addComponent(experienceTextArea)))
+		    	        		.addComponent(experienceScrollPane)))
 		        .addGroup(layout.createParallelGroup()
 		        		.addComponent(logOutButton)
 		        		.addComponent(backButton)
 		        		.addComponent(applyButton))
 		        );
+	    experienceScrollPane.setViewportView(experienceTextArea);
+	    jobInfoScrollPane.setViewportView(jobInfoTextArea);
 
 	    layout.setHonorsVisibility(false);
 	    if(rm.getLoggedIn() instanceof Department) {
@@ -337,7 +335,7 @@ public class ApplyToJobPage extends JFrame {
 	    	approvedJobs.clear();
 	    	int i = 0;
 	    	for (Job j : rm.getJobs()) {
-	    		if (j.getIsApproved()) {
+	    		if (j.getIsApproved() && (j.getAssignment() == null)) {
 					if (j instanceof TAjob) {
 						if (((TAjob) j).getIsLab()) {
 							jobList.addItem(j.getCourse().getName() + " " + "TA Lab " + i);
@@ -348,8 +346,8 @@ public class ApplyToJobPage extends JFrame {
 						jobList.addItem(j.getCourse().getName() + " " + "Grader " + i);
 					}
 					approvedJobs.add(j);
+					i++;
 				}
-				i++;
 	    	}
 	    	selectedJob = -1;
 	    	jobList.setSelectedIndex(selectedJob);

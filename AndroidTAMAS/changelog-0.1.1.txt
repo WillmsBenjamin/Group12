@@ -1,0 +1,158 @@
+#<<<<<<<<<<<<<<<<<<<<<<<<<<<<CHANGELOG>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#
+#<<<<<<<<<ver0.1.1>>>>>>>>>>>>>>>>>
+#
+#The prototype is going to be considered ver.0.1
+#Final Product will have a designation of ver.1.0
+#
+#<<<<RegisterActivity>>>>>
+#
+#-updated button text from "register" to "create new user"
+#-formatted all the xml strings to follow a readable format
+#-removed the button onclick() to prepare for generalisation of the moveTo()
+#
+#<<<<<<MainActivity>>>>>>>
+#
+#-added the following buttons
+#	-current applications
+#	-ongoing jobs
+#	-edit profile
+#-updated button text for the "view jobs" to view job posting" 
+#-added a graphical bottom divider
+#-bottom divider used to anchor FAB
+#-started to implement a coherent naming scheme for strings.xml objects
+#-removed the moveTo..() functionalities from the buttons. They are currently
+# only dummy buttons
+#
+#TODO 
+#
+#-migrate moveTo functionalities to one function that accepts an activity as 
+# an input
+#
+#<<<<<<EditProfileActivity>>>>>>>
+#
+#-added the activity to the app. It is the same as the registration page,
+# except some of the fields are read only (name, ID).
+#
+#-added name, read-only text field
+#-added identificationNumber, read-only text field
+#-added CGPA, read-write text field
+#-added radio buttons for the type of student (graduate or undergraduate)
+#-added Relevant skills, read-write text field
+#-added an update button, updates the user profile with any of the changes
+# made by the user to their mutable profile information, along with any links
+# to other objects
+#-added a delete user button, removes the user from the TAMAS system
+#
+#TODO
+#
+#-programmatically implement the following, pulling from the currently logged 
+# in profile:
+#	-automatically checked radio button
+#	-auto-fill name
+#	-auto-fill id number
+#	-auto-fill Cumulative GPA
+#	-auto-fill relevant skills 
+#
+#<<<<<<loginActivity>>>>>>>
+#
+#-cleaned up the XML strings to follow a good format
+#-removed button onclick()'s to migrate to a general moveTo() function
+#
+#<<<<<<CurrentApplicationActivity>>>>>>>
+#
+#-added this activity to the application. Its purpose is to review any of the 
+# pending applications for the currently logged in applicant.
+#-has two accompanying xml files:
+#	-pending_current_application_layout.xml
+#	-status_current_application_layout.xml
+#	
+#	These files define the layout for an application that has been either 
+#       has not been accepted, or has been either accepted or rejected (this 
+#	is defined as the reviewed state)
+#
+#TODO	
+#
+#-will insert the different layouts programmatically based upon the following 
+# criteria:
+#	-posting deadline (removes the ability to edit the application if past
+#	       past the deadline, done by changing the view)
+#	-review status (done by changing the background of the view to an 
+#	 appropriate colour [red/green] )
+#	-maximum of three applications in all
+#-the edit button will link to an activity that allows for the application to 
+# be altered, up to the deadline 
+#-the status button will link to an activity that will show whether or not the
+# application was accepted
+#
+#<<<<<<ApplicationStatusActivity>>>>>>>
+#
+#-added this activity to the app.
+#-it has the associated xml files for a later inflation as a child:
+#       -job_status_accepted.xml
+#       -job_status_rejected.xml
+#TODO
+#
+#--the following will be implemented as a layout that will be inflated inside the activity
+#-returning from the status screen will remove the application from the list
+#-the status screen will require someone to accept or decline the application 
+# before leaving the page
+#-page will display the following details of the posting if accepted:
+#	-course
+#	-position 
+#	-wage
+#	-hours
+#-radio-buttons for the accept/decline choice
+#-finalise button for accepted the letter of offer	
+#
+#--the following will be implemented as a fragment inside the activity
+#-display a condolences message
+#-have a return button
+#
+#<<<<<<EditApplicationActivity>>>>>>>
+#
+#-added this activity to the app. It is identical to the Apply to Job activity, except
+# that it will be pre-filled with the prior application data.
+#
+#-added an update application button, replaces the existing application data with the new 
+# input
+#-added a Course GPA edittext - read-write
+#-FAB implemented
+#
+#<<<<<<CurrentJobsActivity>>>>>>>
+#
+#-added this activity to the the app. It allows the user to view feedback for any jobs that
+# they are currently assigned to
+#
+#-added a spinner to select from the list of jobs, along with a header for the spinner
+#-added a read-only textview inside a scrollview for the feedback from the current job
+#-added a done button to return to the main page
+#-implemented an FAB
+#
+#<<<<<<ApplicationActivity>>>>>>>
+#
+#-formatted the xml labels so that they made sense
+#
+#<<<<<<ViewJobsActivity>>>>>>>
+#
+#-formatted the xml labels for the strings so that they are coherent
+#
+#
+#
+#	
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+
+
+

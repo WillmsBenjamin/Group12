@@ -8,6 +8,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -47,49 +49,45 @@ public class LoginActivity extends AppCompatActivity {
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+
+        Button register = (Button) findViewById(R.id.login_button_register_newuser);
+        register.setOnClickListener(v -> moveTo(RegisterActivity.class));
     }
 
     private void refreshData() {
-        TextView tv = (TextView) findViewById(R.id.login_identification);
+        TextView tv = (TextView) findViewById(R.id.login_edittext_identification);
         tv.setText("");
     }
-
-    public void moveToMainPage(View v)
+    private void moveTo(Class target)
     {
-            Intent i = new Intent(getApplicationContext(), HomeActivity.class);
-
-            startActivity(i);
-            refreshData();
+        Intent i = new Intent(getApplicationContext(), target);
+        startActivity(i);
+        finish();
     }
-
-    public void moveToRegisterPage(View v)
+    @Override
+    public void onBackPressed()
     {
-            Intent i = new Intent(getApplicationContext(), RegisterActivity.class);
-            startActivity(i);
-            refreshData();
+        ;//this method is meant to do literally nothing
     }
     public void login(View v)
     {
-        TextView tv = (TextView) findViewById(R.id.login_identification);
+        EditText et = (EditText) findViewById(R.id.login_edittext_identification);
         TamasController tc = new TamasController(rm);
 
         try
         {
-                tc.logIn(tv.getText().toString());
+                tc.logIn(et.getText().toString());
                 Toast.makeText(getApplicationContext(),"logging in...",Toast.LENGTH_SHORT).show();
-                moveToMainPage(v);
+                moveTo(HomeActivity.class);
         }
         catch (InvalidInputException e)
         {
                 error=e.getMessage();
-                Toast.makeText(getApplicationContext(),error,Toast.LENGTH_SHORT).show();
-                return;
-
+                Toast.makeText(getApplicationContext(),error,Toast.LENGTH_LONG).show();
+                refreshData();
         }
 
     }
-
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.

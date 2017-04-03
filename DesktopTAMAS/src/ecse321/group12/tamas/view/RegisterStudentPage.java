@@ -4,13 +4,11 @@ import javax.swing.JFrame;
 import javax.swing.JTextField;
 
 import ecse321.group12.tamas.controller.TamasController;
-import ecse321.group12.tamas.controller.DepartmentRegisteredException;
 import ecse321.group12.tamas.controller.InvalidInputException;
-import ecse321.group12.tamas.controller.UserType;
 import ecse321.group12.tamas.model.ResourceManager;
 
 import javax.swing.JLabel;
-import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -42,6 +40,8 @@ public class RegisterStudentPage extends JFrame {
 	private JButton registerButton;
 	private JButton backButton;
 	
+	private JScrollPane skillsScrollPane;
+	
 	private ResourceManager rm;
 	
 	private String error = null;
@@ -59,6 +59,8 @@ public class RegisterStudentPage extends JFrame {
 		idTextField = new JTextField();
 		cGPATextField = new JTextField();
 		skillsTextArea = new JTextArea(7, 30);
+		skillsTextArea.setWrapStyleWord(true);
+		skillsTextArea.setLineWrap(true);
 		nameLabel = new JLabel("name:");
 		idLabel = new JLabel("Id:");
 		cGPALabel = new JLabel("CGPA:");
@@ -68,11 +70,12 @@ public class RegisterStudentPage extends JFrame {
 		isGraduateCheckBox = new JCheckBox("Graduate?");
 		isGraduateCheckBox.setSelected(false);
 		isGraduateChecked = false;
+		
+		skillsScrollPane = new JScrollPane();
 	    
 	    // elements for error messages
 	    errorMessage = new JLabel();
 	    errorMessage.setForeground(Color.RED);
-
 
 	    // global settings and listeners
 	    setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -100,7 +103,7 @@ public class RegisterStudentPage extends JFrame {
 	    		.addComponent(cGPATextField, 200, 200, 400))
 	    	.addGroup(layout.createSequentialGroup()
 	    		.addComponent(skillsLabel)
-	    		.addComponent(skillsTextArea))
+	    		.addComponent(skillsScrollPane))
 	    	.addGroup(layout.createSequentialGroup()
 	    		.addComponent(backButton)
 		    	.addComponent(registerButton))
@@ -124,11 +127,12 @@ public class RegisterStudentPage extends JFrame {
 		    	.addComponent(cGPATextField))
 		    .addGroup(layout.createParallelGroup()
 		    	.addComponent(skillsLabel, Alignment.CENTER)
-		    	.addComponent(skillsTextArea))
+		    	.addComponent(skillsScrollPane))
 		    .addGroup(layout.createParallelGroup()
 		    	.addComponent(backButton)
 			   	.addComponent(registerButton))
 	    	);
+	    skillsScrollPane.setViewportView(skillsTextArea);
 	    
 	    this.setLocationRelativeTo(null);
 	    pack();

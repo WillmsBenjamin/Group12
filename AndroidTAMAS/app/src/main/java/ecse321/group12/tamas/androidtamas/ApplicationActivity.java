@@ -49,45 +49,42 @@ public class ApplicationActivity extends AppCompatActivity {
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener
                 (
-                        view -> Snackbar.make(view, "DONE?", Snackbar.LENGTH_INDEFINITE)
-                                .setAction("LOGOUT", new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v)
-                                    {
-                                        logout();
-                                    }
-                                }).show()
+                        view -> Snackbar.make(view, "DONE?", Snackbar.LENGTH_LONG)
+                                .setAction(
+                                        "LOGOUT", v ->
+                                        {
+                                            TamasController tc = new TamasController(rm);
+                                            tc.logOut();
+                                            moveTo(LoginActivity.class);
+                                        }
+                                ).show()
                 );
-
         fileName = getFilesDir().getAbsolutePath() + "/tamas_data.xml";
         rm = PersistenceXStream.initializeModelManager(fileName);
-
-        refreshData();
-
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+        refreshData();
     }
 
-    private void logout()
+    private void moveTo(Class target)
     {
-        TamasController tc = new TamasController(rm);
-        tc.logOut();
-        forceToLoginPage();
-    }
-    public void forceToLoginPage()
-    {
-        Intent i = new Intent(getApplicationContext(), LoginActivity.class);
+        Intent i = new Intent(getApplicationContext(), target);
+
         startActivity(i);
+        finish();
     }
-
+    public void onBackPressed()
+    {
+        moveTo(HomeActivity.class);
+    }
     private void refreshData()
     {
-        TextView tv = (TextView) findViewById(R.id.application_coursegpa);
+        TextView tv = (TextView) findViewById(R.id.application_edittext_coursegpa);
         tv.setText("");
-        tv = (TextView) findViewById(R.id.application_courseexperience);
+        tv = (TextView) findViewById(R.id.application_edittext_relevantexperience);
         tv.setText("");
-        tv = (TextView) findViewById(R.id.job_title);
+        tv = (TextView) findViewById(R.id.application_textview_job_title);
         String name=getIntent().getStringExtra("name");
         tv.setCompoundDrawablesWithIntrinsicBounds(new TextDrawable(name), null, null, null);
         tv.setCompoundDrawablePadding(name.length()*10);
@@ -95,36 +92,29 @@ public class ApplicationActivity extends AppCompatActivity {
     }
     public void createApplication(View v)
     {
-        TextView tv = (TextView) findViewById(R.id.application_coursegpa);
+        TextView tv = (TextView) findViewById(R.id.application_edittext_coursegpa);
         String coursegpa = tv.getText().toString();
-        tv = (TextView) findViewById(R.id.application_courseexperience);
+        tv = (TextView) findViewById(R.id.application_edittext_relevantexperience);
         String experience = tv.getText().toString();
 
-        int jobindex = getIntent().getIntExtra("jindex",-1);
+        Bundle bundle = getIntent().getExtras();
+        int jobindex = bundle.getInt("jindex",-1);
         Job J = rm.getJob(jobindex);
         Applicant A = (Applicant) rm.getLoggedIn();
-
         try
         {
             TamasController tc = new TamasController(rm);
             tc.applyToJob(experience,coursegpa,A,J);
-            refreshData();
             Toast.makeText(getApplicationContext(),"Application Successful",Toast.LENGTH_SHORT).show();
-            moveToJobPage();
+            moveTo(ViewJobsActivity.class);
         }
         catch(InvalidInputException e)
         {
             error=e.getMessage();
             Toast.makeText(getApplicationContext(),error,Toast.LENGTH_SHORT).show();
+            refreshData();
         }
 
-    }
-    public void moveToJobPage()
-    {
-        Intent i = new Intent(getApplicationContext(), ViewJobsActivity.class);
-
-        startActivity(i);
-        refreshData();
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

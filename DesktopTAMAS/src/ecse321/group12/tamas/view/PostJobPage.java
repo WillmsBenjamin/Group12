@@ -2,14 +2,10 @@ package ecse321.group12.tamas.view;
 
 import javax.swing.JFrame;
 import javax.swing.JTextField;
-import javax.swing.SpinnerDateModel;
 import javax.swing.SpinnerNumberModel;
 
 import ecse321.group12.tamas.controller.TamasController;
-import ecse321.group12.tamas.controller.DepartmentRegisteredException;
 import ecse321.group12.tamas.controller.InvalidInputException;
-import ecse321.group12.tamas.controller.UserType;
-import ecse321.group12.tamas.model.Applicant;
 import ecse321.group12.tamas.model.Course;
 import ecse321.group12.tamas.model.Department;
 import ecse321.group12.tamas.model.Instructor;
@@ -17,8 +13,8 @@ import ecse321.group12.tamas.model.Job;
 import ecse321.group12.tamas.model.ResourceManager;
 
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JTextArea;
 import javax.swing.JButton;
@@ -31,20 +27,16 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.Date;
 import java.util.Properties;
 
 import javax.swing.ButtonGroup;
 import javax.swing.GroupLayout;
 import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
-import javax.swing.GroupLayout.Alignment;
 
 import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.SqlDateModel;
-
-
 
 public class PostJobPage extends JFrame {
 
@@ -78,6 +70,9 @@ public class PostJobPage extends JFrame {
 	private JTextField requiredCGPATextField;
 	private JTextField requiredCourseGPATextField;
 	private JComboBox<String> courseList;
+	
+	private JScrollPane requiredSkillsScrollPane;
+	private JScrollPane requiredExperienceScrollPane;
 	
 	private ResourceManager rm;
 	
@@ -127,9 +122,9 @@ public class PostJobPage extends JFrame {
 		backButton = new JButton("Back");
 		logOutButton = new JButton("Sign Out");
 		
-		maxHoursSpinner = new JSpinner( new SpinnerNumberModel(60, 0, 120, 1) );
-		minHoursSpinner = new JSpinner( new SpinnerNumberModel(0, 0, 120, 1) );
-		hoursSpinner = new JSpinner( new SpinnerNumberModel(60, 0, 120, 1) );
+		maxHoursSpinner = new JSpinner( new SpinnerNumberModel(90, 45, 180, 1) );
+		minHoursSpinner = new JSpinner( new SpinnerNumberModel(45, 45, 180, 1) );
+		hoursSpinner = new JSpinner( new SpinnerNumberModel(90, 45, 180, 1) );
 		wageSpinner = new JSpinner( new SpinnerNumberModel(10.0, 0.0, 50.0, 0.1) );
 		
 		SqlDateModel model = new SqlDateModel();
@@ -141,12 +136,18 @@ public class PostJobPage extends JFrame {
 	    deadlineDatePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());
 		
 		requiredSkillsTextArea = new JTextArea(7, 30);
+		requiredSkillsTextArea.setWrapStyleWord(true);
+		requiredSkillsTextArea.setLineWrap(true);
 		requiredExperienceTextArea = new JTextArea(7, 30);
+		requiredExperienceTextArea.setLineWrap(true);
 		
 		requiredCGPATextField = new JTextField();
 		requiredCourseGPATextField = new JTextField();
 		
 		courseList = new JComboBox<String>(new String[0]);
+		
+		requiredSkillsScrollPane = new JScrollPane();
+		requiredExperienceScrollPane = new JScrollPane();
 	    
 	    // elements for error message
 	    errorMessage = new JLabel();
@@ -203,10 +204,10 @@ public class PostJobPage extends JFrame {
 	        		        	.addComponent(isLabCheckBox))
 	        			.addGroup(layout.createSequentialGroup()
 	        					.addComponent(requiredSkillsLabel)
-	        		        	.addComponent(requiredSkillsTextArea))
+	        		        	.addComponent(requiredSkillsScrollPane))
 	        			.addGroup(layout.createSequentialGroup()
 	        					.addComponent(requiredExperienceLabel)
-	        		        	.addComponent(requiredExperienceTextArea))))
+	        		        	.addComponent(requiredExperienceScrollPane))))
 	        .addGroup(layout.createSequentialGroup()
 	        		.addComponent(logOutButton)
 	        		.addComponent(backButton)
@@ -251,15 +252,17 @@ public class PostJobPage extends JFrame {
 		        		        	.addComponent(isLabCheckBox))
 		        			.addGroup(layout.createParallelGroup()
 		        					.addComponent(requiredSkillsLabel)
-		        		        	.addComponent(requiredSkillsTextArea))
+		        		        	.addComponent(requiredSkillsScrollPane))
 		        			.addGroup(layout.createParallelGroup()
 		        					.addComponent(requiredExperienceLabel)
-		        		        	.addComponent(requiredExperienceTextArea))))
+		        		        	.addComponent(requiredExperienceScrollPane))))
 		        .addGroup(layout.createParallelGroup()
 		        		.addComponent(logOutButton)
 		        		.addComponent(backButton)
 		        		.addComponent(postJobButton))
 		        );
+	    requiredSkillsScrollPane.setViewportView(requiredSkillsTextArea);
+	    requiredExperienceScrollPane.setViewportView(requiredExperienceTextArea);
 
 	    layout.setHonorsVisibility(false);
 	    this.setLocationRelativeTo(null);
@@ -487,9 +490,9 @@ public class PostJobPage extends JFrame {
 			// deadline
 			deadlineDatePicker.getModel().setValue(null);
 			//Spinners
-			maxHoursSpinner.setValue(60);
-			minHoursSpinner.setValue(0);
-			hoursSpinner.setValue(60);
+			maxHoursSpinner.setValue(90);
+			minHoursSpinner.setValue(45);
+			hoursSpinner.setValue(90);
 			wageSpinner.setValue(10.0);
 			//CheckBox
 			isLabCheckBox.setSelected(false);

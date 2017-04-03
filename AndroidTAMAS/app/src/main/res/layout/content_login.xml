@@ -19,38 +19,32 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/login_identification"
-            android:hint="@string/login_hint"
+            android:id="@+id/login_edittext_identification"
+            android:hint="@string/login_edittext_hint_identification"
             android:layout_alignParentTop="true"
             android:gravity="center"
             />
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@android:color/darker_gray"
-            android:layout_below="@id/login_identification"
-            />
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/login_button"
+            android:text="@string/login_buttonlabel_login"
             android:onClick="login"
             android:id="@+id/button_login"
-            android:layout_below="@id/login_identification"
+            android:layout_below="@id/login_edittext_identification"
             />
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/register_button"
-            android:onClick="moveToRegisterPage"
-            android:id="@+id/button_register_newuser"
+            android:text="@string/login_buttonlabel_create_user"
+            android:onClick="PLACEHOLDER"
+            android:id="@+id/login_button_register_newuser"
             android:layout_alignParentBottom="true"
             />
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@android:color/darker_gray"
-            android:layout_above="@id/button_register_newuser"
+            android:layout_above="@id/login_button_register_newuser"
             />
 
 </RelativeLayout>

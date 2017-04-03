@@ -1,18 +1,17 @@
 <?php
-require_once '/Users/KevenLiu/Documents/workspace/TAMAS_Web/Group12/WebTAMAS/model/Applicant.php';
-require_once '/Users/KevenLiu/Documents/workspace/TAMAS_Web/Group12/WebTAMAS/model/Application.php';
-require_once '/Users/KevenLiu/Documents/workspace/TAMAS_Web/Group12/WebTAMAS/model/Assignment.php';
-require_once '/Users/KevenLiu/Documents/workspace/TAMAS_Web/Group12/WebTAMAS/model/Course.php';
-require_once '/Users/KevenLiu/Documents/workspace/TAMAS_Web/Group12/WebTAMAS/model/Department.php';
-require_once '/Users/KevenLiu/Documents/workspace/TAMAS_Web/Group12/WebTAMAS/model/GraderJob.php';
-require_once '/Users/KevenLiu/Documents/workspace/TAMAS_Web/Group12/WebTAMAS/model/Hours.php';
-require_once '/Users/KevenLiu/Documents/workspace/TAMAS_Web/Group12/WebTAMAS/model/Instructor.php';
-require_once '/Users/KevenLiu/Documents/workspace/TAMAS_Web/Group12/WebTAMAS/model/Job.php';
-require_once '/Users/KevenLiu/Documents/workspace/TAMAS_Web/Group12/WebTAMAS/model/ResourceManager.php';
-require_once '/Users/KevenLiu/Documents/workspace/TAMAS_Web/Group12/WebTAMAS/model/TAjob.php';
-require_once '/Users/KevenLiu/Documents/workspace/TAMAS_Web/Group12/WebTAMAS/model/User.php';
-require_once '/Users/KevenLiu/Documents/workspace/TAMAS_Web/Group12/WebTAMAS/controller/InputValidator.php';
-require_once '/Users/KevenLiu/Documents/workspace/TAMAS_Web/Group12/WebTAMAS/persistence/Persistence.php';
+require_once '/Applications/XAMPP/xamppfiles/htdocs/Group12/WebTAMAS/model/Applicant.php';
+require_once '/Applications/XAMPP/xamppfiles/htdocs/Group12/WebTAMAS/model/Application.php';
+require_once '/Applications/XAMPP/xamppfiles/htdocs/Group12/WebTAMAS/model/Assignment.php';
+require_once '/Applications/XAMPP/xamppfiles/htdocs/Group12/WebTAMAS/model/Course.php';
+require_once '/Applications/XAMPP/xamppfiles/htdocs/Group12/WebTAMAS/model/Department.php';
+require_once '/Applications/XAMPP/xamppfiles/htdocs/Group12/WebTAMAS/model/GraderJob.php';
+require_once '/Applications/XAMPP/xamppfiles/htdocs/Group12/WebTAMAS/model/Instructor.php';
+require_once '/Applications/XAMPP/xamppfiles/htdocs/Group12/WebTAMAS/model/Job.php';
+require_once '/Applications/XAMPP/xamppfiles/htdocs/Group12/WebTAMAS/model/ResourceManager.php';
+require_once '/Applications/XAMPP/xamppfiles/htdocs/Group12/WebTAMAS/model/TAjob.php';
+require_once '/Applications/XAMPP/xamppfiles/htdocs/Group12/WebTAMAS/model/User.php';
+require_once '/Applications/XAMPP/xamppfiles/htdocs/Group12/WebTAMAS/controller/InputValidator.php';
+require_once '/Applications/XAMPP/xamppfiles/htdocs/Group12/WebTAMAS/persistence/Persistence.php';
 
 class Controller
 {
@@ -24,6 +23,14 @@ class Controller
 		$name = InputValidator::validate_input($userName);
 		$ID = InputValidator::validate_input($userID);
 		$error = "";
+		
+		$ps = new Persistence();
+		$rm = $ps->loadDataFromStore();
+		foreach ($rm->getInstructors() as $instructor){
+			if(strcmp($instructor->getName(), $userName) == 0){
+				$error .= "@2User already exists! ";
+			}
+		}
 		
 		if($name == null || strlen($name) == 0){
 			$error .= "@1User name cannot be empty! ";
@@ -37,9 +44,8 @@ class Controller
 			$error .= "@1User name must contain letters!";
 		}
 		
+		
 		if(strlen(trim($error)) == 0){
-			$ps = new Persistence();
-			$rm = $ps->loadDataFromStore();
 			
 			$instructor = new Instructor($name, $ID);
 			$rm->addInstructor($instructor);
@@ -57,15 +63,14 @@ class Controller
 		$ID = InputValidator::validate_input($userID);
 		$error = "";
 		
-		$tempInstructor = new Instructor($name, $ID);
 		
 		$ps = new Persistence();
 		$rm = $ps->loadDataFromStore();
 		
 
-		
+		//return the index of the Instructor
 		for($i = 0; $i < $rm->numberOfInstructors(); $i++){
-		if($rm->getInstructor_index($i)->equals($tempInstructor)){
+		if($rm->getInstructor_index($i)->getName() == $userName && $rm->getInstructor_index($i)->getId() == $userID){
 				
 				return $i;
 				
@@ -75,7 +80,9 @@ class Controller
 		throw new Exception(trim($error));
 				
 	}
+
 	
+	//Since we don't implement Integration yet, the course list are added automatically here
 	public function loadCourse(){
 		$ps = new Persistence();
 		$rm = $ps->loadDataFromStore();
@@ -108,7 +115,7 @@ class Controller
 		
 	}
 	
-	public function createTAJob($aMaxHours, $aWage, $aDeadline, $aRequiredSkills, $aRequiredCourseGPA, $aRequiredCGPA, $aRequiredExperience, $aCourse, $aMinHours, $aIsLab){
+	public function createTAJob($aMaxHours, $aWage, $aDeadline, $aIsApproved,$aRequiredSkills, $aRequiredCourseGPA, $aRequiredCGPA, $aRequiredExperience, $aCourse, $aMinHours, $aIsLab){
 		$maxHour = InputValidator::validate_input($aMaxHours);
 		$wage = InputValidator::validate_input($aWage);
 		$deadline = InputValidator::validate_input($aDeadline);
@@ -138,9 +145,13 @@ class Controller
 		if(strlen(trim($error)) == 0){
 		$ps = new Persistence();
 		$rm = $ps->loadDataFromStore();
+
 		
-		$taJob = new TAjob($aMaxHours, $aWage, $aDeadline, $aRequiredSkills, $aRequiredCourseGPA, $aRequiredCGPA, $aRequiredExperience, $aCourse, $aMinHours, $aIsLab);
+		$taJob = new TAjob($aMaxHours, $aWage, $aDeadline, $aIsApproved, $aRequiredSkills, $aRequiredCourseGPA, $aRequiredCGPA, $aRequiredExperience, $aCourse, $aMinHours, $aIsLab);
 		$rm->addJob($taJob);
+		$rm->getCourse_index(0)->addJob($taJob);	
+
+
 		
 		$ps->writeDataToStore($rm);
 		}
@@ -149,7 +160,7 @@ class Controller
 		}
 	}
 	
-	public  function createGraderJob($aMaxHours, $aWage, $aDeadline, $aRequiredSkills, $aRequiredCourseGPA, $aRequiredCGPA, $aRequiredExperience, $aCourse){
+	public  function createGraderJob($aMaxHours, $aWage, $aDeadline, $aIsApproved,$aRequiredSkills, $aRequiredCourseGPA, $aRequiredCGPA, $aRequiredExperience, $aCourse){
 		$maxHour = InputValidator::validate_input($aMaxHours);
 		$wage = InputValidator::validate_input($aWage);
 		$deadline = InputValidator::validate_input($aDeadline);
@@ -182,13 +193,31 @@ class Controller
 		$ps = new Persistence();
 		$rm = $ps->loadDataFromStore();
 		
-		$graderJob = new GraderJob($aMaxHours, $aWage, $aDeadline, $aRequiredSkills, $aRequiredCourseGPA, $aRequiredCGPA, $aRequiredExperience, $aCourse);
+		$graderJob = new GraderJob($aMaxHours, $aWage, $aDeadline,$aIsApproved, $aRequiredSkills, $aRequiredCourseGPA, $aRequiredCGPA, $aRequiredExperience, $aCourse);
 		$rm->addJob($graderJob);
+		$rm->getCourse_index(0)->addJob($graderJob);
 		
 		$ps->writeDataToStore($rm);
 		}
 		else{
 			throw new Exception(trim($error));
+		}
+	}
+	
+	//Once the instructor posted a job, it is assumed that he has registered for the course corresponding to that job
+	public function profAddCourse(Course $course){
+		$ps = new Persistence();
+		$rm = $ps->loadDataFromStore();
+		$hasCourse = FALSE;
+		
+		for($i = 0; $i < $rm->getInstructor_index($_SESSION["index"])->numberOfCourses(); $i++){
+			if($rm->getInstructor_index($_SESSION["index"])->getCourse_index($i) == $course){				
+				$hasCourse = TRUE;		
+			}
+		}
+		if($hasCourse != TRUE){
+			$rm->getInstructor_index($_SESSION["index"])->addCourse($course);
+			$ps->writeDataToStore($rm);
 		}
 	}
 }
