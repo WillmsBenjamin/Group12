@@ -1,8 +1,5 @@
 package ecse321.group12.tamas.application;
 
-import ecse321.group12.tamas.model.Applicant;
-import ecse321.group12.tamas.model.Department;
-import ecse321.group12.tamas.model.Instructor;
 import ecse321.group12.tamas.model.ResourceManager;
 import ecse321.group12.tamas.persistence.PersistenceXStream;
 import ecse321.group12.tamas.view.*;
