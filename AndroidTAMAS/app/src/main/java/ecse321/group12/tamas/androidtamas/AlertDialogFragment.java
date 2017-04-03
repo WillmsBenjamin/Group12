@@ -6,7 +6,7 @@ import android.app.DialogFragment;
 import android.content.Context;
 import android.os.Bundle;
 
-public class EditProfileFragment extends DialogFragment
+public class AlertDialogFragment extends DialogFragment
 {
      interface ProfileDeletionListener
     {
@@ -47,7 +47,7 @@ public class EditProfileFragment extends DialogFragment
         try
         {
             // Instantiate the EditNameDialogListener so we can send events to the host
-            EditProfileFragment.ProfileDeletionListener listener = (EditProfileFragment.ProfileDeletionListener) context;
+            AlertDialogFragment.ProfileDeletionListener listener = (AlertDialogFragment.ProfileDeletionListener) context;
         }
         catch (ClassCastException e) {
             // The activity doesn't implement the interface, throw exception

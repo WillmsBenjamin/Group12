@@ -27,4 +27,28 @@
         android:layout_above="@id/current_application_button_return"
         android:id="@+id/current_application_graphical_divider"
         />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/current_application_tv_no_applications"
+        android:layout_centerInParent="true"
+        android:text="@string/current_application_tv_no_applications_text"
+        android:textIsSelectable="false"
+        android:textAlignment="center"
+        android:paddingBottom="100dp"
+        />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/current_application_graphical_divider"
+        android:id="@+id/current_application_scgroup_inflation">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:id="@+id/current_application_linearlayout_inflation_target"
+            >
+        </LinearLayout>
+    </ScrollView>
 </RelativeLayout>

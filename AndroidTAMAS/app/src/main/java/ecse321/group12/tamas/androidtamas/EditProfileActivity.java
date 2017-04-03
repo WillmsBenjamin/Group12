@@ -27,7 +27,7 @@ import ecse321.group12.tamas.model.Applicant;
 import ecse321.group12.tamas.model.ResourceManager;
 import ecse321.group12.tamas.persistence.PersistenceXStream;
 
-public class EditProfileActivity extends AppCompatActivity implements EditProfileFragment.ProfileDeletionListener
+public class EditProfileActivity extends AppCompatActivity implements AlertDialogFragment.ProfileDeletionListener
 {
     private ResourceManager rm;
     private String fileName;
@@ -72,10 +72,10 @@ public class EditProfileActivity extends AppCompatActivity implements EditProfil
         Button delete = (Button) findViewById(R.id.edit_profile_button_delete_profile);
         delete.setOnClickListener(v ->
         {
-            EditProfileFragment deletionWarning = new EditProfileFragment();
+            AlertDialogFragment deletionWarning = new AlertDialogFragment();
             FragmentManager fm = getFragmentManager();
             deletionWarning.show(fm,"DeletionDialogFragment");
-            deletionWarning.setDeletionListener(new EditProfileFragment.ProfileDeletionListener()
+            deletionWarning.setDeletionListener(new AlertDialogFragment.ProfileDeletionListener()
             {
                 @Override
                 public void OnDeletionAction(int data)
@@ -147,6 +147,11 @@ public class EditProfileActivity extends AppCompatActivity implements EditProfil
         Intent i = new Intent(getApplicationContext(), target);
         startActivity(i);
         finish();
+    }
+    @Override
+    public void onBackPressed()
+    {
+        moveTo(HomeActivity.class);
     }
 
     /**

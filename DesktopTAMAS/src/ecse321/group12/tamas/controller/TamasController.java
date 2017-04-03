@@ -194,7 +194,7 @@ public class TamasController {
 		}
 		if (hours>180)
 		{
-			throw new InvalidInputException("accepting this TA job puts you over the 180 hour maximum for a single TA!")
+			throw new InvalidInputException("accepting this TA job puts you over the 180 hour maximum for a single TA!");
 		}
 		else
 		{

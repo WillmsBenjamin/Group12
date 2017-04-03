@@ -137,6 +137,11 @@ public class ViewJobsActivity extends AppCompatActivity {
         startActivity(i);
         finish();
     }
+    @Override
+    public void onBackPressed()
+    {
+        moveTo(HomeActivity.class,null);
+    }
 
     private void refreshData()
     {
