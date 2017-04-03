@@ -180,16 +180,18 @@ public class TamasController {
 		if (a.getIsAccepted()) {
 			throw new InvalidInputException("This offer has already been accepted! ");
 		}
-		int hours = a.getJob().getMaxHours();
-		for (Application app: a.getApplicant().getApplications()) {
-			Job j = app.getJob();
-			
-			if (app.getIsAccepted()) {
-				hours += j.getMaxHours();
+		int hours=0;
+		for (Application app: A.getApplicant().getApplications())
+		{
+			if (app.getJob().getClass()==TAjob.class)
+			{
+				Job J=(TAjob)app.getJob();
+				hours+=J.getMaxHours();
 			}
 		}
-		if (hours > 180) {
-			throw new InvalidInputException("Accepting this job puts the applicant over the 180 hour maximum!");
+		if (hours>180)
+		{
+			throw new InvalidInputException("accepting this TA job puts you over the 180 hour maximum for a single TA!");
 		}
 		else {
 			a.setIsAccepted(true);

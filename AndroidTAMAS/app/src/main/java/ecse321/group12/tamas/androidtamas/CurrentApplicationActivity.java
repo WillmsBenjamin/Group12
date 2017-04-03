@@ -9,14 +9,22 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
 
+import java.util.Calendar;
+import java.util.Date;
+
 import ecse321.group12.tamas.controller.TamasController;
+import ecse321.group12.tamas.model.Applicant;
+import ecse321.group12.tamas.model.Application;
 import ecse321.group12.tamas.model.ResourceManager;
 import ecse321.group12.tamas.persistence.PersistenceXStream;
 
@@ -62,10 +70,54 @@ public class CurrentApplicationActivity extends AppCompatActivity {
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
 
-        //need to find a way to add the fragments in a meaningful way that works
-        //potentially need to hide/reveal buttons as needed.
-        //very WIP!!!!
+       int applicationNumber=0;
 
+       for (Application a: ((Applicant) rm.getLoggedIn()).getApplications())
+       {
+            applicationNumber++;
+       }
+        LinearLayout parent= (LinearLayout)findViewById(R.id.current_application_linearlayout_inflation_target);
+        if (applicationNumber==0)
+        {
+            TextView tv = (TextView) findViewById(R.id.current_application_tv_no_applications);
+            parent.removeView(tv);
+        }
+        else
+        {
+            for (int i = 0; i < applicationNumber; i++)
+            {
+                if (((Applicant) rm.getLoggedIn()).getApplication(i).getIsOffered() || ((Applicant) rm.getLoggedIn()).getApplication(i).getJob().getDeadline().before(currentDate()))
+                {
+                    View child = getLayoutInflater().inflate(R.layout.content_current_application_decision, null);
+                    child.setId(i);
+                    parent.addView(child);
+                    Button childButton = (Button) child.findViewById(R.id.fragment_current_applications_button_decision);
+                    childButton.setOnClickListener(v -> moveTo(ApplicationActivity.class, null));
+                    drawField(((Applicant) rm.getLoggedIn()).getApplication(i).getJob().getCourse().getName(), R.id.fragment_current_applications_decision_tv_application_position_and_type);
+
+                }
+                else
+                {
+                    View child = getLayoutInflater().inflate(R.layout.content_current_application_pending, null);
+                    child.setId(i);
+                    parent.addView(child);
+                    Button childButton = (Button) child.findViewById(R.id.fragment_current_applications_button_edit);
+                    childButton.setOnClickListener(v -> moveTo(ApplicationActivity.class, null));
+                    drawField(((Applicant) rm.getLoggedIn()).getApplication(i).getJob().getCourse().getName(), R.id.fragment_current_applications_tv_application_position_and_type);
+                }
+            }
+        }
+    }
+    private void drawField(String aString, int viewID)
+    {
+        TextView tv = (TextView) findViewById(viewID);
+        tv.setCompoundDrawablesWithIntrinsicBounds(new TextDrawable(aString), null, null, null);
+        tv.setCompoundDrawablePadding(aString.length()*10);
+    }
+    private Date currentDate()
+    {
+        Calendar cal = Calendar.getInstance();
+        return cal.getTime();
     }
 
     private Bundle bundleData(int applicationIndex)
@@ -83,6 +135,11 @@ public class CurrentApplicationActivity extends AppCompatActivity {
         }
         startActivity(i);
         finish();
+    }
+    @Override
+    public void onBackPressed()
+    {
+        moveTo(HomeActivity.class, null);
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu)

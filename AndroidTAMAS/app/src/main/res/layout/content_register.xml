@@ -52,8 +52,13 @@
             android:text="@string/register_radiobuttonlabel_graduate_student"
             android:id="@+id/register_radiobutton_graduate_student"
             />
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+        </View>
         <RadioButton
-            android:layout_width="wrap_content"
+            android:layout_width="193dp"
             android:layout_height="wrap_content"
             android:text="@string/register_radiobuttonlabel_undergraduate_student"
             android:id="@+id/register_radiobutton_undergraduate_student"

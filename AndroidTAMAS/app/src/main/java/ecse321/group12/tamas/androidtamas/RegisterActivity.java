@@ -105,6 +105,13 @@ public class RegisterActivity extends AppCompatActivity {
         finish();
     }
     @Override
+    public void onBackPressed()
+    {
+        moveTo(LoginActivity.class);
+    }
+
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_login, menu);

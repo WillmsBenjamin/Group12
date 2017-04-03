@@ -86,4 +86,5 @@
     <string name="current_application_buttonlabel_return">done</string>
     <string name="fragment_current_applications_decisions_buttonlabel_edit">View Decision</string>
     <string name="fragment_current_applications_decisions_buttonlabel_decision">View Decision</string>
+    <string name="current_application_tv_no_applications_text">There are no applications to view!</string>
 </resources>

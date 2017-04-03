@@ -49,7 +49,7 @@ public class CurrentApplicationDecisionFragment extends Fragment implements View
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        View view = inflater.inflate(R.layout.fragment_current_application_pending, container, false);
+        View view = inflater.inflate(R.layout.content_current_application_pending, container, false);
         Button decision = (Button) view.findViewById(R.id.fragment_current_applications_button_edit);
         decision.setOnClickListener(this);
         TextView tv = (TextView) view.findViewById(R.id.fragment_current_applications_tv_application_position_and_type);
