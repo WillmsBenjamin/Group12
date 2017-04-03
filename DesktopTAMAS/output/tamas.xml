@@ -1,0 +1,106 @@
+<manager id="1">
+  <applicants id="2">
+    <applicant id="3">
+      <name>guy1</name>
+      <id>111111111</id>
+      <cGPA>3.33</cGPA>
+      <skills>sdfgsrehtgfbsfg</skills>
+      <isGraduate>true</isGraduate>
+      <applications id="4">
+        <application id="5">
+          <isAccepted>true</isAccepted>
+          <isOffered>true</isOffered>
+          <experience>oiwwerafksdjfa</experience>
+          <courseGPA>3.33</courseGPA>
+          <id>1</id>
+          <applicant reference="3"/>
+          <job class="TAjob" id="6">
+            <maxHours>90</maxHours>
+            <wage>10.1</wage>
+            <deadline id="7">2017-04-19</deadline>
+            <isApproved>true</isApproved>
+            <requiredSkills>ewrgfsdf</requiredSkills>
+            <requiredCourseGPA>4.00</requiredCourseGPA>
+            <requiredCGPA>2.22</requiredCGPA>
+            <requiredExperience>sdfgsdf</requiredExperience>
+            <assignment id="8">
+              <feedback>I regret giving this guy the job. He is awful.</feedback>
+              <id>1</id>
+              <applicant reference="3"/>
+              <job class="TAjob" reference="6"/>
+            </assignment>
+            <applications id="9">
+              <application reference="5"/>
+            </applications>
+            <course id="10">
+              <name>dpm</name>
+              <numTutorialSections>3</numTutorialSections>
+              <numLabSections>3</numLabSections>
+              <numStudents>150</numStudents>
+              <budget>3900</budget>
+              <instructors id="11"/>
+              <jobs id="12">
+                <TAjob reference="6"/>
+              </jobs>
+            </course>
+            <minHours>48</minHours>
+            <isLab>true</isLab>
+          </job>
+        </application>
+      </applications>
+      <assignments id="13">
+        <assignment reference="8"/>
+      </assignments>
+    </applicant>
+    <applicant id="14">
+      <name>guy2</name>
+      <id>222222222</id>
+      <cGPA>3.33</cGPA>
+      <skills>sdfgasdfgasdfasd</skills>
+      <isGraduate>true</isGraduate>
+      <applications id="15"/>
+      <assignments id="16"/>
+    </applicant>
+    <applicant id="17">
+      <name>guy3</name>
+      <id>333333333</id>
+      <cGPA>4.00</cGPA>
+      <skills>you suck</skills>
+      <isGraduate>true</isGraduate>
+      <applications id="18"/>
+      <assignments id="19"/>
+    </applicant>
+  </applicants>
+  <instructors id="20"/>
+  <department id="21">
+    <name>ECSE</name>
+    <id>000000000</id>
+    <deadline id="22">2017-04-11</deadline>
+  </department>
+  <applications id="23">
+    <application reference="5"/>
+    <application id="24">
+      <isAccepted>true</isAccepted>
+      <isOffered>true</isOffered>
+      <experience>asdfaweifjaskdf</experience>
+      <courseGPA>3.33</courseGPA>
+      <id>2</id>
+    </application>
+    <application id="25">
+      <isAccepted>true</isAccepted>
+      <isOffered>true</isOffered>
+      <experience>adfwefasd</experience>
+      <courseGPA>2.22</courseGPA>
+      <id>3</id>
+    </application>
+  </applications>
+  <jobs id="26">
+    <TAjob reference="6"/>
+  </jobs>
+  <courses id="27">
+    <course reference="10"/>
+  </courses>
+  <assignments id="28">
+    <assignment reference="8"/>
+  </assignments>
+</manager>
