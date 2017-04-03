@@ -54,6 +54,11 @@ public class HomeActivity extends AppCompatActivity {
         finish();
     }
     @Override
+    public void onBackPressed()
+    {
+        //Trigger the alert Dialog and tell the user that they will log out!
+    }
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_login, menu);

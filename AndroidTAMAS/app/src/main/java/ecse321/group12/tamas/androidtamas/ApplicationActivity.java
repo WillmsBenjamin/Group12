@@ -74,6 +74,10 @@ public class ApplicationActivity extends AppCompatActivity {
         startActivity(i);
         finish();
     }
+    public void onBackPressed()
+    {
+        moveTo(HomeActivity.class);
+    }
     private void refreshData()
     {
         TextView tv = (TextView) findViewById(R.id.application_edittext_coursegpa);

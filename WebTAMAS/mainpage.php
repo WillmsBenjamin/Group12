@@ -55,7 +55,7 @@
 				<button type="submit">Review Posted Jobs</button>
 				</form>
 				
-				<form class ="review" action="evaluateTA.php" method="post">
+				<form class ="review" action="evaluateTAPage.php" method="post">
 				<button type="submit">Evaluate TA</button>
 				</form>
 				
