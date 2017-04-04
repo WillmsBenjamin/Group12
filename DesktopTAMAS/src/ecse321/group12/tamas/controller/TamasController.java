@@ -468,9 +468,9 @@ public class TamasController {
 			throw new InvalidInputException("Maximum hours cannot be less than minimum hours!");
 		}
 		
-		int usedBudget = 0;
+		double usedBudget = aMaxHours*aWage;
 		for (Job j : aCourse.getJobs()) {
-			usedBudget += (int)(j.getMaxHours()*j.getWage());
+			usedBudget += (j.getMaxHours()*j.getWage());
 		}
 		if (usedBudget > aCourse.getBudget()) {
 			throw new InvalidInputException("This posting would put the course over budget!");
@@ -535,9 +535,9 @@ public class TamasController {
 			throw new InvalidInputException("Hours cannot be 0!");
 		}
 		
-		int usedBudget = 0;
+		double usedBudget = hours*aWage;
 		for (Job j : aCourse.getJobs()) {
-			usedBudget += (int)(j.getMaxHours()*j.getWage());
+			usedBudget += (j.getMaxHours()*j.getWage());
 		}
 		if (usedBudget > aCourse.getBudget()) {
 			throw new InvalidInputException("This posting would put the course over budget!");
@@ -751,6 +751,12 @@ public class TamasController {
 
 	public void submitFeedback(Assignment assignment, String text) {
 		assignment.setFeedback(text);
+		PersistenceXStream.saveToXMLwithXStream(rm);
+	}
+
+	public void rejectJob(Job job) {
+		rm.removeJob(job);
+		job.delete();
 		PersistenceXStream.saveToXMLwithXStream(rm);
 	}
 
