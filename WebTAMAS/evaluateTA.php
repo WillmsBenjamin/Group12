@@ -26,7 +26,7 @@ $c = new Controller();
 $ps = new Persistence();
 $rm = $ps->loadDataFromStore();
 
-
+	try{
 	$taName = $_POST['TASpinner'];
 	
 	if($rm->numberOfJobs()!= 0){
@@ -35,7 +35,11 @@ $rm = $ps->loadDataFromStore();
 						$c->sendFeedback($_POST['feedback'], $aApplicant);
 					}
 						
+				}
+			}
 		}
+	catch (Exception $e){
+		$_SESSION["error"] = $e->getMessage();
 	}
 	
 	?>
