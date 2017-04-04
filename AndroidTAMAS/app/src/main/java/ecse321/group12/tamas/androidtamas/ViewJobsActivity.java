@@ -102,7 +102,7 @@ public class ViewJobsActivity extends AppCompatActivity {
         TamasController tc = new TamasController(rm);
         try
         {
-            tc.createCourse("Being a Duck: DCK-101",2,2,100);
+            tc.createCourse("Intro. to Soft. Eng.: ECSE321-001",2,2,100);
             tc.registerInstructor("Bugs Bunny, the Elder","129384576");
 
             Instructor I = rm.getInstructor(0);
@@ -133,6 +133,7 @@ public class ViewJobsActivity extends AppCompatActivity {
 
             date = new java.sql.Date(cal.getTimeInMillis());
             rm.getJob(0).setDeadline(date);
+            PersistenceXStream.saveToXMLwithXStream(rm);
 
             Toast.makeText(getApplicationContext(),"Dummy Jobs Created",Toast.LENGTH_SHORT).show();
         }
