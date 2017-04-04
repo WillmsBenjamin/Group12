@@ -1,22 +1,16 @@
 package ecse321.group12.tamas.view;
 
 import javax.swing.JFrame;
-import javax.swing.JTextField;
 
 import ecse321.group12.tamas.controller.TamasController;
-import ecse321.group12.tamas.controller.DepartmentRegisteredException;
-import ecse321.group12.tamas.controller.InvalidInputException;
-import ecse321.group12.tamas.controller.UserType;
 import ecse321.group12.tamas.model.ResourceManager;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 
 import java.awt.Color;
-import java.awt.event.ItemEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.Calendar;
@@ -25,7 +19,6 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
-import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
 
 public class DepartmentMainPage extends JFrame{
@@ -39,6 +32,8 @@ public class DepartmentMainPage extends JFrame{
 	private JButton offerJobsButton;
 	private JButton logOutButton;
 	private JButton manageFeedbackButton;
+	private JButton assignJobsButton;
+	private JButton manageOffersButton;
 	
 	private JTextArea departmentInfoTextArea;
 	
@@ -47,8 +42,6 @@ public class DepartmentMainPage extends JFrame{
 	
 	private String error = null;
 	private JLabel errorMessage;
-	
-	private GroupLayout layout;
 	
 	/** Creates new form DepartmentMainPage */
 	public DepartmentMainPage(ResourceManager rm) {
@@ -62,9 +55,8 @@ public class DepartmentMainPage extends JFrame{
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
+		
 	    // elements for navigating department's functions
-		//TODO: add more buttons as more functions are completed.
-		//TODO: add department data view in the form of multiple small unmodifiable TextAreas. Add edit check box which sets the areas to editable, and a submit button.
 		postJobButton = new JButton("Post a Job");
 		manageCoursesButton = new JButton("Manage Courses");
 		applyToJobsButton = new JButton("Apply to Jobs");
@@ -72,6 +64,8 @@ public class DepartmentMainPage extends JFrame{
 		offerJobsButton = new JButton("Offer Jobs");
 		logOutButton = new JButton("Sign Out");
 		manageFeedbackButton = new JButton("Feedback");
+		assignJobsButton = new JButton("Assign Jobs");
+		manageOffersButton = new JButton("Accept Offers");
 		
 		departmentInfoTextArea = new JTextArea();
 		departmentInfoTextArea.setEditable(false);
@@ -99,43 +93,54 @@ public class DepartmentMainPage extends JFrame{
 				.addGroup(gl_contentPane.createSequentialGroup()
 					.addContainerGap()
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addComponent(errorMessage, GroupLayout.DEFAULT_SIZE, 398, Short.MAX_VALUE)
+						.addComponent(errorMessage, GroupLayout.DEFAULT_SIZE, 404, Short.MAX_VALUE)
 						.addGroup(gl_contentPane.createSequentialGroup()
-							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
-								.addComponent(logOutButton, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addComponent(manageCoursesButton, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-							.addGap(18)
-							.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
-								.addComponent(postJobButton, GroupLayout.DEFAULT_SIZE, 113, Short.MAX_VALUE)
-								.addComponent(approveJobsButton, GroupLayout.DEFAULT_SIZE, 113, Short.MAX_VALUE))
-							.addGap(18)
-							.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING, false)
-								.addComponent(offerJobsButton, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addComponent(applyToJobsButton, GroupLayout.DEFAULT_SIZE, 122, Short.MAX_VALUE)))
+							.addComponent(manageCoursesButton, GroupLayout.DEFAULT_SIZE, 137, Short.MAX_VALUE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(postJobButton, GroupLayout.DEFAULT_SIZE, 131, Short.MAX_VALUE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(applyToJobsButton, GroupLayout.PREFERRED_SIZE, 122, GroupLayout.PREFERRED_SIZE))
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addComponent(departmentInfoTextArea, GroupLayout.PREFERRED_SIZE, 264, GroupLayout.PREFERRED_SIZE)
 							.addGap(18)
-							.addComponent(manageFeedbackButton, GroupLayout.PREFERRED_SIZE, 122, GroupLayout.PREFERRED_SIZE)))
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+								.addComponent(assignJobsButton, GroupLayout.PREFERRED_SIZE, 122, GroupLayout.PREFERRED_SIZE)
+								.addComponent(manageOffersButton, GroupLayout.PREFERRED_SIZE, 122, GroupLayout.PREFERRED_SIZE)
+								.addComponent(manageFeedbackButton, GroupLayout.PREFERRED_SIZE, 122, GroupLayout.PREFERRED_SIZE)))
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addComponent(logOutButton, GroupLayout.DEFAULT_SIZE, 137, Short.MAX_VALUE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(approveJobsButton, GroupLayout.DEFAULT_SIZE, 132, Short.MAX_VALUE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(offerJobsButton, GroupLayout.PREFERRED_SIZE, 121, GroupLayout.PREFERRED_SIZE)))
 					.addContainerGap())
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
 					.addComponent(errorMessage)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addGap(13)
+							.addComponent(manageFeedbackButton)
+							.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+							.addComponent(manageOffersButton)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(assignJobsButton)
+							.addGap(11))
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(departmentInfoTextArea, GroupLayout.PREFERRED_SIZE, 101, GroupLayout.PREFERRED_SIZE)))
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
-						.addComponent(departmentInfoTextArea, GroupLayout.PREFERRED_SIZE, 101, GroupLayout.PREFERRED_SIZE)
-						.addComponent(manageFeedbackButton))
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-						.addComponent(manageCoursesButton)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 						.addComponent(applyToJobsButton)
-						.addComponent(postJobButton, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE))
+						.addComponent(postJobButton, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
+						.addComponent(manageCoursesButton))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 						.addComponent(logOutButton)
-						.addComponent(offerJobsButton)
-						.addComponent(approveJobsButton, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE))
+						.addComponent(approveJobsButton, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
+						.addComponent(offerJobsButton))
 					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 		);
 		contentPane.setLayout(gl_contentPane);
@@ -143,6 +148,16 @@ public class DepartmentMainPage extends JFrame{
 	    pack();
 	    refreshData();
 	    
+	    manageOffersButton.addActionListener(new java.awt.event.ActionListener() {
+	        public void actionPerformed(java.awt.event.ActionEvent evt) {
+	            manageOffersButtonActionPerformed();
+	        }
+	    });
+	    assignJobsButton.addActionListener(new java.awt.event.ActionListener() {
+	        public void actionPerformed(java.awt.event.ActionEvent evt) {
+	            assignJobsButtonActionPerformed();
+	        }
+	    });
 	    logOutButton.addActionListener(new java.awt.event.ActionListener() {
 	        public void actionPerformed(java.awt.event.ActionEvent evt) {
 	            logOutButtonActionPerformed();
@@ -180,8 +195,20 @@ public class DepartmentMainPage extends JFrame{
 	    });
 	}
 	
+	protected void manageOffersButtonActionPerformed() {
+		ManageJobOffersPage mjp = new ManageJobOffersPage(rm);
+		this.dispose();
+		mjp.setVisible(true);
+	}
+
+	protected void assignJobsButtonActionPerformed() {
+		AssignJobsPage ajp = new AssignJobsPage(rm);
+		this.dispose();
+		ajp.setVisible(true);
+	}
+
 	protected void manageFeedbackButtonActionPerformed() {
-		FeedbackPage fp = new FeedbackPage(rm);
+		ManageFeedbackPage fp = new ManageFeedbackPage(rm);
 		this.dispose();
 		fp.setVisible(true);
 	}

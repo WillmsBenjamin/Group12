@@ -82,4 +82,11 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="fragment_current_applications_buttonlabel_edit">EDIT</string>
+    <string name="fragment_current_applications_tv_pending">Pending</string>
+    <string name="current_application_buttonlabel_return">done</string>
+    <string name="fragment_current_applications_decisions_buttonlabel_edit">View Decision</string>
+    <string name="fragment_current_applications_decisions_buttonlabel_decision">View Decision</string>
+    <string name="current_application_tv_no_applications_text">There are no applications to view!</string>
+    <string name="edit_application_deleteapplication">Delete</string>
+    <string name="condolences_message">Your application was considered, but ultimately we went with another candidate. Leaving this page will delete your application.</string>
 </resources>

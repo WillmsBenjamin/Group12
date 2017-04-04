@@ -14,6 +14,7 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JScrollPane;
 
 public class ApplicantMainPagePlaceholder extends JFrame {
 
@@ -47,10 +48,6 @@ public class ApplicantMainPagePlaceholder extends JFrame {
 		
 		JLabel errorMessage = new JLabel("New label");
 		
-		JTextArea applicantInfoTextArea = new JTextArea();
-		applicantInfoTextArea.setLineWrap(true);
-		applicantInfoTextArea.setEditable(false);
-		
 		JButton manageApplicationsButton = new JButton("Manage Applications");
 		manageApplicationsButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -62,6 +59,8 @@ public class ApplicantMainPagePlaceholder extends JFrame {
 		JButton manageJobOffersButton = new JButton("Manage Job Offers");
 		
 		JButton manageFeedbackButton = new JButton("Feedback");
+		
+		JScrollPane applicantInfoScrollPane = new JScrollPane();
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -69,19 +68,19 @@ public class ApplicantMainPagePlaceholder extends JFrame {
 					.addContainerGap()
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_contentPane.createSequentialGroup()
+							.addComponent(applicantInfoScrollPane, GroupLayout.DEFAULT_SIZE, 441, Short.MAX_VALUE)
+							.addContainerGap())
+						.addGroup(gl_contentPane.createSequentialGroup()
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
-								.addComponent(applicantInfoTextArea, GroupLayout.DEFAULT_SIZE, 441, Short.MAX_VALUE)
 								.addGroup(gl_contentPane.createSequentialGroup()
-									.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
-										.addGroup(gl_contentPane.createSequentialGroup()
-											.addComponent(errorMessage, GroupLayout.DEFAULT_SIZE, 265, Short.MAX_VALUE)
-											.addGap(19))
-										.addGroup(gl_contentPane.createSequentialGroup()
-											.addComponent(manageFeedbackButton, GroupLayout.PREFERRED_SIZE, 109, GroupLayout.PREFERRED_SIZE)
-											.addPreferredGap(ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
-											.addComponent(manageJobOffersButton)
-											.addGap(18)))
-									.addComponent(manageApplicationsButton, GroupLayout.DEFAULT_SIZE, 157, Short.MAX_VALUE)))
+									.addComponent(errorMessage, GroupLayout.DEFAULT_SIZE, 265, Short.MAX_VALUE)
+									.addGap(19))
+								.addGroup(gl_contentPane.createSequentialGroup()
+									.addComponent(manageFeedbackButton, GroupLayout.PREFERRED_SIZE, 109, GroupLayout.PREFERRED_SIZE)
+									.addPreferredGap(ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+									.addComponent(manageJobOffersButton)
+									.addGap(18)))
+							.addComponent(manageApplicationsButton, GroupLayout.DEFAULT_SIZE, 157, Short.MAX_VALUE)
 							.addContainerGap())
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addComponent(logOutButton, GroupLayout.DEFAULT_SIZE, 109, Short.MAX_VALUE)
@@ -92,7 +91,7 @@ public class ApplicantMainPagePlaceholder extends JFrame {
 				.addGroup(gl_contentPane.createSequentialGroup()
 					.addComponent(errorMessage)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(applicantInfoTextArea, GroupLayout.PREFERRED_SIZE, 143, GroupLayout.PREFERRED_SIZE)
+					.addComponent(applicantInfoScrollPane, GroupLayout.PREFERRED_SIZE, 143, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 						.addComponent(manageApplicationsButton)
@@ -100,8 +99,14 @@ public class ApplicantMainPagePlaceholder extends JFrame {
 						.addComponent(manageFeedbackButton))
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addComponent(logOutButton)
-					.addContainerGap(33, Short.MAX_VALUE))
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 		);
+		
+		JTextArea applicantInfoTextArea = new JTextArea();
+		applicantInfoTextArea.setWrapStyleWord(true);
+		applicantInfoTextArea.setLineWrap(true);
+		applicantInfoTextArea.setEditable(false);
+		applicantInfoScrollPane.setViewportView(applicantInfoTextArea);
 		contentPane.setLayout(gl_contentPane);
 	}
 

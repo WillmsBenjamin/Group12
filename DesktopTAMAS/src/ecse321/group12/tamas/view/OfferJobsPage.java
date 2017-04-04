@@ -1,7 +1,6 @@
 package ecse321.group12.tamas.view;
 
 import java.awt.Color;
-import java.awt.EventQueue;
 import java.awt.event.ItemEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -31,6 +30,7 @@ import javax.swing.JComboBox;
 import javax.swing.JCheckBox;
 import javax.swing.JTextArea;
 import javax.swing.JButton;
+import javax.swing.JScrollPane;
 
 public class OfferJobsPage extends JFrame {
 
@@ -56,8 +56,11 @@ public class OfferJobsPage extends JFrame {
 	private boolean isLabTutChecked;
 	private boolean isGradChecked;
 
-	private JTextArea jobInfoTextArea;
 	private JTextArea applicationInfoTextArea;
+	private JTextArea jobInfoTextArea;
+	
+	private JScrollPane jobInfoScrollPane;
+	private JScrollPane applicationInfoScrollPane;
 
 	private JButton offerJobButton;
 	private JButton logOutButton;
@@ -97,11 +100,11 @@ public class OfferJobsPage extends JFrame {
 		
 		jobComboBox = new JComboBox<String>(new String[0]);
 		
-		applicationLabel = new JLabel("Application:");
+		applicationLabel = new JLabel("Applicant:");
 		
 		applicationComboBox = new JComboBox<String>(new String[0]);
 		
-		filterLabel = new JLabel("Application Filter:");
+		filterLabel = new JLabel("Applicant Filter:");
 		
 		labTutCheckBox = new JCheckBox("Lab and Tutorial");
 		labTutCheckBox.setSelected(true);
@@ -112,21 +115,15 @@ public class OfferJobsPage extends JFrame {
 		isGradChecked = true;
 		
 		jobInfoLabel = new JLabel("Job Info:");
-		
-		jobInfoTextArea = new JTextArea();
-		jobInfoTextArea.setEditable(false);
-		jobInfoTextArea.setLineWrap(true);
-		
 		applicationInfoLabel = new JLabel("Application Info:");
-		
-		applicationInfoTextArea = new JTextArea();
-		applicationInfoTextArea.setEditable(false);
-		applicationInfoTextArea.setLineWrap(true);
 		
 		offerJobButton = new JButton("Offer Job");
 		logOutButton = new JButton("Sign Out");
 		backButton = new JButton("Back");
 		rejectApplicationButton = new JButton("Reject Application");
+		
+		jobInfoScrollPane = new JScrollPane();
+		applicationInfoScrollPane = new JScrollPane();
 		
 		// elements for error message
 	    errorMessage = new JLabel();
@@ -142,91 +139,104 @@ public class OfferJobsPage extends JFrame {
 	    });
 	    setTitle(rm.getLoggedIn().getName());
 		
-		GroupLayout gl_contentPane = new GroupLayout(contentPane);
-		gl_contentPane.setHorizontalGroup(
-			gl_contentPane.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_contentPane.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addComponent(errorMessage, GroupLayout.DEFAULT_SIZE, 404, Short.MAX_VALUE)
-							.addContainerGap())
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-								.addGroup(gl_contentPane.createSequentialGroup()
-									.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-										.addComponent(courseLabel, GroupLayout.PREFERRED_SIZE, 63, GroupLayout.PREFERRED_SIZE)
-										.addComponent(applicationLabel))
-									.addPreferredGap(ComponentPlacement.UNRELATED)
-									.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
-										.addComponent(applicationComboBox, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-										.addComponent(courseComboBox, 0, 80, Short.MAX_VALUE))
-									.addPreferredGap(ComponentPlacement.UNRELATED)
-									.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-										.addGroup(gl_contentPane.createSequentialGroup()
-											.addComponent(jobLabel, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
-											.addPreferredGap(ComponentPlacement.RELATED)
-											.addComponent(jobComboBox, GroupLayout.PREFERRED_SIZE, 81, GroupLayout.PREFERRED_SIZE))
-										.addGroup(gl_contentPane.createSequentialGroup()
-											.addComponent(filterLabel)
-											.addPreferredGap(ComponentPlacement.RELATED)
-											.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-												.addComponent(gradCheckBox)
-												.addComponent(labTutCheckBox)))))
-								.addGroup(gl_contentPane.createSequentialGroup()
-									.addComponent(jobInfoLabel)
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(jobInfoTextArea, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-							.addGap(9))
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addComponent(applicationInfoLabel)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(applicationInfoTextArea, GroupLayout.DEFAULT_SIZE, 306, Short.MAX_VALUE)
-							.addContainerGap())
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addComponent(logOutButton, GroupLayout.PREFERRED_SIZE, 87, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(backButton)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(rejectApplicationButton, GroupLayout.DEFAULT_SIZE, 141, Short.MAX_VALUE)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(offerJobButton, GroupLayout.PREFERRED_SIZE, 96, GroupLayout.PREFERRED_SIZE)
-							.addContainerGap())))
-		);
-		gl_contentPane.setVerticalGroup(
-			gl_contentPane.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_contentPane.createSequentialGroup()
-					.addComponent(errorMessage, GroupLayout.PREFERRED_SIZE, 16, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-						.addComponent(courseLabel)
-						.addComponent(jobLabel)
-						.addComponent(jobComboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(courseComboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-						.addComponent(applicationLabel)
-						.addComponent(applicationComboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(filterLabel)
-						.addComponent(labTutCheckBox))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(gradCheckBox)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-						.addComponent(jobInfoLabel)
-						.addComponent(jobInfoTextArea, GroupLayout.PREFERRED_SIZE, 95, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-						.addComponent(applicationInfoLabel)
-						.addComponent(applicationInfoTextArea, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-						.addComponent(offerJobButton)
-						.addComponent(logOutButton)
-						.addComponent(rejectApplicationButton)
-						.addComponent(backButton))
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-		);
+	    GroupLayout gl_contentPane = new GroupLayout(contentPane);
+	    gl_contentPane.setHorizontalGroup(
+	    	gl_contentPane.createParallelGroup(Alignment.LEADING)
+	    		.addGroup(gl_contentPane.createSequentialGroup()
+	    			.addContainerGap()
+	    			.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+	    				.addGroup(gl_contentPane.createSequentialGroup()
+	    					.addComponent(errorMessage, GroupLayout.DEFAULT_SIZE, 404, Short.MAX_VALUE)
+	    					.addContainerGap())
+	    				.addGroup(gl_contentPane.createSequentialGroup()
+	    					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+	    						.addGroup(gl_contentPane.createSequentialGroup()
+	    							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+	    								.addComponent(courseLabel, GroupLayout.PREFERRED_SIZE, 63, GroupLayout.PREFERRED_SIZE)
+	    								.addComponent(applicationLabel))
+	    							.addPreferredGap(ComponentPlacement.UNRELATED)
+	    							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
+	    								.addComponent(applicationComboBox, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+	    								.addComponent(courseComboBox, 0, 80, Short.MAX_VALUE))
+	    							.addPreferredGap(ComponentPlacement.UNRELATED)
+	    							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+	    								.addGroup(gl_contentPane.createSequentialGroup()
+	    									.addComponent(jobLabel, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
+	    									.addPreferredGap(ComponentPlacement.RELATED)
+	    									.addComponent(jobComboBox, GroupLayout.PREFERRED_SIZE, 109, GroupLayout.PREFERRED_SIZE))
+	    								.addGroup(gl_contentPane.createSequentialGroup()
+	    									.addComponent(filterLabel)
+	    									.addPreferredGap(ComponentPlacement.RELATED)
+	    									.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+	    										.addComponent(gradCheckBox)
+	    										.addComponent(labTutCheckBox)))))
+	    						.addGroup(gl_contentPane.createSequentialGroup()
+	    							.addComponent(jobInfoLabel)
+	    							.addPreferredGap(ComponentPlacement.UNRELATED)
+	    							.addComponent(jobInfoScrollPane)
+	    							.addPreferredGap(ComponentPlacement.RELATED)))
+	    					.addGap(9))
+	    				.addGroup(gl_contentPane.createSequentialGroup()
+	    					.addComponent(applicationInfoLabel)
+	    					.addPreferredGap(ComponentPlacement.UNRELATED)
+	    					.addComponent(applicationInfoScrollPane, GroupLayout.DEFAULT_SIZE, 299, Short.MAX_VALUE)
+	    					.addContainerGap())
+	    				.addGroup(gl_contentPane.createSequentialGroup()
+	    					.addComponent(logOutButton, GroupLayout.PREFERRED_SIZE, 87, GroupLayout.PREFERRED_SIZE)
+	    					.addPreferredGap(ComponentPlacement.RELATED)
+	    					.addComponent(backButton)
+	    					.addPreferredGap(ComponentPlacement.RELATED)
+	    					.addComponent(rejectApplicationButton, GroupLayout.DEFAULT_SIZE, 141, Short.MAX_VALUE)
+	    					.addPreferredGap(ComponentPlacement.RELATED)
+	    					.addComponent(offerJobButton, GroupLayout.PREFERRED_SIZE, 96, GroupLayout.PREFERRED_SIZE)
+	    					.addContainerGap())))
+	    );
+	    gl_contentPane.setVerticalGroup(
+	    	gl_contentPane.createParallelGroup(Alignment.LEADING)
+	    		.addGroup(gl_contentPane.createSequentialGroup()
+	    			.addComponent(errorMessage, GroupLayout.PREFERRED_SIZE, 16, GroupLayout.PREFERRED_SIZE)
+	    			.addPreferredGap(ComponentPlacement.RELATED)
+	    			.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+	    				.addComponent(courseLabel)
+	    				.addComponent(jobLabel)
+	    				.addComponent(jobComboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+	    				.addComponent(courseComboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+	    			.addPreferredGap(ComponentPlacement.RELATED)
+	    			.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+	    				.addComponent(applicationLabel)
+	    				.addComponent(applicationComboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+	    				.addComponent(filterLabel)
+	    				.addComponent(labTutCheckBox))
+	    			.addPreferredGap(ComponentPlacement.RELATED)
+	    			.addComponent(gradCheckBox)
+	    			.addPreferredGap(ComponentPlacement.UNRELATED)
+	    			.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+	    				.addComponent(jobInfoLabel)
+	    				.addComponent(jobInfoScrollPane, GroupLayout.PREFERRED_SIZE, 83, GroupLayout.PREFERRED_SIZE))
+	    			.addPreferredGap(ComponentPlacement.RELATED)
+	    			.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+	    				.addComponent(applicationInfoLabel)
+	    				.addComponent(applicationInfoScrollPane, GroupLayout.PREFERRED_SIZE, 85, GroupLayout.PREFERRED_SIZE))
+	    			.addPreferredGap(ComponentPlacement.RELATED)
+	    			.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+	    				.addComponent(offerJobButton)
+	    				.addComponent(logOutButton)
+	    				.addComponent(rejectApplicationButton)
+	    				.addComponent(backButton))
+	    			.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+	    );
+
+		applicationInfoTextArea = new JTextArea();
+		applicationInfoTextArea.setWrapStyleWord(true);
+		applicationInfoTextArea.setLineWrap(true);
+		applicationInfoTextArea.setEditable(false);
+		applicationInfoScrollPane.setViewportView(applicationInfoTextArea);
+		
+		jobInfoTextArea = new JTextArea();
+		jobInfoTextArea.setEditable(false);
+		jobInfoTextArea.setWrapStyleWord(true);
+		jobInfoTextArea.setLineWrap(true);
+		jobInfoScrollPane.setViewportView(jobInfoTextArea);
 		contentPane.setLayout(gl_contentPane);
 		
 		this.setLocationRelativeTo(null);
@@ -332,12 +342,12 @@ public class OfferJobsPage extends JFrame {
 		} else if (selectedJob < 0) {
 			error = "Job needs to be selected!";
 		} else if (selectedApplication < 0) {
-			error = "Application needs to be selected!";
+			error = "Applicant needs to be selected!";
 		} else if(applicationLists.get(selectedList).get(selectedApplication).getIsOffered()) {
-			error = "This application has already been offered the job!";
+			error = "This applicant has already been offered the job!";
 		}
 		if (error == null) {
-			tc.rejectApplication(applicationLists.get(selectedList).get(selectedApplication));
+			tc.deleteApplication(applicationLists.get(selectedList).get(selectedApplication));
 		} 
 		//update visuals
 		refreshData();
@@ -373,12 +383,47 @@ public class OfferJobsPage extends JFrame {
 		} else if (selectedJob < 0) {
 			error = "Job needs to be selected!";
 		} else if (selectedApplication < 0) {
-			error = "Application needs to be selected!";
+			error = "Applicant needs to be selected!";
 		} else if(applicationLists.get(selectedList).get(selectedApplication).getIsOffered()) {
-			error = "This application has already been offered the job!";
+			error = "This applicant has already been offered the job!";
 		}
 		if (error == null) {
-			tc.offerJob(applicationLists.get(selectedList).get(selectedApplication));
+			if(selectedList == 0 || selectedList == 1) {
+				tc.offerJob(applicationLists.get(selectedList).get(selectedApplication));
+				boolean isLab;
+				if(applicationLists.get(selectedList).get(selectedApplication).getJob() instanceof TAjob) {
+					if(((TAjob)applicationLists.get(selectedList).get(selectedApplication).getJob()).getIsLab()) {
+						isLab =	true;
+					} else {
+						isLab = false;
+					}
+					for(Application a : applicationLists.get(selectedList).get(selectedApplication).getApplicant().getApplications()) {
+						if(isLab && !(a == applicationLists.get(selectedList).get(selectedApplication))) {
+							if(a.getJob() instanceof TAjob) {
+								if(a.getJob().getCourse() == applicationLists.get(selectedList).get(selectedApplication).getJob().getCourse()) {
+									if(!((TAjob)a.getJob()).getIsLab()) {
+										tc.offerJob(a);
+										refreshData();
+										return;
+									}
+								}
+							}
+						} else if(!isLab && !(a == applicationLists.get(selectedList).get(selectedApplication))) {
+							if(a.getJob() instanceof TAjob) {
+								if(a.getJob().getCourse() == applicationLists.get(selectedList).get(selectedApplication).getJob().getCourse()) {
+									if(((TAjob)a.getJob()).getIsLab()) {
+										tc.offerJob(a);
+										refreshData();
+										return;
+									}
+								}
+							}
+						}
+					}
+				}
+			} else {
+				tc.offerJob(applicationLists.get(selectedList).get(selectedApplication));
+			}
 		} 
 		//update visuals
 		refreshData();
@@ -429,7 +474,7 @@ public class OfferJobsPage extends JFrame {
 	
 	protected void displayJobInfo() {
 		String jobInfo;
-		if (selectedJob >= 0) {
+		if (selectedJob >= 0 && rm.getJobs().size() > 0) {
 			if (rm.getJob(selectedJob) instanceof TAjob) {
 				if (((TAjob) jobList.get(selectedJob)).getIsLab()) {
 					jobInfo ="TA Lab";
@@ -465,10 +510,6 @@ public class OfferJobsPage extends JFrame {
 	    // error
 	    errorMessage.setText(error);
 	    if (error == null || error.length() == 0) {
-	    	jobComboBox.removeAllItems();
-	    	selectedJob = -1;
-	    	jobComboBox.setSelectedIndex(selectedJob);
-	    	
 	    	courseComboBox.removeAllItems();
 	    	for(Course c : rm.getCourses()) {
 	    		courseComboBox.addItem(c.getName());
@@ -476,14 +517,11 @@ public class OfferJobsPage extends JFrame {
 	    	selectedCourse = -1;
 	    	courseComboBox.setSelectedIndex(selectedCourse);
 	    	
+	    	jobComboBox.removeAllItems();
+	    	selectedJob = -1;
+	    	jobComboBox.setSelectedIndex(selectedJob);
+	    	
 	    	applicationComboBox.removeAllItems();
-	    	if ((applicationLists != null) && (applicationLists.size() != 0)) {
-				if ((applicationLists.get(selectedList) != null) && (applicationLists.get(selectedList).size() != 0)) {
-					for (Application a : applicationLists.get(selectedList)) {
-						courseComboBox.addItem(a.getApplicant().getId());
-					}
-				} 
-			}
 			selectedApplication = -1;
 	    	applicationComboBox.setSelectedIndex(selectedApplication);
 	    	// text reset

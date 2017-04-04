@@ -1,13 +1,10 @@
 package ecse321.group12.tamas.view;
 
 import javax.swing.JFrame;
-import javax.swing.JTextField;
 
 import ecse321.group12.tamas.controller.TamasController;
-import ecse321.group12.tamas.controller.DepartmentRegisteredException;
-import ecse321.group12.tamas.controller.InvalidInputException;
-import ecse321.group12.tamas.controller.UserType;
 import ecse321.group12.tamas.model.Applicant;
+import ecse321.group12.tamas.model.Application;
 import ecse321.group12.tamas.model.Assignment;
 import ecse321.group12.tamas.model.GraderJob;
 import ecse321.group12.tamas.model.ResourceManager;
@@ -15,21 +12,18 @@ import ecse321.group12.tamas.model.TAjob;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 
 import java.awt.Color;
-import java.awt.event.ItemEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.Calendar;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
-import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
 
 public class ApplicantMainPage extends JFrame{
@@ -42,6 +36,8 @@ public class ApplicantMainPage extends JFrame{
 	private JButton manageFeedbackButton;
 	
 	private JTextArea applicantInfoTextArea;
+	
+	private JScrollPane applicantInfoScrollPane;
 	
 	private ResourceManager rm;
 	private JPanel contentPane;
@@ -62,17 +58,13 @@ public class ApplicantMainPage extends JFrame{
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		
-	    // elements for navigating department's functions
-		//TODO: add more buttons as more functions are completed.
-		//TODO: add department data view in the form of multiple small unmodifiable TextAreas. Add edit check box which sets the areas to editable, and a submit button.
+	    // elements for navigating applicant's functions
 		manageApplicationsButton = new JButton("Apply to Jobs");
 		logOutButton = new JButton("Sign Out");
 		manageJobOffersButton = new JButton("Manage Job Offers");
 		manageFeedbackButton = new JButton("Feedback");
 		
-		applicantInfoTextArea = new JTextArea();
-		applicantInfoTextArea.setLineWrap(true);
-		applicantInfoTextArea.setEditable(false);
+		applicantInfoScrollPane = new JScrollPane();
 		
 	    // elements for error message
 	    errorMessage = new JLabel();
@@ -96,19 +88,19 @@ public class ApplicantMainPage extends JFrame{
 					.addContainerGap()
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_contentPane.createSequentialGroup()
+							.addComponent(applicantInfoScrollPane, GroupLayout.DEFAULT_SIZE, 441, Short.MAX_VALUE)
+							.addContainerGap())
+						.addGroup(gl_contentPane.createSequentialGroup()
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
-								.addComponent(applicantInfoTextArea, GroupLayout.DEFAULT_SIZE, 441, Short.MAX_VALUE)
 								.addGroup(gl_contentPane.createSequentialGroup()
-									.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
-										.addGroup(gl_contentPane.createSequentialGroup()
-											.addComponent(errorMessage, GroupLayout.DEFAULT_SIZE, 265, Short.MAX_VALUE)
-											.addGap(19))
-										.addGroup(gl_contentPane.createSequentialGroup()
-											.addComponent(manageFeedbackButton, GroupLayout.PREFERRED_SIZE, 109, GroupLayout.PREFERRED_SIZE)
-											.addPreferredGap(ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
-											.addComponent(manageJobOffersButton)
-											.addGap(18)))
-									.addComponent(manageApplicationsButton, GroupLayout.DEFAULT_SIZE, 157, Short.MAX_VALUE)))
+									.addComponent(errorMessage, GroupLayout.DEFAULT_SIZE, 265, Short.MAX_VALUE)
+									.addGap(19))
+								.addGroup(gl_contentPane.createSequentialGroup()
+									.addComponent(manageFeedbackButton, GroupLayout.PREFERRED_SIZE, 109, GroupLayout.PREFERRED_SIZE)
+									.addPreferredGap(ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+									.addComponent(manageJobOffersButton)
+									.addGap(18)))
+							.addComponent(manageApplicationsButton, GroupLayout.DEFAULT_SIZE, 157, Short.MAX_VALUE)
 							.addContainerGap())
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addComponent(logOutButton, GroupLayout.DEFAULT_SIZE, 109, Short.MAX_VALUE)
@@ -119,7 +111,7 @@ public class ApplicantMainPage extends JFrame{
 				.addGroup(gl_contentPane.createSequentialGroup()
 					.addComponent(errorMessage)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(applicantInfoTextArea, GroupLayout.PREFERRED_SIZE, 143, GroupLayout.PREFERRED_SIZE)
+					.addComponent(applicantInfoScrollPane, GroupLayout.PREFERRED_SIZE, 143, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 						.addComponent(manageApplicationsButton)
@@ -127,14 +119,25 @@ public class ApplicantMainPage extends JFrame{
 						.addComponent(manageFeedbackButton))
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addComponent(logOutButton)
-					.addContainerGap(33, Short.MAX_VALUE))
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 		);
+		
+		applicantInfoTextArea = new JTextArea();
+		applicantInfoTextArea.setWrapStyleWord(true);
+		applicantInfoTextArea.setLineWrap(true);
+		applicantInfoTextArea.setEditable(false);
+		applicantInfoScrollPane.setViewportView(applicantInfoTextArea);
 		contentPane.setLayout(gl_contentPane);
 
 	    this.setLocationRelativeTo(null);
 	    pack();
 	    refreshData();
 	    
+	    manageJobOffersButton.addActionListener(new java.awt.event.ActionListener() {
+	        public void actionPerformed(java.awt.event.ActionEvent evt) {
+	            manageJobOffersButtonActionPerformed();
+	        }
+	    });
 	    manageFeedbackButton.addActionListener(new java.awt.event.ActionListener() {
 	        public void actionPerformed(java.awt.event.ActionEvent evt) {
 	            manageFeedbackButtonActionPerformed();
@@ -152,8 +155,14 @@ public class ApplicantMainPage extends JFrame{
 	    });
 	}
 	
+	protected void manageJobOffersButtonActionPerformed() {
+		ManageJobOffersPage mjp = new ManageJobOffersPage(rm);
+		this.dispose();
+		mjp.setVisible(true);
+	}
+
 	protected void manageFeedbackButtonActionPerformed() {
-		FeedbackPage fp = new FeedbackPage(rm);
+		ManageFeedbackPage fp = new ManageFeedbackPage(rm);
 		this.dispose();
 		fp.setVisible(true);
 	}
@@ -183,6 +192,21 @@ public class ApplicantMainPage extends JFrame{
 		String appInfo = "Welcome, ";
 		appInfo = appInfo + rm.getLoggedIn().getName() + "! | ID: " + rm.getLoggedIn().getId() + "\n";
 		appInfo = appInfo + "CGPA: " + ((Applicant)rm.getLoggedIn()).getCGPA() + " | Number of Applications: " + ((Applicant)rm.getLoggedIn()).getApplications().size() + "\n";
+		appInfo = appInfo + "Number of Job Offers: ";
+		int numOffs = 0;
+		for(Application a : ((Applicant)rm.getLoggedIn()).getApplications()) {
+			if(a.getIsOffered()) {
+				numOffs++;
+			}
+		}
+		appInfo = appInfo + numOffs + " | Number of Accepted Offers: ";
+		int numAcc = 0;
+		for(Application a : ((Applicant)rm.getLoggedIn()).getApplications()) {
+			if(a.getIsOffered() && a.getIsAccepted()) {
+				numAcc++;
+			}
+		}
+		appInfo = appInfo + numAcc + "\n";
 		appInfo = appInfo + "Skills: " + ((Applicant)rm.getLoggedIn()).getSkills() + "\n" + "Assignments: ";
 		int i = 0;
 		for(Assignment a : ((Applicant)rm.getLoggedIn()).getAssignments()) {

@@ -53,7 +53,7 @@
             android:layout_height="wrap_content"
             android:textSize="24sp"
             android:textAlignment="center"
-            android:ems="10"
+
             >
             <requestFocus />
         </TextView>
@@ -81,7 +81,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:textSize="24sp"
-            android:ems="10"
+
             android:textAlignment="center"
             >
             <requestFocus />
@@ -119,13 +119,14 @@
         android:id="@+id/view_job_required_skills_group"
         >
         <TextView
-            android:id="@+id/view_job_job_skills"
+            android:id="@+id/view_job_required_skills"
             android:inputType="none"
             android:textIsSelectable="true"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:textAlignment="center"
             android:textSize="24sp"
-            android:ems="10"
+
             >
             <requestFocus />
         </TextView>
@@ -135,23 +136,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/view_job_required_experience_group"
-        android:layout_above="@+id/view_job_required_skills_group"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_below="@+id/view_job_required_cgpa_group"
+        android:layout_above="@id/view_job_middle_divider">
+
         <TextView
-            android:id="@+id/view_job_required_skills"
+            android:id="@+id/view_job_required_experience"
             android:inputType="none"
+            android:textAlignment="center"
             android:textIsSelectable="true"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:textSize="24sp"
-            android:ems="10"
             >
             <requestFocus />
         </TextView>
     </ScrollView>
-
-
 </RelativeLayout>
-
-

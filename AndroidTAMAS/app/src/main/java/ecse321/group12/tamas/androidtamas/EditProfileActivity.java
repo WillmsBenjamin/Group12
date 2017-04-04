@@ -28,9 +28,7 @@ import ecse321.group12.tamas.model.Applicant;
 import ecse321.group12.tamas.model.ResourceManager;
 import ecse321.group12.tamas.persistence.PersistenceXStream;
 
-import static android.R.attr.data;
-
-public abstract class EditProfileActivity extends AppCompatActivity implements EditProfileFragment.ProfileDeletionListener
+public class EditProfileActivity extends AppCompatActivity
 {
     private ResourceManager rm;
     private String fileName;
@@ -45,6 +43,13 @@ public abstract class EditProfileActivity extends AppCompatActivity implements E
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+
+        fileName = getFilesDir().getAbsolutePath() + "/tamas_data.xml";
+        rm = PersistenceXStream.initializeModelManager(fileName);
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener
                 (
@@ -53,8 +58,6 @@ public abstract class EditProfileActivity extends AppCompatActivity implements E
                                         "LOGOUT", v ->
                                         {
                                             TamasController tc = new TamasController(rm);
-                                            fileName = getFilesDir().getAbsolutePath() + "/tamas_data.xml";
-                                            rm = PersistenceXStream.initializeModelManager(fileName);
                                             tc.logOut();
                                             moveTo(LoginActivity.class);
                                         }
@@ -63,33 +66,43 @@ public abstract class EditProfileActivity extends AppCompatActivity implements E
 
         TextView tv = (TextView) findViewById(R.id.edit_profile_immutable_name);
         tv.setText(rm.getLoggedIn().getName());
+
         tv = (TextView) findViewById(R.id.edit_profile_immutable_identification_number);
         tv.setText(rm.getLoggedIn().getId());
+
         Button delete = (Button) findViewById(R.id.edit_profile_button_delete_profile);
-        delete.setOnClickListener(v -> {
-            EditProfileFragment deletionWarning = new EditProfileFragment();
+        delete.setOnClickListener(v ->
+        {
+            AlertDialogFragment deletionWarning = new AlertDialogFragment();
             FragmentManager fm = getFragmentManager();
+            deletionWarning.setArguments(bundleAlertData());
             deletionWarning.show(fm,"DeletionDialogFragment");
-            deletionWarning.setDeletionListener(data1 -> {
-                if (data1 ==1)
+            deletionWarning.setDeletionListener(new AlertDialogFragment.DeletionListener()
+            {//DO NOT TURN THIS STATEMENT INTO A LAMBDA!!! THE EXPLICIT OVERRIDE IS NEEDED!
+                @Override
+                public void OnDeletionAction(int data)
                 {
-                    TamasController tc = new TamasController(rm);
-                    rm.removeApplicant((Applicant) rm.getLoggedIn());
-                    tc.logOut();
+                    if (data == 1) {
+                        TamasController tc = new TamasController(rm);
+                        tc.logOut();
+                        rm.removeApplicant((Applicant) rm.getLoggedIn());
+                        moveTo(LoginActivity.class);
+                    }
                 }
             });
-
-
         });
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
-
-        fileName = getFilesDir().getAbsolutePath() + "/tamas_data.xml";
-        rm = PersistenceXStream.initializeModelManager(fileName);
-        tv.setText(rm.getLoggedIn().getId());
-
         refreshData();
+    }
+    public Bundle bundleAlertData()
+    {
+        Intent i=new Intent(getApplicationContext(), EditProfileActivity.class);
+
+        i.putExtra("Title","Warning!");
+        i.putExtra("Positive Confirmation","DELETE");
+        i.putExtra("Negative Confirmation","CANCEL");
+        i.putExtra("Notification","This action will result in the deletion of your profile and all associated data. Do you still wish to delete your profile?");
+        Bundle ret=i.getExtras();
+        return ret;
     }
 
     private void refreshData()
@@ -100,13 +113,22 @@ public abstract class EditProfileActivity extends AppCompatActivity implements E
         {
             et.setText(a.getCGPA());
         }
-        et = (EditText) findViewById(R.id.edit_profile_mutable_applicant_cgpa);
+        et = (EditText) findViewById(R.id.edit_profile_mutable_applicant_skills);
         if (!et.equals(a.getSkills()))
         {
             et.setText(a.getSkills());
         }
-        RadioButton isGraduate =(RadioButton) findViewById(R.id.register_radiobutton_graduate_student);
-        isGraduate.setChecked(a.getIsGraduate());
+        RadioButton isGraduateButton =(RadioButton) findViewById(R.id.edit_profile_radiobutton_graduate_student);
+        RadioButton isUnderGraduateButton =(RadioButton) findViewById(R.id.edit_profile_radiobutton_undergraduate_student);
+        if(a.getIsGraduate())
+        {
+            isGraduateButton.setChecked(true);
+        }
+        else
+        {
+            isUnderGraduateButton.setChecked(true);
+        }
+
     }
     public void modifyApplicant(View v)
     {
@@ -118,12 +140,13 @@ public abstract class EditProfileActivity extends AppCompatActivity implements E
         tv = (TextView) findViewById(R.id.edit_profile_mutable_applicant_skills);
         String skills =tv.getText().toString();
 
-        RadioButton isGraduate =(RadioButton) findViewById(R.id.register_radiobutton_graduate_student);
+        RadioButton isGraduate =(RadioButton) findViewById(R.id.edit_profile_radiobutton_graduate_student);
         Boolean studentType = isGraduate.isChecked();
+        Applicant A = (Applicant) rm.getLoggedIn();
         try
         {
-            tc.modifyApplicant(null,null,cgpa,skills,studentType);
-            Toast.makeText(getApplicationContext(),"Update Successfully",Toast.LENGTH_SHORT).show();
+            tc.modifyApplicant(A.getName(),A.getId(),cgpa,skills,studentType);
+            Toast.makeText(getApplicationContext(),"Profile Information Successfully Updated",Toast.LENGTH_SHORT).show();
             moveTo(HomeActivity.class);
         }
         catch (InvalidInputException e)
@@ -139,7 +162,47 @@ public abstract class EditProfileActivity extends AppCompatActivity implements E
         startActivity(i);
         finish();
     }
+    @Override
+    public void onBackPressed()
+    {
+        moveTo(HomeActivity.class);
+    }
 
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    public Action getIndexApiAction()
+    {
+        Thing object = new Thing.Builder()
+                .setName("Login Page") // TODO: Define a title for the content shown.
+                // TODO: Make sure this auto-generated URL is correct.
+                .setUrl(Uri.parse("http://[ENTER-YOUR-URL-HERE]"))
+                .build();
+        return new Action.Builder(Action.TYPE_VIEW)
+                .setObject(object)
+                .setActionStatus(Action.STATUS_TYPE_COMPLETED)
+                .build();
+    }
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client.connect();
+        AppIndex.AppIndexApi.start(client, getIndexApiAction());
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        AppIndex.AppIndexApi.end(client, getIndexApiAction());
+        client.disconnect();
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.

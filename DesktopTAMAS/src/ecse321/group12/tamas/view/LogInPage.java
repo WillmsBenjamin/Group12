@@ -6,14 +6,12 @@ import javax.swing.JTextField;
 import ecse321.group12.tamas.controller.TamasController;
 import ecse321.group12.tamas.controller.DepartmentRegisteredException;
 import ecse321.group12.tamas.controller.InvalidInputException;
-import ecse321.group12.tamas.controller.UserType;
 import ecse321.group12.tamas.model.Applicant;
 import ecse321.group12.tamas.model.Department;
 import ecse321.group12.tamas.model.Instructor;
 import ecse321.group12.tamas.model.ResourceManager;
 
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JButton;
 
 import java.awt.Color;
@@ -21,7 +19,6 @@ import java.awt.Color;
 import javax.swing.GroupLayout;
 import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
-import javax.swing.GroupLayout.Alignment;
 
 
 public class LogInPage extends JFrame {

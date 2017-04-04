@@ -1,90 +1,96 @@
 <manager id="1">
   <applicants id="2">
     <applicant id="3">
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-      <name>qwqer</name>
-      <id>222222222</id>
-      <cGPA>3.22</cGPA>
-      <skills>afsdfasdf</skills>
-      <isGraduate>false</isGraduate>
-=======
-      <name>Guy</name>
-      <id>111111111</id>
-      <cGPA>2.77</cGPA>
-      <skills>qweasdffawjdsxnbxfsfaggbv</skills>
+      <name>Mathew</name>
+      <id>333333333</id>
+      <cGPA>3.33</cGPA>
+      <skills>Obviously nothing.</skills>
       <isGraduate>true</isGraduate>
->>>>>>> origin/master
       <applications id="4">
         <application id="5">
-          <isAccepted>false</isAccepted>
+          <isAccepted>true</isAccepted>
           <isOffered>true</isOffered>
-          <experience>asldkjfnac sdfwaeifadvs csajklsdmca sdcwe</experience>
-          <courseGPA>1.11</courseGPA>
+          <experience>Hello?</experience>
+          <courseGPA>3.33</courseGPA>
           <id>1</id>
           <applicant reference="3"/>
           <job class="TAjob" id="6">
-            <maxHours>71</maxHours>
-            <wage>10.799999999999999</wage>
-            <deadline id="7">2017-03-31</deadline>
+            <maxHours>90</maxHours>
+            <wage>10.0</wage>
+            <deadline id="7">2017-04-06</deadline>
             <isApproved>true</isApproved>
-            <requiredSkills>twtwtwtw</requiredSkills>
-            <requiredCourseGPA>3.22</requiredCourseGPA>
-            <requiredCGPA>3.22</requiredCGPA>
-            <requiredExperience>wttwwtwtwtw</requiredExperience>
-            <applications id="8">
+            <requiredSkills>Nothing</requiredSkills>
+            <requiredCourseGPA>3.33</requiredCourseGPA>
+            <requiredCGPA>3.33</requiredCGPA>
+            <requiredExperience>Nothing</requiredExperience>
+            <assignment id="8">
+              <feedback>Daniel Varro: Rawr Rawr Rawr! I&apos;m a Dinosaur!</feedback>
+              <id>1</id>
+              <applicant reference="3"/>
+              <job class="TAjob" reference="6"/>
+            </assignment>
+            <applications id="9">
               <application reference="5"/>
-              <application id="9">
-                <isAccepted>false</isAccepted>
-                <isOffered>false</isOffered>
-                <experience>sadfavryh</experience>
-                <courseGPA>3.22</courseGPA>
-                <id>3</id>
-                <applicant id="10">
-                  <name>Dude</name>
-                  <id>222222222</id>
-                  <cGPA>2.11</cGPA>
-                  <skills>qwerfdsdbcsd asfgrbe ent gbdgbvr</skills>
-                  <isGraduate>false</isGraduate>
-                  <applications id="11">
-                    <application reference="9"/>
-                  </applications>
-                  <assignments id="12"/>
-                </applicant>
-                <job class="TAjob" reference="6"/>
-              </application>
             </applications>
-            <course id="13">
+            <course id="10">
               <name>321</name>
-              <numTutorialSections>4</numTutorialSections>
+              <numTutorialSections>3</numTutorialSections>
               <numLabSections>1</numLabSections>
-              <numStudents>150</numStudents>
-              <budget>3150</budget>
-              <instructors id="14"/>
-              <jobs id="15">
+              <numStudents>80</numStudents>
+              <budget>2350</budget>
+              <instructors id="11">
+                <instructor id="12">
+                  <name>Daniel Varro</name>
+                  <id>111111111</id>
+                  <courses id="13">
+                    <course reference="10"/>
+                  </courses>
+                </instructor>
+              </instructors>
+              <jobs id="14">
                 <TAjob reference="6"/>
-                <TAjob id="16">
-                  <maxHours>49</maxHours>
-                  <wage>12.2</wage>
-                  <deadline id="17">2017-03-31</deadline>
+                <TAjob id="15">
+                  <maxHours>90</maxHours>
+                  <wage>10.0</wage>
+                  <deadline id="16">2017-04-06</deadline>
                   <isApproved>true</isApproved>
-                  <requiredSkills>rtjgfhserdgfgbfthn</requiredSkills>
-                  <requiredCourseGPA>3.44</requiredCourseGPA>
-                  <requiredCGPA>3.11</requiredCGPA>
-                  <requiredExperience>dhytfngbdvaffgr</requiredExperience>
+                  <requiredSkills></requiredSkills>
+                  <requiredCourseGPA>3.33</requiredCourseGPA>
+                  <requiredCGPA>3.33</requiredCGPA>
+                  <requiredExperience></requiredExperience>
+                  <assignment id="17">
+                    <feedback>ECSE: a
+a
+a
+a
+a
+a
+a
+a
+a
+a
+a
+a
+a
+a
+a</feedback>
+                    <id>2</id>
+                    <applicant reference="3"/>
+                    <job class="TAjob" reference="15"/>
+                  </assignment>
                   <applications id="18">
                     <application id="19">
-                      <isAccepted>false</isAccepted>
-                      <isOffered>false</isOffered>
-                      <experience>qwefsfdvcacsgwerxfdfcwer weg sdvfv </experience>
+                      <isAccepted>true</isAccepted>
+                      <isOffered>true</isOffered>
+                      <experience>Hello?</experience>
                       <courseGPA>3.33</courseGPA>
                       <id>2</id>
                       <applicant reference="3"/>
-                      <job class="TAjob" reference="16"/>
+                      <job class="TAjob" reference="15"/>
                     </application>
                   </applications>
-                  <course reference="13"/>
-                  <minHours>10</minHours>
+                  <course reference="10"/>
+                  <minHours>45</minHours>
                   <isLab>false</isLab>
                 </TAjob>
               </jobs>
@@ -95,73 +101,93 @@
         </application>
         <application reference="19"/>
       </applications>
-<<<<<<< HEAD
-      <assignments id="36"/>
-=======
-      <name>212121211</name>
-      <id>212121211</id>
-      <cGPA>0.91</cGPA>
-      <skills></skills>
-      <isGraduate>true</isGraduate>
-      <applications id="4"/>
-      <assignments id="5"/>
->>>>>>> Stashed changes
-=======
-      <assignments id="20"/>
->>>>>>> origin/master
+      <assignments id="20">
+        <assignment reference="8"/>
+        <assignment reference="17"/>
+      </assignments>
     </applicant>
-    <applicant reference="10"/>
+    <applicant id="21">
+      <name>Keven</name>
+      <id>444444444</id>
+      <cGPA>1.80</cGPA>
+      <skills>I design web apps sometimes. PHP rules. JavaScript is annoying.</skills>
+      <isGraduate>true</isGraduate>
+      <applications id="22"/>
+      <assignments id="23"/>
+    </applicant>
+    <applicant id="24">
+      <name>Joe</name>
+      <id>555555555</id>
+      <cGPA>3.20</cGPA>
+      <skills>Rawr.</skills>
+      <isGraduate>false</isGraduate>
+      <applications id="25"/>
+      <assignments id="26"/>
+    </applicant>
+    <applicant id="27">
+      <name>Yasmin</name>
+      <id>666666666</id>
+      <cGPA>4.00</cGPA>
+      <skills>Hi, my name is Yasmin, and this is my story....</skills>
+      <isGraduate>false</isGraduate>
+      <applications id="28"/>
+      <assignments id="29"/>
+    </applicant>
   </applicants>
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-  <instructors id="37"/>
-  <department id="38">
-=======
-  <instructors id="21"/>
-  <department id="22">
->>>>>>> origin/master
+  <instructors id="30">
+    <instructor reference="12"/>
+    <instructor id="31">
+      <name>Donald Davis</name>
+      <id>222222222</id>
+      <courses id="32"/>
+    </instructor>
+  </instructors>
+  <department id="33">
     <name>ECSE</name>
     <id>000000000</id>
-    <deadline id="23">2017-03-31</deadline>
+    <deadline id="34">2017-04-06</deadline>
   </department>
-  <applications id="24">
+  <applications id="35">
     <application reference="5"/>
     <application reference="19"/>
-    <application reference="9"/>
+    <application id="36">
+      <isAccepted>true</isAccepted>
+      <isOffered>true</isOffered>
+      <experience>rawr</experience>
+      <courseGPA>4.00</courseGPA>
+      <id>3</id>
+    </application>
+    <application id="37">
+      <isAccepted>true</isAccepted>
+      <isOffered>true</isOffered>
+      <experience>asldhfaklsdjf</experience>
+      <courseGPA>3.33</courseGPA>
+      <id>4</id>
+    </application>
+    <application id="38">
+      <isAccepted>true</isAccepted>
+      <isOffered>true</isOffered>
+      <experience>asdfasdfasdf</experience>
+      <courseGPA>3.33</courseGPA>
+      <id>5</id>
+    </application>
+    <application id="39">
+      <isAccepted>true</isAccepted>
+      <isOffered>true</isOffered>
+      <experience>qwerqwertertqewrq</experience>
+      <courseGPA>3.33</courseGPA>
+      <id>6</id>
+    </application>
   </applications>
-  <jobs id="25">
+  <jobs id="40">
     <TAjob reference="6"/>
-    <TAjob reference="16"/>
+    <TAjob reference="15"/>
   </jobs>
-  <courses id="26">
-    <course reference="13"/>
-    <course id="27">
-      <name>323</name>
-      <numTutorialSections>3</numTutorialSections>
-      <numLabSections>6</numLabSections>
-      <numStudents>300</numStudents>
-      <budget>6450</budget>
-      <instructors id="28"/>
-      <jobs id="29"/>
-    </course>
+  <courses id="41">
+    <course reference="10"/>
   </courses>
-<<<<<<< HEAD
-  <assignments id="43"/>
-  <contactTimes id="44"/>
-=======
-  <instructors id="6"/>
-  <department id="7">
-    <name>DUCKINGTON UNI</name>
-    <id>121212121</id>
-    <deadline id="8">2017-02-28</deadline>
-  </department>
-  <applications id="9"/>
-  <jobs id="10"/>
-  <courses id="11"/>
-  <assignments id="12"/>
-  <contactTimes id="13"/>
->>>>>>> Stashed changes
-=======
-  <assignments id="30"/>
->>>>>>> origin/master
+  <assignments id="42">
+    <assignment reference="8"/>
+    <assignment reference="17"/>
+  </assignments>
 </manager>

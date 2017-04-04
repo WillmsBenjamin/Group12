@@ -64,6 +64,11 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(i);
         finish();
     }
+    @Override
+    public void onBackPressed()
+    {
+        ;//this method is meant to do literally nothing
+    }
     public void login(View v)
     {
         EditText et = (EditText) findViewById(R.id.login_edittext_identification);

@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
@@ -21,7 +22,6 @@ import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import ecse321.group12.tamas.controller.InvalidInputException;
@@ -59,30 +59,44 @@ public class ViewJobsActivity extends AppCompatActivity {
                                 .setAction("LOGOUT", v -> {
 
                                     TamasController tc = new TamasController(rm);
-                                    fileName = getFilesDir().getAbsolutePath() + "/tamas_data.xml";
-                                    rm = PersistenceXStream.initializeModelManager(fileName);
                                     tc.logOut();
                                     moveTo(LoginActivity.class, null);
                                 }).show()
                 );
-
-        Button apply = (Button) findViewById(R.id.view_job_button_apply);
-        apply.setOnClickListener(v ->
-        {
-            moveTo(ApplicationActivity.class, bundleJobData(v) );
-
-        });
-
-        fileName = getFilesDir().getAbsolutePath() + "/eventregistration.xml";
+        fileName = getFilesDir().getAbsolutePath() + "/tamas_data.xml";
         rm = PersistenceXStream.initializeModelManager(fileName);
-
-        refreshData();
 
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
-    }
 
+        Button apply = (Button) findViewById(R.id.view_job_button_apply);
+        apply.setOnClickListener(v ->
+        {
+            moveTo(ApplicationActivity.class, bundleJobData() );
+
+        });
+        Spinner spinnerj = (Spinner) findViewById(R.id.view_job_job_spinner);
+        spinnerj.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
+            {
+                drawField(rm.getJob(position).getRequiredCourseGPA(),
+                            rm.getJob(position).getRequiredCGPA(),
+                            rm.getJob(position).getRequiredExperience(),
+                            rm.getJob(position).getRequiredSkills()
+                            );
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent)
+            {
+                //literally do nothing
+            }
+        });
+        refreshData();
+    }
+    //this method is for demonstration purposes only, should be removed from final release
     private void createDummyJobs()
     {
         TamasController tc = new TamasController(rm);
@@ -95,7 +109,6 @@ public class ViewJobsActivity extends AppCompatActivity {
             Course C = rm.getCourse(0);
             tc.addInstructorToCourse(I,C);
 
-            SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy");
             int year=2050;
             int month=11;
             int day = 12;
@@ -106,8 +119,21 @@ public class ViewJobsActivity extends AppCompatActivity {
             cal.set(Calendar.DAY_OF_MONTH, day);
 
             java.sql.Date date = new java.sql.Date(cal.getTimeInMillis());
-            tc.postGraderJob(100,10,date,"Being a Duck","3.90","3.90","Being a Duck",C);
-            tc.postTAJob(100,10,date,"Being a DuckerTruck","3.90","3.90","Being a Duck",C, 45, true);
+            tc.postTAJob(100,10.0,date,"Being a DuckerTruck","3.90","3.90","Being a Duck",C, 45, true,false);
+            tc.postGraderJob(100,10,date,"Being a Duck","3.90","3.90","Being a Duck",C,false);
+
+            year=1994;
+            month=11;
+            day = 12;
+
+            cal = Calendar.getInstance();
+            cal.set(Calendar.YEAR, year);
+            cal.set(Calendar.MONTH, month - 1);
+            cal.set(Calendar.DAY_OF_MONTH, day);
+
+            date = new java.sql.Date(cal.getTimeInMillis());
+            rm.getJob(0).setDeadline(date);
+
             Toast.makeText(getApplicationContext(),"Dummy Jobs Created",Toast.LENGTH_SHORT).show();
         }
         catch (InvalidInputException e)
@@ -119,19 +145,24 @@ public class ViewJobsActivity extends AppCompatActivity {
     }
     private void moveTo(Class target, Intent i)
     {
-        if (i==null) {
+        if (i==null)
+        {
             i = new Intent(getApplicationContext(), target);
         }
         startActivity(i);
         finish();
+    }
+    @Override
+    public void onBackPressed()
+    {
+        moveTo(HomeActivity.class,null);
     }
 
     private void refreshData()
     {
         Spinner spinnerj = (Spinner) findViewById(R.id.view_job_job_spinner);
 
-        ArrayAdapter<CharSequence> jAdapter = new
-                ArrayAdapter<>(this, android.R.layout.simple_spinner_item);
+        ArrayAdapter<CharSequence> jAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item);
 
         jAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
@@ -141,16 +172,17 @@ public class ViewJobsActivity extends AppCompatActivity {
         }
         spinnerj.setAdapter(jAdapter);
 
+        //demonstration code, should be removed upon final release
         if (jAdapter.isEmpty())
         {
             createDummyJobs();
+            refreshData();
         }
         else
         {
-           Job J = rm.getJob(spinnerj.getSelectedItemPosition());
-           drawField(J.getRequiredCourseGPA(),J.getRequiredCGPA(),"Experience Required\n\n" + J.getRequiredExperience(), "Skills Required\n\n" + J.getRequiredSkills());
+            Job J = rm.getJob(spinnerj.getSelectedItemPosition());
+            drawField(J.getRequiredCourseGPA(), J.getRequiredCGPA(), "Experience Required\n\n" + J.getRequiredExperience(), "Skills Required\n\n" + J.getRequiredSkills());
         }
-
     }
     private void drawField(String gpa, String cgpa, String reqSkills, String jobSkills)
     {
@@ -162,16 +194,16 @@ public class ViewJobsActivity extends AppCompatActivity {
         tv.setCompoundDrawablesWithIntrinsicBounds(new TextDrawable(cgpa), null, null, null);
         tv.setCompoundDrawablePadding(cgpa.length()*10);
 
-        tv = (TextView) findViewById(R.id.view_job_job_skills);
+        tv = (TextView) findViewById(R.id.view_job_required_experience);
         tv.setCompoundDrawablesWithIntrinsicBounds(new TextDrawable(reqSkills), null, null, null);
         tv.setCompoundDrawablePadding(reqSkills.length()*10);
 
         tv = (TextView) findViewById(R.id.view_job_required_skills);
         tv.setCompoundDrawablesWithIntrinsicBounds(new TextDrawable(jobSkills), null, null, null);
-        tv.setCompoundDrawablePadding(jobSkills.length()*10);;
+        tv.setCompoundDrawablePadding(jobSkills.length()*10);
     }
 
-    public Intent bundleJobData(View v)
+    public Intent bundleJobData()
     {
         Intent i=null;
         try
