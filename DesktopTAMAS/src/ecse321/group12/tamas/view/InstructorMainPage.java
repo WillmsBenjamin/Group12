@@ -170,11 +170,9 @@ public class InstructorMainPage extends JFrame{
 			info = info + c.getName();
 			if(i < ((Instructor)rm.getLoggedIn()).getCourses().size()) {
 				info = info + ", ";
-			} else {
-				info = info + "\n";
 			}
 		}
-		info = info + "Job Posting Deadline: " + rm.getDepartment().getDeadline();
+		info = info + "\nJob Posting Deadline: " + rm.getDepartment().getDeadline();
 		instructorInfoTextArea.setText(info);
 	}
 	

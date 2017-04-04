@@ -38,8 +38,8 @@ public class JobApprovalPage extends JFrame {
 	private JLabel jobLabel;
 	private JLabel courseLabel;
 	
-	private JComboBox<String> jobComboBox;
-	private JComboBox<String> courseComboBox;
+	private JComboBox/*<String>*/ jobComboBox;
+	private JComboBox/*<String>*/ courseComboBox;
 	
 	private JLabel jobInfoLabel;
 	private JLabel courseInfoLabel;
@@ -48,7 +48,8 @@ public class JobApprovalPage extends JFrame {
 	
 	private JScrollPane jobInfoScrollPane;
 	
-	private JButton approvalButton;	
+	private JButton approvalButton;
+	private JButton rejectJobButton;
 	private JButton backButton;
 	private JButton logOutButton;
 	
@@ -75,8 +76,8 @@ public class JobApprovalPage extends JFrame {
 		jobLabel = new JLabel("Job:");
 		courseLabel = new JLabel("Course:");
 		
-		jobComboBox = new JComboBox<String>(new String[0]);
-		courseComboBox = new JComboBox<String>(new String[0]);
+		jobComboBox = new JComboBox()/*<String>(new String[0])*/;
+		courseComboBox = new JComboBox()/*<String>(new String[0])*/;
 		
 		jobInfoLabel = new JLabel("Job Info:");
 		courseInfoLabel = new JLabel("Course Info:");
@@ -88,7 +89,8 @@ public class JobApprovalPage extends JFrame {
 		
 		jobInfoScrollPane = new JScrollPane();
 		
-		approvalButton = new JButton("Approve");	
+		approvalButton = new JButton("Approve");
+		rejectJobButton = new JButton("Reject");
 		backButton = new JButton("Back");
 		logOutButton = new JButton("Sign Out");
 		
@@ -127,11 +129,13 @@ public class JobApprovalPage extends JFrame {
 	    								.addComponent(jobInfoScrollPane, GroupLayout.DEFAULT_SIZE, 322, Short.MAX_VALUE)
 	    								.addComponent(courseInfoTextArea, GroupLayout.DEFAULT_SIZE, 322, Short.MAX_VALUE)))
 	    						.addGroup(gl_contentPane.createSequentialGroup()
-	    							.addComponent(logOutButton, GroupLayout.PREFERRED_SIZE, 121, GroupLayout.PREFERRED_SIZE)
+	    							.addComponent(logOutButton, GroupLayout.PREFERRED_SIZE, 96, GroupLayout.PREFERRED_SIZE)
 	    							.addPreferredGap(ComponentPlacement.RELATED)
-	    							.addComponent(backButton, GroupLayout.PREFERRED_SIZE, 136, GroupLayout.PREFERRED_SIZE)
+	    							.addComponent(backButton, GroupLayout.PREFERRED_SIZE, 86, GroupLayout.PREFERRED_SIZE)
 	    							.addPreferredGap(ComponentPlacement.RELATED)
-	    							.addComponent(approvalButton, GroupLayout.DEFAULT_SIZE, 127, Short.MAX_VALUE)))
+	    							.addComponent(rejectJobButton, GroupLayout.DEFAULT_SIZE, 98, Short.MAX_VALUE)
+	    							.addPreferredGap(ComponentPlacement.RELATED)
+	    							.addComponent(approvalButton, GroupLayout.PREFERRED_SIZE, 97, GroupLayout.PREFERRED_SIZE)))
 	    					.addContainerGap())
 	    				.addGroup(gl_contentPane.createSequentialGroup()
 	    					.addComponent(courseLabel, GroupLayout.DEFAULT_SIZE, 71, Short.MAX_VALUE)
@@ -164,9 +168,10 @@ public class JobApprovalPage extends JFrame {
 	    			.addPreferredGap(ComponentPlacement.RELATED)
 	    			.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 	    				.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-	    					.addComponent(approvalButton)
-	    					.addComponent(backButton))
-	    				.addComponent(logOutButton))
+	    					.addComponent(logOutButton)
+	    					.addComponent(backButton)
+	    					.addComponent(rejectJobButton))
+	    				.addComponent(approvalButton))
 	    			.addContainerGap())
 	    );
 	    
@@ -194,6 +199,11 @@ public class JobApprovalPage extends JFrame {
 		approvalButton.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				approvalButtonActionPerformed();
+			}
+		});
+		rejectJobButton.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				rejectJobButtonActionPerformed();
 			}
 		});
 		jobComboBox.addActionListener(new java.awt.event.ActionListener() {
@@ -234,6 +244,19 @@ public class JobApprovalPage extends JFrame {
 				}
 	        }
 	    });
+	}
+
+	protected void rejectJobButtonActionPerformed() {
+		TamasController tc = new TamasController(rm);
+		error = null;
+		if (selectedJob < 0) {
+			error = "Job needs to be selected!";
+		}
+		if (error == null) {
+			tc.rejectJob(jobList.get(selectedJob));
+		} 
+		//update visuals
+		refreshData();
 	}
 
 	protected void displayCourseInfo() {

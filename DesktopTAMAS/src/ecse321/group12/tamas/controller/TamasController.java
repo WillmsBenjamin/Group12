@@ -167,6 +167,7 @@ public class TamasController {
 			throw new InvalidInputException("This offer has already been accepted! ");
 		}
 		int hours=0;
+<<<<<<< HEAD
 		for (Application app: a.getApplicant().getApplications())
 		{
 			if (app.getJob().getClass()==TAjob.class)
@@ -174,12 +175,15 @@ public class TamasController {
 				Job J=(TAjob)app.getJob();
 				hours+=J.getMaxHours();
 			}
+=======
+		for (Application app: a.getApplicant().getApplications()) {
+			Job j = app.getJob();
+			hours += j.getMaxHours();
+>>>>>>> master
 		}
-		if (hours>180)
-		{
-			throw new InvalidInputException("accepting this TA job puts you over the 180 hour maximum for a single TA!");
-		}
-		else {
+		if (hours>180) {
+			throw new InvalidInputException("Accepting this TA job puts you over the 180 hour maximum for a single TA!");
+		} else {
 			a.setIsAccepted(true);
 			PersistenceXStream.saveToXMLwithXStream(rm);
 		}
@@ -192,7 +196,6 @@ public class TamasController {
 	}
 	
 	public void assignApplicantToJob(Application a) throws InvalidInputException {
-		
 		if (!a.getIsAccepted()) {
 			throw new InvalidInputException("This job offer has not been accepted!");
 		} else if(!a.getIsOffered()) {
@@ -201,9 +204,11 @@ public class TamasController {
 			Assignment asmt = new Assignment("", a.getApplicant(), a.getJob());
 			rm.addAssignment(asmt);
 			//once a job has been assigned, remove all other applications to said job
-			for (Application app: a.getJob().getApplications()) {
-				rm.removeApplication(app);
-				app.delete();
+			for (int i = a.getJob().getApplications().size()-1; i >=0; i--) {
+				Application app = a.getJob().getApplication(i);
+				if (app != a) {
+					app.delete();
+				}
 			}
 		}
 		PersistenceXStream.saveToXMLwithXStream(rm);
@@ -428,9 +433,9 @@ public class TamasController {
 			throw new InvalidInputException("Maximum hours cannot be less than minimum hours!");
 		}
 		
-		int usedBudget = 0;
+		double usedBudget = aMaxHours*aWage;
 		for (Job j : aCourse.getJobs()) {
-			usedBudget += (int)(j.getMaxHours()*j.getWage());
+			usedBudget += (j.getMaxHours()*j.getWage());
 		}
 		if (usedBudget > aCourse.getBudget()) {
 			throw new InvalidInputException("This posting would put the course over budget!");
@@ -495,9 +500,9 @@ public class TamasController {
 			throw new InvalidInputException("Hours cannot be 0!");
 		}
 		
-		int usedBudget = 0;
+		double usedBudget = hours*aWage;
 		for (Job j : aCourse.getJobs()) {
-			usedBudget += (int)(j.getMaxHours()*j.getWage());
+			usedBudget += (j.getMaxHours()*j.getWage());
 		}
 		if (usedBudget > aCourse.getBudget()) {
 			throw new InvalidInputException("This posting would put the course over budget!");
@@ -770,7 +775,7 @@ public class TamasController {
 		PersistenceXStream.saveToXMLwithXStream(rm);
 	}
 
-	public void rejectApplication(Application application) {
+	public void deleteApplication(Application application) {
 		rm.removeApplication(application);
 		application.delete();
 		PersistenceXStream.saveToXMLwithXStream(rm);
@@ -778,6 +783,12 @@ public class TamasController {
 
 	public void submitFeedback(Assignment assignment, String text) {
 		assignment.setFeedback(text);
+		PersistenceXStream.saveToXMLwithXStream(rm);
+	}
+
+	public void rejectJob(Job job) {
+		rm.removeJob(job);
+		job.delete();
 		PersistenceXStream.saveToXMLwithXStream(rm);
 	}
 
