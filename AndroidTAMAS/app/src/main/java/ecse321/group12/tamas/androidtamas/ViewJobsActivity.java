@@ -122,7 +122,7 @@ public class ViewJobsActivity extends AppCompatActivity {
             tc.postTAJob(100,10.0,date,"Being a DuckerTruck","3.90","3.90","Being a Duck",C, 45, true,false);
             tc.postGraderJob(100,10,date,"Being a Duck","3.90","3.90","Being a Duck",C,false);
 
-            year=1994;
+            /*year=1994;
             month=11;
             day = 12;
 
@@ -133,7 +133,7 @@ public class ViewJobsActivity extends AppCompatActivity {
 
             date = new java.sql.Date(cal.getTimeInMillis());
             rm.getJob(0).setDeadline(date);
-            PersistenceXStream.saveToXMLwithXStream(rm);
+            PersistenceXStream.saveToXMLwithXStream(rm);*/
 
             Toast.makeText(getApplicationContext(),"Dummy Jobs Created",Toast.LENGTH_SHORT).show();
         }
