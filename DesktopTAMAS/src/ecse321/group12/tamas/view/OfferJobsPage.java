@@ -408,6 +408,16 @@ public class OfferJobsPage extends JFrame {
 									}
 								}
 							}
+						} else if(!isLab && !(a == applicationLists.get(selectedList).get(selectedApplication))) {
+							if(a.getJob() instanceof TAjob) {
+								if(a.getJob().getCourse() == applicationLists.get(selectedList).get(selectedApplication).getJob().getCourse()) {
+									if(((TAjob)a.getJob()).getIsLab()) {
+										tc.offerJob(a);
+										refreshData();
+										return;
+									}
+								}
+							}
 						}
 					}
 				}
@@ -464,7 +474,7 @@ public class OfferJobsPage extends JFrame {
 	
 	protected void displayJobInfo() {
 		String jobInfo;
-		if (selectedJob >= 0) {
+		if (selectedJob >= 0 && rm.getJobs().size() > 0) {
 			if (rm.getJob(selectedJob) instanceof TAjob) {
 				if (((TAjob) jobList.get(selectedJob)).getIsLab()) {
 					jobInfo ="TA Lab";
@@ -500,16 +510,16 @@ public class OfferJobsPage extends JFrame {
 	    // error
 	    errorMessage.setText(error);
 	    if (error == null || error.length() == 0) {
-	    	jobComboBox.removeAllItems();
-	    	selectedJob = -1;
-	    	jobComboBox.setSelectedIndex(selectedJob);
-	    	
 	    	courseComboBox.removeAllItems();
 	    	for(Course c : rm.getCourses()) {
 	    		courseComboBox.addItem(c.getName());
 	    	}
 	    	selectedCourse = -1;
 	    	courseComboBox.setSelectedIndex(selectedCourse);
+	    	
+	    	jobComboBox.removeAllItems();
+	    	selectedJob = -1;
+	    	jobComboBox.setSelectedIndex(selectedJob);
 	    	
 	    	applicationComboBox.removeAllItems();
 			selectedApplication = -1;

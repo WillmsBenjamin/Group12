@@ -307,7 +307,7 @@ public class ManageFeedbackPage extends JFrame {
 			error = "Feedback must be written!";
 		}
 		if (error == null) {
-			tc.submitFeedback(assignmentList.get(selectedAssignment), feedbackTextArea.getText());
+			tc.submitFeedback(assignmentList.get(selectedAssignment), rm.getLoggedIn().getName() + ": " + feedbackTextArea.getText());
 		}
 		refreshData();
 	}
@@ -351,7 +351,20 @@ public class ManageFeedbackPage extends JFrame {
 	private void refreshData() {
 	    // error
 	    errorMessage.setText(error);
-	    if (error == null || error.length() == 0) {
+	    if (error == null || error.length() == 0) {	
+	    	courseComboBox.removeAllItems();
+	    	if (rm.getLoggedIn() instanceof Instructor) {
+				for (Course c : ((Instructor)rm.getLoggedIn()).getCourses()) {
+					courseComboBox.addItem(c.getName());
+				} 
+			} else {
+				for (Course c : rm.getCourses()) {
+					courseComboBox.addItem(c.getName());
+				} 
+			}
+			selectedCourse = -1;
+	    	courseComboBox.setSelectedIndex(selectedCourse);
+	    	
 	    	assignmentComboBox.removeAllItems();
 	    	if(rm.getLoggedIn() instanceof Applicant) {
 	    		for(Assignment a : ((Applicant)rm.getLoggedIn()).getAssignments()) {
@@ -374,19 +387,6 @@ public class ManageFeedbackPage extends JFrame {
 	    	}
 	    	selectedAssignment = -1;
 	    	assignmentComboBox.setSelectedIndex(selectedAssignment);
-	    	
-	    	courseComboBox.removeAllItems();
-	    	if (rm.getLoggedIn() instanceof Instructor) {
-				for (Course c : ((Instructor)rm.getLoggedIn()).getCourses()) {
-					courseComboBox.addItem(c.getName());
-				} 
-			} else {
-				for (Course c : rm.getCourses()) {
-					courseComboBox.addItem(c.getName());
-				} 
-			}
-			selectedCourse = -1;
-	    	courseComboBox.setSelectedIndex(selectedCourse);
 	    	// text reset
 	    	feedbackTextArea.setText("");
 	    }
