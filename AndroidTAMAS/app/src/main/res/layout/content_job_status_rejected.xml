@@ -29,8 +29,11 @@
             android:textIsSelectable="true"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:textSize="24sp"
+            android:textSize="16sp"
             android:ems="10"
+            android:textAlignment="center"
+            android:text="@string/condolences_message"
+            android:paddingTop="100dp"
             >
             <requestFocus />
         </TextView>

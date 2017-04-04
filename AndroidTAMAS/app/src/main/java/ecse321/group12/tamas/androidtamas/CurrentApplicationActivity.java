@@ -24,7 +24,6 @@ import java.util.Date;
 
 import ecse321.group12.tamas.controller.TamasController;
 import ecse321.group12.tamas.model.Applicant;
-import ecse321.group12.tamas.model.Application;
 import ecse321.group12.tamas.model.ResourceManager;
 import ecse321.group12.tamas.persistence.PersistenceXStream;
 
@@ -32,7 +31,6 @@ public class CurrentApplicationActivity extends AppCompatActivity {
 
     private ResourceManager rm;
     private String fileName;
-    String error = null;
 
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
@@ -70,20 +68,18 @@ public class CurrentApplicationActivity extends AppCompatActivity {
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
 
-       int applicationNumber=0;
+       int applicationNumber=((Applicant) rm.getLoggedIn()).getApplications().size();
 
-       for (Application a: ((Applicant) rm.getLoggedIn()).getApplications())
-       {
-            applicationNumber++;
-       }
         LinearLayout parent= (LinearLayout)findViewById(R.id.current_application_linearlayout_inflation_target);
-        if (applicationNumber==0)
+        if (applicationNumber<=0)
         {
-            TextView tv = (TextView) findViewById(R.id.current_application_tv_no_applications);
-            parent.removeView(tv);
+            ;//just skip the below code
         }
         else
         {
+            TextView tv = (TextView) findViewById(R.id.current_application_tv_no_applications);
+            tv.setVisibility(tv.GONE);
+
             for (int i = 0; i < applicationNumber; i++)
             {
                 if (((Applicant) rm.getLoggedIn()).getApplication(i).getIsOffered() || ((Applicant) rm.getLoggedIn()).getApplication(i).getJob().getDeadline().before(currentDate()))
@@ -92,8 +88,13 @@ public class CurrentApplicationActivity extends AppCompatActivity {
                     child.setId(i);
                     parent.addView(child);
                     Button childButton = (Button) child.findViewById(R.id.fragment_current_applications_button_decision);
-                    childButton.setOnClickListener(v -> moveTo(ApplicationActivity.class, null));
-                    drawField(((Applicant) rm.getLoggedIn()).getApplication(i).getJob().getCourse().getName(), R.id.fragment_current_applications_decision_tv_application_position_and_type);
+                    int finalI = i;
+                    childButton.setId(i+1000);
+                    childButton.setOnClickListener(v ->
+                    {
+                        moveTo(ApplicationStatusActivity.class, intentData( (child.getId()),( (Applicant) rm.getLoggedIn()).getApplication(finalI).getIsAccepted(),true  ));
+                    });
+                    drawField(((Applicant) rm.getLoggedIn()).getApplication(i).getJob().getCourse().getName(), R.id.fragment_current_applications_decision_tv_application_position_and_type, child);
 
                 }
                 else
@@ -102,30 +103,63 @@ public class CurrentApplicationActivity extends AppCompatActivity {
                     child.setId(i);
                     parent.addView(child);
                     Button childButton = (Button) child.findViewById(R.id.fragment_current_applications_button_edit);
-                    childButton.setOnClickListener(v -> moveTo(ApplicationActivity.class, null));
-                    drawField(((Applicant) rm.getLoggedIn()).getApplication(i).getJob().getCourse().getName(), R.id.fragment_current_applications_tv_application_position_and_type);
+                    childButton.setId(i+1000);
+                    childButton.setOnClickListener(v ->
+                    {
+                        moveTo(ApplicationStatusActivity.class, intentData( (child.getId()),null,true ) );
+
+                    });
+                    drawField(((Applicant) rm.getLoggedIn()).getApplication(i).getJob().getCourse().getName(), R.id.fragment_current_applications_tv_application_position_and_type, child);
                 }
             }
         }
+        refreshData();
     }
-    private void drawField(String aString, int viewID)
+    private void refreshData()
     {
-        TextView tv = (TextView) findViewById(viewID);
-        tv.setCompoundDrawablesWithIntrinsicBounds(new TextDrawable(aString), null, null, null);
-        tv.setCompoundDrawablePadding(aString.length()*10);
+        LinearLayout parent =(LinearLayout)findViewById(R.id.current_application_linearlayout_inflation_target);
+        int applicationNumber = ((Applicant) rm.getLoggedIn()).getApplications().size();
+
+        int children =parent.getChildCount();
+        while (applicationNumber!=children)
+        {
+            parent.removeViewAt(children);
+            children--;
+        }
+    }
+    private void drawField(String aString, int viewID, View child)
+    {
+        if (child==null)
+        {
+            TextView tv = (TextView) findViewById(viewID);
+            tv.setCompoundDrawablesWithIntrinsicBounds(new TextDrawable(aString), null, null, null);
+            tv.setCompoundDrawablePadding(aString.length() * 10);
+        }
+        else
+        {
+            TextView tv = (TextView) child.findViewById(viewID);
+            tv.setCompoundDrawablesWithIntrinsicBounds(new TextDrawable(aString), null, null, null);
+            tv.setCompoundDrawablePadding(aString.length() * 10);
+        }
     }
     private Date currentDate()
     {
         Calendar cal = Calendar.getInstance();
         return cal.getTime();
     }
-
-    private Bundle bundleData(int applicationIndex)
+    private Intent intentData(int applicationIndex, Boolean isAccepted, boolean fromButton)
     {
-        Intent i = new Intent(getApplicationContext(), CurrentApplicationActivity.class);
-        i.putExtra("applicationIndex",applicationIndex);
-        Bundle ret = i.getExtras();
-        return ret;
+        Intent i = new Intent(getApplicationContext(),EditApplicationActivity.class);
+
+        if (applicationIndex!=-1)
+        {
+            i.putExtra("currentApplication", applicationIndex);
+        }
+        if (isAccepted!=null)
+        {
+            i.putExtra("isAccepted", isAccepted);
+        }
+        return i;
     }
     private void moveTo(Class target, Intent i)
     {
@@ -133,6 +167,7 @@ public class CurrentApplicationActivity extends AppCompatActivity {
         {
             i = new Intent(getApplicationContext(), target);
         }
+
         startActivity(i);
         finish();
     }
