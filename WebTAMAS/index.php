@@ -25,6 +25,7 @@
 					if(isset($_SESSION['errorWrongUser']) && !empty($_SESSION['errorWrongUser'])){
 						echo " * " . $_SESSION["errorWrongUser"];
 					}	
+					$_SESSION["errorWrongUser"] = "";
 
 					?>
 				</p>
