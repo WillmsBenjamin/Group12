@@ -9,6 +9,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
@@ -20,14 +22,9 @@ import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
 
-import java.util.Calendar;
-
-import ecse321.group12.tamas.controller.InvalidInputException;
 import ecse321.group12.tamas.controller.TamasController;
 import ecse321.group12.tamas.model.Applicant;
 import ecse321.group12.tamas.model.Assignment;
-import ecse321.group12.tamas.model.Course;
-import ecse321.group12.tamas.model.Instructor;
 import ecse321.group12.tamas.model.ResourceManager;
 import ecse321.group12.tamas.model.TAjob;
 import ecse321.group12.tamas.persistence.PersistenceXStream;
@@ -46,7 +43,7 @@ public class CurrentJobActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        fileName = getFilesDir().getAbsolutePath() + "/eventregistration.xml";
+        fileName = getFilesDir().getAbsolutePath() + "/tamas_data.xml";
         rm = PersistenceXStream.initializeModelManager(fileName);
 
         // ATTENTION: This was auto-generated to implement the App Indexing API.
@@ -68,6 +65,22 @@ public class CurrentJobActivity extends AppCompatActivity
                 );
         Button done = (Button) findViewById(R.id.current_job_button_done);
         done.setOnClickListener(v -> moveTo(HomeActivity.class));
+        Spinner spinnerj = (Spinner) findViewById(R.id.current_job_spinner_activejobs);
+        spinnerj.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
+        {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
+            {
+                Assignment a = rm.getAssignment(spinnerj.getSelectedItemPosition());
+                drawField(getPosition(spinnerj.getSelectedItemPosition()), a.getFeedback());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent)
+            {
+                //literally do nothing
+            }
+        });
         refreshData();
     }
 
@@ -95,91 +108,66 @@ public class CurrentJobActivity extends AppCompatActivity
         }
         spinner.setAdapter(jAdapter);
 
+        //if-else is used for creating demonstration objects, modify before release
         if (jAdapter.isEmpty())
         {
             Toast.makeText(getApplicationContext(),"Creating Dummy Jobs",Toast.LENGTH_SHORT).show();
-            //createDummyAssignments();
+            createDummyAssignments();
+            refreshData();
         }
         else
         {
             Assignment a = rm.getAssignment(spinner.getSelectedItemPosition());
+            drawField(getPosition(spinner.getSelectedItemPosition()), a.getFeedback());
+        }
+    }
+    private String getPosition(int position)
+    {
+        Assignment a = rm.getAssignment(position);
 
-            String position;
-            String positiontype;
+        String positionName;
+        String positionType;
 
-            if (a.getJob().getClass().equals(TAjob.class))
+        if (a.getJob().getClass().equals(TAjob.class))
+        {
+            positionName = "Teaching Assistant";
+
+            TAjob j =(TAjob)a.getJob();
+            boolean type =j.isIsLab();
+            if(type==true)
             {
-                position = "Teaching Assistant";
-
-                TAjob j =(TAjob)a.getJob();
-                boolean type =j.isIsLab();
-                if(type==true)
-                {
-                    positiontype="Laboratory";
-                }
-                else
-                {
-                    positiontype="Tutorial";
-                }
+                positionType="Laboratory";
             }
             else
             {
-                position = "Grader";
-                positiontype="";
+                positionType="Tutorial";
             }
-            drawField(position, positiontype, a.getFeedback());
         }
-        refreshData();
+        else
+        {
+            positionName = "Grader";
+            positionType="";
+        }
+        return positionName+" "+positionType;
     }
-
     private void createDummyAssignments()
     {
-        TamasController tc = new TamasController(rm);
-        Applicant A=(Applicant)rm.getLoggedIn();
-        try {
-            Course C= new Course("ECSE321-001",2,0,50,400);
-            Instructor I= new Instructor("Daniel Varro","133713371");
-            tc.addInstructorToCourse(I,C);
+        rm.addAssignment(new Assignment("You are a good duck",(Applicant)rm.getLoggedIn(),rm.getJob(0)));
+        rm.addAssignment(new Assignment("You are not a good duck",(Applicant)rm.getLoggedIn(),rm.getJob(1)));
 
-            int year=2050;
-            int month=11;
-            int day = 12;
-
-            Calendar cal = Calendar.getInstance();
-            cal.set(Calendar.YEAR, year);
-            cal.set(Calendar.MONTH, month - 1);
-            cal.set(Calendar.DAY_OF_MONTH, day);
-
-            java.sql.Date date = new java.sql.Date(cal.getTimeInMillis());
-            tc.postGraderJob(100,10,date,"Being a Duck","3.90","3.90","not Being a Duck",C,true);
-            tc.postTAJob(100,10.0,date,"Being a DuckerTruck","3.90","3.90","Being a Duck",C, 45, true,true);
-
-            /*
-            tc.assignToJob(Applicant,Assignment);
-            tc.assignToJob(A,);
-             */
-            Toast.makeText(getApplicationContext(),"Dummy Jobs Created",Toast.LENGTH_SHORT).show();
-        }
-        catch (InvalidInputException e)
-        {
-            error=e.getMessage();
-            Toast.makeText(getApplicationContext(),error,Toast.LENGTH_SHORT);
-        }
-
+        Toast.makeText(getApplicationContext(),"Dummy Job Assignments Added",Toast.LENGTH_SHORT);
     }
 
-    private void drawField(String position, String positionType, String feedback)
+    private void drawField(String position, String feedback)
     {
         TextView tv = (TextView) findViewById(R.id.current_job_textview_position);
-        tv.setCompoundDrawablesWithIntrinsicBounds(new TextDrawable(position+positionType), null, null, null);
-        tv.setCompoundDrawablePadding((position+" "+positionType).length()*10);
+        tv.setCompoundDrawablesWithIntrinsicBounds(new TextDrawable(position), null, null, null);
+        tv.setCompoundDrawablePadding((position).length()*10);
 
         tv = (TextView) findViewById(R.id.current_job_textview_feedback);
         tv.setCompoundDrawablesWithIntrinsicBounds(new TextDrawable(feedback), null, null, null);
         tv.setCompoundDrawablePadding(feedback.length()*10);
     }
-
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.

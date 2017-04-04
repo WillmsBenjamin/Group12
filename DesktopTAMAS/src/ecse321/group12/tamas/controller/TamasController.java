@@ -132,21 +132,7 @@ public class TamasController {
 				}
 			}
 		}
-		for(Applicant a : rm.getApplicants()) {
-			if(a.getId().equals(id)) {
-				throw new InvalidInputException("That ID is already being used!");
-			}
-		}
-		for(Instructor i : rm.getInstructors()) {
-			if(i.getId().equals(id)) {
-				throw new InvalidInputException("That ID is already being used!");
-			}
-		}
-		if(rm.getDepartment() != null) {
-			if(rm.getDepartment().getId().equals(id)) {
-				throw new InvalidInputException("That ID is already being used!");
-			}
-		}
+	
 		if (cGPA == null || cGPA.trim().length() == 0) {
 			throw new InvalidInputException("Student CGPA cannot be empty!");
 		}
@@ -181,7 +167,7 @@ public class TamasController {
 			throw new InvalidInputException("This offer has already been accepted! ");
 		}
 		int hours=0;
-		for (Application app: A.getApplicant().getApplications())
+		for (Application app: a.getApplicant().getApplications())
 		{
 			if (app.getJob().getClass()==TAjob.class)
 			{
@@ -290,27 +276,6 @@ public class TamasController {
 				}
 			}
 		}
-		for(Applicant a : rm.getApplicants()) 
-		{
-			if(a.getId().equals(id)) 
-			{
-				throw new InvalidInputException("That ID is already being used!");
-			}
-		}
-		for(Instructor i : rm.getInstructors()) 
-		{
-			if(i.getId().equals(id)) 
-			{
-				throw new InvalidInputException("That ID is already being used!");
-			}
-		}
-		if(rm.getDepartment() != null) 
-		{
-			if(rm.getDepartment().getId().equals(id)) 
-			{
-				throw new InvalidInputException("That ID is already being used!");
-			}
-		}
 		Calendar calobj = Calendar.getInstance();
 		if (deadline == null) {
 			throw new InvalidInputException("Deadline cannot be empty!");
@@ -376,16 +341,6 @@ public class TamasController {
 				if(id.charAt(i) < 48 || id.charAt(i) > 57) {
 					throw new InvalidInputException("Instructor id must be all numbers!");
 				}
-			}
-		}
-		for(Applicant a : rm.getApplicants()) {
-			if(a.getId().equals(id)) {
-				throw new InvalidInputException("That ID is already being used!");
-			}
-		}
-		for(Instructor i : rm.getInstructors()) {
-			if(i.getId().equals(id)) {
-				throw new InvalidInputException("That ID is already being used!");
 			}
 		}
 		if(rm.getDepartment() != null) {
@@ -630,6 +585,73 @@ public class TamasController {
 		}
 		Application a = new Application(false, false, experience, courseGPA, applicant, job);
 		rm.addApplication(a);
+		PersistenceXStream.saveToXMLwithXStream(rm);
+	}
+	public void modifyApplication(String experience, String courseGPA, Applicant applicant, Job job) throws InvalidInputException {
+		Calendar calobj = Calendar.getInstance();
+	    //error checking can be cumbersome...
+		
+		Applicant A= (Applicant)rm.getLoggedIn();
+		Application application=null;
+		
+		for(Application app: A.getApplications())
+		{
+			if(app.getJob().equals(job))
+			{
+				application = app;
+				break;
+			}
+		}
+		if (application==null)
+		{
+			throw new InvalidInputException("no application that you have made exists for this job");
+		}
+		
+		if(applicant == null) 
+		{
+			throw new InvalidInputException("Applicant cannot be empty!");
+		}
+		if(job == null) 
+		{
+			throw new InvalidInputException("Job cannot be empty!");
+		}
+		if (job.getDeadline().before(calobj.getTime())) 
+		{
+			throw new InvalidInputException("The application deadline for this job has passed!");
+		}
+		if (courseGPA == null || courseGPA.trim().length() == 0) 
+		{
+			throw new InvalidInputException("Course GPA cannot be empty!");
+		}
+		if(courseGPA.length() != 4) 
+		{
+			throw new InvalidInputException("Course GPA must be 4 characters long!");
+		} else {
+			for(int i = 0; i < 4; i++) 
+			{
+				if(i == 1 && courseGPA.charAt(i) != '.') 
+				{
+					throw new InvalidInputException("Course GPA's second character must be a decimal!");
+				} 
+				else if((i != 1) && (courseGPA.charAt(i) < 48 || courseGPA.charAt(i) > 57)) 
+				{
+					throw new InvalidInputException("CourseGPA must be a decimal number!");
+				} else if(i == 0 && courseGPA.charAt(i) > 52) 
+				{
+					throw new InvalidInputException("Course GPA cannot be geater than 4.00!");
+				} else if((i==2 || i==3) && (courseGPA.charAt(0) == '4') && (courseGPA.charAt(i) > 48)) 
+				{
+					throw new InvalidInputException("Course GPA cannot be geater than 4.00!");
+				}
+			}
+		}
+		if(applicant.getApplications().size() == 3) 
+		{
+			throw new InvalidInputException("This applicant has made the maximum number of applications!");
+		}
+		application.setApplicant(applicant);
+		application.setCourseGPA(courseGPA);
+		application.setExperience(experience);
 		PersistenceXStream.saveToXMLwithXStream(rm);
 	}
 

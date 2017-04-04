@@ -47,9 +47,6 @@
         android:id="@+id/edit_profile_mutable_applicant_cgpa"
         android:textSize="24sp"
         android:ems="10"
-        android:inputType="none"
-        android:textIsSelectable="true"
-        android:hint="@string/edit_profile_hint_applicant_cgpa"
         />
     <RadioGroup
         android:layout_width="wrap_content"
@@ -99,7 +96,7 @@
             android:layout_height="wrap_content"
             android:text="@string/edit_profile_buttonlabel_delete_profile"
             android:id="@+id/edit_profile_button_delete_profile"
-             />
+            android:layout_weight="0.38" />
     </LinearLayout>
     <ScrollView
         android:layout_width="match_parent"
