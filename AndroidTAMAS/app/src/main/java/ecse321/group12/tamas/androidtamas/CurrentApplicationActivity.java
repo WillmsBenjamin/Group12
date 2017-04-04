@@ -121,7 +121,7 @@ public class CurrentApplicationActivity extends AppCompatActivity {
         int applicationNumber = ((Applicant) rm.getLoggedIn()).getApplications().size();
 
         int children =parent.getChildCount();
-        while (applicationNumber!=children-1)
+        while (applicationNumber!=children)
         {
             parent.removeViewAt(children);
             children--;
