@@ -131,6 +131,8 @@
 				<?php 
 				if(isset($_SESSION['message']) && !empty($_SESSION['message']))
 				echo $_SESSION["message"];
+				
+				$_SESSION["message"] = "";
 				?>
 				</p>
 				

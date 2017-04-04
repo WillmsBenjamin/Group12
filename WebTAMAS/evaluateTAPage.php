@@ -87,8 +87,15 @@
 				
 				<p class="message">
 				<?php 
+				
 				if(isset($_SESSION['feedbackMessage']) && !empty($_SESSION['feedbackMessage']))
-				echo $_SESSION["feedbackMessage"];
+				echo $_SESSION["feedbackMessage"] . "<br>";
+				if(isset($_SESSION['error']) && !empty($_SESSION['error']))
+				echo $_SESSION["error"];
+				
+				$_SESSION["error"] = "";
+				$_SESSION["feedbackMessage"] = "";
+				
 				?>
 				</p>
 				

@@ -332,27 +332,38 @@ class Controller
 		
 		$ps = new Persistence();
 		$rm = $ps->loadDataFromStore();
-
+		
+		$error = "";
 	
 
 
 		foreach ($rm->getApplicants() as $applicant){
-			if($applicant == $aApplicant){
+			if($applicant->getName() == $aApplicant->getName()){
 				
-		
-				if($rm->getJob_index(0)->hasAssignment() == FALSE){
-				$a = new Assignment($feedback, $applicant, $rm->getJob_index(0));
+			for($i = 0; $i < $rm->numberOfJobs(); $i++){
+				
+
+				
+				if($rm->getJob_index($i)->hasAssignment() == FALSE){				
+				$a = new Assignment($feedback, $applicant, $rm->getJob_index($i));
 				$rm->addAssignment($a);
-				}
-				else{
-					$b = new Assignment($feedback, $applicant, $rm->getJob_index(1));
-					$rm->addAssignment($b);
+				
+				$_SESSION["feedbackMessage"] = "Feedback Sent!";
+					}
+					
+				else if($rm->getJob_index($i)->getAssignment()->getApplicant()->getName() == $applicant->getName()){
+						$_SESSION["feedbackMessage"] = "Failed!";
+						$error = "Feedback already sent for this TA!";
+						throw new Exception(trim($error));
+					}
+			
+
 				}
 			}
 		
 		}
 		
-		$_SESSION["feedbackMessage"] = "Feedback Sent!";
+	
 		
 		$ps->writeDataToStore($rm);
 		
