@@ -152,8 +152,8 @@ public class CurrentJobActivity extends AppCompatActivity
     }
     private void createDummyAssignments()
     {
-        rm.addAssignment(new Assignment("You are a good duck",(Applicant)rm.getLoggedIn(),rm.getJob(0)));
-        rm.addAssignment(new Assignment("You are not a good duck",(Applicant)rm.getLoggedIn(),rm.getJob(1)));
+        rm.addAssignment(new Assignment("You are a good code debugger",(Applicant)rm.getLoggedIn(),rm.getJob(0)));
+        rm.addAssignment(new Assignment("You are the best people. People Love you. And Believe me, You made ECSE321 Great Again.",(Applicant)rm.getLoggedIn(),rm.getJob(1)));
 
         Toast.makeText(getApplicationContext(),"Dummy Job Assignments Added",Toast.LENGTH_SHORT);
     }

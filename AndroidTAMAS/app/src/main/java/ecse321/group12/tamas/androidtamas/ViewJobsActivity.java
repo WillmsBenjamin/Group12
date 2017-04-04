@@ -119,8 +119,8 @@ public class ViewJobsActivity extends AppCompatActivity {
             cal.set(Calendar.DAY_OF_MONTH, day);
 
             java.sql.Date date = new java.sql.Date(cal.getTimeInMillis());
-            tc.postTAJob(100,10.0,date,"Being a DuckerTruck","3.90","3.90","Being a Duck",C, 45, true,false);
-            tc.postGraderJob(100,10,date,"Being a Duck","3.90","3.90","Being a Duck",C,false);
+            tc.postTAJob(100,10.0,date,"An unhealthy enjoyment and obsession with of system testing and design.","3.90","3.90","Knowledge of the following:\n -PHP\n -Java\n -Unit Test Software\n -Github is a must!",C, 45, true,false);
+            tc.postGraderJob(100,10,date,"Be prepared to look at a lot of buggy code.","3.00","3.00","Be a 1337 coder",C,false);
 
             /*year=1994;
             month=11;
