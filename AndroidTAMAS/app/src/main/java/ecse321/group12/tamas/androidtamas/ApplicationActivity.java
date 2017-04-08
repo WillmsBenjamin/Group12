@@ -74,9 +74,10 @@ public class ApplicationActivity extends AppCompatActivity {
         startActivity(i);
         finish();
     }
+    @Override
     public void onBackPressed()
     {
-        moveTo(HomeActivity.class);
+        moveTo(ViewJobsActivity.class);
     }
     private void refreshData()
     {

@@ -59,10 +59,6 @@
             android:name=".ApplicationStatusActivity"
             android:label="@string/title_activity_application_status"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".ViewJobStatusActivity"
-            android:label="@string/title_activity_view_job_status"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

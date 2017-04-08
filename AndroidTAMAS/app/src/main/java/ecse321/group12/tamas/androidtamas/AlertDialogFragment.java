@@ -8,30 +8,30 @@ import android.os.Bundle;
 
 public class AlertDialogFragment extends DialogFragment
 {
-     interface ProfileDeletionListener
+     interface DeletionListener
     {
         void OnDeletionAction(int data);
     }
-    private ProfileDeletionListener mlistener;
+    private DeletionListener mlistener;
 
-    public void setDeletionListener(ProfileDeletionListener listener)
+    public void setDeletionListener(DeletionListener listener)
     {
         mlistener = listener;
     }
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState)
     {
-
+        Bundle alertInfo=getArguments();
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle(R.string.fragment_edit_profile_title);
+        builder.setTitle(alertInfo.getString("title",""));
 
-        builder.setMessage(R.string.fragment_edit_profile_tv_deletion_confirmation)
-                .setPositiveButton(R.string.fragment_edit_profile_delete, (Dialog, id) ->
+        builder.setMessage(alertInfo.getString("Notification",""))
+                .setPositiveButton(alertInfo.getString("Positive Confirmation",""), (Dialog, id) ->
                 {
                     mlistener.OnDeletionAction(1);
                     dismiss();
                 })
-                .setNegativeButton(R.string.fragment_edit_profile_cancel, (dialog, id) ->
+                .setNegativeButton(alertInfo.getString("Negative Confirmation",""), (dialog, id) ->
                 {
                     mlistener.OnDeletionAction(0);
                     dismiss();
@@ -43,17 +43,6 @@ public class AlertDialogFragment extends DialogFragment
     public void onAttach(Context context)
     {
         super.onAttach(context);
-        // Verify that the host activity implements the callback interface
-        try
-        {
-            // Instantiate the EditNameDialogListener so we can send events to the host
-            AlertDialogFragment.ProfileDeletionListener listener = (AlertDialogFragment.ProfileDeletionListener) context;
-        }
-        catch (ClassCastException e) {
-            // The activity doesn't implement the interface, throw exception
-            throw new ClassCastException(context.toString()
-                    + " must implement EditNameDialogListener");
-        }
     }
 
 }
