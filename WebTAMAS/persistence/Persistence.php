@@ -1,14 +1,11 @@
 <?php
 
-
-
 class Persistence{
 	private $filename;
 	
 	function __construct($filename = 'Data.txt'){
 		$this->filename = $filename;
 	}
-
 
 	function loadDataFromStore(){
 		if(file_exists($this->filename)){
