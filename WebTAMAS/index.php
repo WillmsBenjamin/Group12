@@ -16,7 +16,7 @@
 			
 				<input type="text" placeholder="username" name="userName"/>
 				
-				<input type="password" placeholder="your 9 digits ID" name="userID"/>
+				<input type="password" placeholder="your 9 digit ID" name="userID"/>
 				<p class="error">
 				<?php 
 				
