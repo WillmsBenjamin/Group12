@@ -279,7 +279,7 @@ class Controller
 		$graderJob = new GraderJob($aMaxHours, $aWage, $aDeadline,$aIsApproved, $aRequiredSkills, $aRequiredCourseGPA, $aRequiredCGPA, $aRequiredExperience, $aCourse);
 		$rm->addJob($graderJob);
 		
-		$this->profAddCourse($aCourse);
+		
 		for($i = 0; $i < $rm->numberOfCourses(); $i++){
 		
 			if($rm->getCourse_index($i)->getName() == $aCourse->getName()){
