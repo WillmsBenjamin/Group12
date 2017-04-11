@@ -6,8 +6,6 @@ include 'User.php';
 
 class Applicant extends User
 {
-	
-
 
   //------------------------
   // MEMBER VARIABLES
