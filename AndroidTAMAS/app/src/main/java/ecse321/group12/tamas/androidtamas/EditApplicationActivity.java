@@ -78,8 +78,10 @@ public class EditApplicationActivity extends AppCompatActivity {
                 @Override
                 public void OnDeletionAction(int data)
                 {
-                    if (data == 1) {
-                        rm.removeApplication(rm.getApplication(applicationNumber));
+                    if (data == 1)
+                    {
+                        //create a controller method
+                        ((Applicant) rm.getLoggedIn()).getApplication(applicationNumber).delete();
                         PersistenceXStream.saveToXMLwithXStream(rm);
                         moveTo(CurrentApplicationActivity.class, null);
                     }
