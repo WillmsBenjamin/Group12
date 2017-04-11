@@ -169,6 +169,11 @@ public class CurrentJobActivity extends AppCompatActivity
         tv.setCompoundDrawablePadding(feedback.length()*10);
     }
     @Override
+    public void onBackPressed()
+    {
+        moveTo(HomeActivity.class);
+    }
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_login, menu);
