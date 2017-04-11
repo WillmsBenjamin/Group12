@@ -22,12 +22,13 @@ import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
 
+import ecse321.group12.tamas.controller.InvalidInputException;
 import ecse321.group12.tamas.controller.TamasController;
 import ecse321.group12.tamas.model.Applicant;
 import ecse321.group12.tamas.model.ResourceManager;
 import ecse321.group12.tamas.persistence.PersistenceXStream;
 
-public class EditProfileActivity extends AppCompatActivity implements AlertDialogFragment.ProfileDeletionListener
+public class EditProfileActivity extends AppCompatActivity
 {
     private ResourceManager rm;
     private String fileName;
@@ -64,19 +65,20 @@ public class EditProfileActivity extends AppCompatActivity implements AlertDialo
                 );
 
         TextView tv = (TextView) findViewById(R.id.edit_profile_immutable_name);
-        tv.setText(rm.getLoggedIn().getName().toString());
+        tv.setText(rm.getLoggedIn().getName());
 
         tv = (TextView) findViewById(R.id.edit_profile_immutable_identification_number);
-        tv.setText(rm.getLoggedIn().getId().toString());
+        tv.setText(rm.getLoggedIn().getId());
 
         Button delete = (Button) findViewById(R.id.edit_profile_button_delete_profile);
         delete.setOnClickListener(v ->
         {
             AlertDialogFragment deletionWarning = new AlertDialogFragment();
             FragmentManager fm = getFragmentManager();
+            deletionWarning.setArguments(bundleAlertData());
             deletionWarning.show(fm,"DeletionDialogFragment");
-            deletionWarning.setDeletionListener(new AlertDialogFragment.ProfileDeletionListener()
-            {
+            deletionWarning.setDeletionListener(new AlertDialogFragment.DeletionListener()
+            {//DO NOT TURN THIS STATEMENT INTO A LAMBDA!!! THE EXPLICIT OVERRIDE IS NEEDED!
                 @Override
                 public void OnDeletionAction(int data)
                 {
@@ -84,12 +86,24 @@ public class EditProfileActivity extends AppCompatActivity implements AlertDialo
                         TamasController tc = new TamasController(rm);
                         tc.logOut();
                         rm.removeApplicant((Applicant) rm.getLoggedIn());
+                        PersistenceXStream.saveToXMLwithXStream(rm);
                         moveTo(LoginActivity.class);
                     }
                 }
             });
         });
         refreshData();
+    }
+    public Bundle bundleAlertData()
+    {
+        Intent i=new Intent(getApplicationContext(), EditProfileActivity.class);
+
+        i.putExtra("Title","Warning!");
+        i.putExtra("Positive Confirmation","DELETE");
+        i.putExtra("Negative Confirmation","CANCEL");
+        i.putExtra("Notification","This action will result in the deletion of your profile and all associated data. Do you still wish to delete your profile?");
+        Bundle ret=i.getExtras();
+        return ret;
     }
 
     private void refreshData()
@@ -129,18 +143,19 @@ public class EditProfileActivity extends AppCompatActivity implements AlertDialo
 
         RadioButton isGraduate =(RadioButton) findViewById(R.id.edit_profile_radiobutton_graduate_student);
         Boolean studentType = isGraduate.isChecked();
-        /*try
+        Applicant A = (Applicant) rm.getLoggedIn();
+        try
         {
-            tc.modifyApplicant(null,null,cgpa,skills,studentType);*/
-            Toast.makeText(getApplicationContext(),"PASSED PARAMETERS PROPERLY PLACEHOLDER",Toast.LENGTH_SHORT).show();
+            tc.modifyApplicant(A.getName(),A.getId(),cgpa,skills,studentType);
+            Toast.makeText(getApplicationContext(),"Profile Information Successfully Updated",Toast.LENGTH_SHORT).show();
             moveTo(HomeActivity.class);
-        /*}
+        }
         catch (InvalidInputException e)
         {
             error=e.getMessage();
             Toast.makeText(getApplicationContext(),error,Toast.LENGTH_LONG).show();
             refreshData();
-        }*/
+        }
     }
     private void moveTo(Class target)
     {
@@ -209,18 +224,5 @@ public class EditProfileActivity extends AppCompatActivity implements AlertDialo
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void OnDeletionAction(int data)
-    {
-        if (data == 1)
-        {
-            TamasController tc = new TamasController(rm);
-            Applicant toRemove =(Applicant) rm.getLoggedIn();
-            tc.logOut();
-            rm.removeApplicant((Applicant) toRemove);
-            moveTo(LoginActivity.class);
-        }
     }
 }

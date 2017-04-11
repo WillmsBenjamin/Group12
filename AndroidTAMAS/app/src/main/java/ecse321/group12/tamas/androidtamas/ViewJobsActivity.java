@@ -73,7 +73,7 @@ public class ViewJobsActivity extends AppCompatActivity {
         Button apply = (Button) findViewById(R.id.view_job_button_apply);
         apply.setOnClickListener(v ->
         {
-            moveTo(HomeActivity.class, bundleJobData() );
+            moveTo(ApplicationActivity.class, bundleJobData() );
 
         });
         Spinner spinnerj = (Spinner) findViewById(R.id.view_job_job_spinner);
@@ -89,18 +89,20 @@ public class ViewJobsActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
+            public void onNothingSelected(AdapterView<?> parent)
+            {
+                //literally do nothing
             }
         });
         refreshData();
     }
+    //this method is for demonstration purposes only, should be removed from final release
     private void createDummyJobs()
     {
         TamasController tc = new TamasController(rm);
         try
         {
-            tc.createCourse("Being a Duck: DCK-101",2,2,100);
+            tc.createCourse("Intro. to Soft. Eng.: ECSE321-001",2,2,100);
             tc.registerInstructor("Bugs Bunny, the Elder","129384576");
 
             Instructor I = rm.getInstructor(0);
@@ -117,8 +119,22 @@ public class ViewJobsActivity extends AppCompatActivity {
             cal.set(Calendar.DAY_OF_MONTH, day);
 
             java.sql.Date date = new java.sql.Date(cal.getTimeInMillis());
-            tc.postGraderJob(100,10,date,"Being a Duck","3.90","3.90","Being a Duck",C,false);
-            tc.postTAJob(100,10.0,date,"Being a DuckerTruck","3.90","3.90","Being a Duck",C, 45, true,false);
+            tc.postTAJob(100,10.0,date,"An unhealthy enjoyment and obsession with of system testing and design.","3.90","3.90","Knowledge of the following:\n -PHP\n -Java\n -Unit Test Software\n -Github is a must!",C, 45, true,false);
+            tc.postGraderJob(100,10,date,"Be prepared to look at a lot of buggy code.","3.00","3.00","Be a 1337 coder",C,false);
+
+            /*year=1994;
+            month=11;
+            day = 12;
+
+            cal = Calendar.getInstance();
+            cal.set(Calendar.YEAR, year);
+            cal.set(Calendar.MONTH, month - 1);
+            cal.set(Calendar.DAY_OF_MONTH, day);
+
+            date = new java.sql.Date(cal.getTimeInMillis());
+            rm.getJob(0).setDeadline(date);
+            PersistenceXStream.saveToXMLwithXStream(rm);*/
+
             Toast.makeText(getApplicationContext(),"Dummy Jobs Created",Toast.LENGTH_SHORT).show();
         }
         catch (InvalidInputException e)
@@ -157,6 +173,7 @@ public class ViewJobsActivity extends AppCompatActivity {
         }
         spinnerj.setAdapter(jAdapter);
 
+        //demonstration code, should be removed upon final release
         if (jAdapter.isEmpty())
         {
             createDummyJobs();

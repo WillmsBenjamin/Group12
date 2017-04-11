@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="AndroidTAMAS/app/src/androidTest/java"/>
+	<classpathentry kind="src" path="AndroidTAMAS/app/src/main/java"/>
+	<classpathentry kind="src" path="AndroidTAMAS/app/src/test/java"/>
+	<classpathentry kind="src" path="AndroidTAMAS/sourcetamas/src/androidTest/java"/>
+	<classpathentry kind="src" path="AndroidTAMAS/sourcetamas/src/test/java"/>
+	<classpathentry kind="src" path="DesktopTAMAS/src"/>
+	<classpathentry kind="src" path="DesktopTAMAS/unit_tests"/>
+	<classpathentry kind="lib" path="AndroidTAMAS/gradle/wrapper/gradle-wrapper.jar"/>
+	<classpathentry kind="lib" path="AndroidTAMAS/sourcetamas/libs/TAMAS.jar"/>
+	<classpathentry kind="lib" path="DesktopTAMAS/jgoodies-forms-1.8.0-sources.jar"/>
+	<classpathentry kind="lib" path="DesktopTAMAS/jgoodies-forms-1.8.0.jar"/>
+	<classpathentry kind="lib" path="DesktopTAMAS/lib/jdatepicker-1.3.4.jar"/>
+	<classpathentry kind="lib" path="DesktopTAMAS/lib/xmlpull-1.1.3.1.jar"/>
+	<classpathentry kind="lib" path="DesktopTAMAS/lib/xpp3_min-1.1.4c.jar"/>
+	<classpathentry kind="lib" path="DesktopTAMAS/lib/xstream-1.4.7.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
