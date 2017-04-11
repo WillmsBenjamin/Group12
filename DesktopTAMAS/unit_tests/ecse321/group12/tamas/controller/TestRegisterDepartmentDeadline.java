@@ -32,7 +32,8 @@ private ResourceManager rm;
 	
 	@Before
 	public void setUp() throws Exception {
-
+		
+		rm = ResourceManager.getInstance();
 		int year = 2017;
 		int month = 11;
 		int day = 19;
@@ -49,6 +50,7 @@ private ResourceManager rm;
 	
 	@After
 	public void tearDown() throws Exception {
+		rm.delete();
 		PersistenceXStream.saveToXMLwithXStream(rm);
 	}
 
