@@ -26,7 +26,7 @@ class unitTesting extends PHPUnit_Framework_TestCase{
 		$this->c = new Controller();
 		
 		$this->rm = $this->ps->loadDataFromStore();
-		//$this->rm->delete();
+		$this->rm->delete();
 		$this->ps->writeDataToStore($this->rm);
 	}
 	
