@@ -35,7 +35,7 @@ private ResourceManager rm;
 	
 	@Before
 	public void setUp() throws Exception {
-		
+		rm = ResourceManager.getInstance();
 		id = "123456789";
 		cGPA = "3.00";
 		skills = "None";

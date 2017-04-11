@@ -31,6 +31,7 @@ private ResourceManager rm;
 	@Before
 	public void setUp() throws Exception {
 		name = "None";
+		rm = ResourceManager.getInstance();
 	}
 
 	
