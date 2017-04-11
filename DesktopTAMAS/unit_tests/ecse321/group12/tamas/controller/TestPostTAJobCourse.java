@@ -83,7 +83,7 @@ private boolean approval;
 			
 		} catch (InvalidInputException e) {
 			
-			assertEquals("Course cannot be null!", e.getMessage());
+			assertEquals("Course cannot be empty!", e.getMessage());
 		}
 		catch (NullPointerException e){
 		

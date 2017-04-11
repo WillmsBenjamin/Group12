@@ -377,9 +377,9 @@ public class TamasController {
 				} else if((i != 1) && (aRequiredCourseGPA.charAt(i) < 48 || aRequiredCourseGPA.charAt(i) > 57)) {
 					throw new InvalidInputException("Required Course GPA must be a decimal number!");
 				} else if(i == 0 && aRequiredCourseGPA.charAt(i) > 52) {
-					throw new InvalidInputException("Required Course GPA cannot be geater than 4.00!");
+					throw new InvalidInputException("Required Course GPA cannot be greater than 4.00!");
 				} else if((i==2 || i==3) && (aRequiredCourseGPA.charAt(0) == '4') && (aRequiredCourseGPA.charAt(i) > 48)) {
-					throw new InvalidInputException("Required Course GPA cannot be geater than 4.00!");
+					throw new InvalidInputException("Required Course GPA cannot be greater than 4.00!");
 				}
 			}
 		}
@@ -395,9 +395,9 @@ public class TamasController {
 				} else if((i != 1) && (aRequiredCGPA.charAt(i) < 48 || aRequiredCGPA.charAt(i) > 57)) {
 					throw new InvalidInputException("Required CGPA must be a decimal number!");
 				} else if(i == 0 && aRequiredCGPA.charAt(i) > 52) {
-					throw new InvalidInputException("Required CGPA cannot be geater than 4.00!");
+					throw new InvalidInputException("Required CGPA cannot be greater than 4.00!");
 				} else if((i==2 || i==3) && (aRequiredCGPA.charAt(0) == '4') && (aRequiredCGPA.charAt(i) > 48)) {
-					throw new InvalidInputException("Required CGPA cannot be geater than 4.00!");
+					throw new InvalidInputException("Required CGPA cannot be greater than 4.00!");
 				}
 			}
 		}

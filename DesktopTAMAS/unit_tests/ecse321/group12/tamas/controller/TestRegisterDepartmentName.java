@@ -56,6 +56,7 @@ private ResourceManager rm;
 	public void testnameInputs() {
 		
 		TamasController tc = new TamasController(rm);
+		name = null;
 		
 		try {
 			tc.registerDepartment(name, id, deadline);
@@ -63,7 +64,7 @@ private ResourceManager rm;
 			
 		} catch (InvalidInputException e) {
 			
-			assertEquals("Name cannot be null!", e.getMessage());
+			assertEquals("Department name cannot be empty!", e.getMessage());
 		}
 		catch (NullPointerException e){
 		

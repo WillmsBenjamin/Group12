@@ -3,6 +3,8 @@ package ecse321.group12.tamas.controller;
 import static org.junit.Assert.*;
 
 import java.io.File;
+import java.sql.Date;
+import java.util.Calendar;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -59,13 +61,30 @@ private ResourceManager rm;
 			
 		} catch (InvalidInputException e) {
 			
-			assertEquals("Id cannot be null!", e.getMessage());
+			assertEquals("Student id cannot be empty!", e.getMessage());
 		}
 		catch (NullPointerException e){
 		
 			fail("No invalid input exception for null id!");
 		}
 		
+	}
+	
+	@Test 
+	
+	public void testRegisterApplicantIDLength(){
+		
+		TamasController tc = new TamasController(rm); 
+		String id = "26052977";
+		String error = null;
+		
+		try{
+			tc.registerApplicant(name, id, cGPA, skills, isGraduate);
+		}
+		catch (InvalidInputException e){
+			  error = e.getMessage();			
+		}	
+		assertEquals("Student id must be 9 numbers long!", error);	
 	}
 
 }
