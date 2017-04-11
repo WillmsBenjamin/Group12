@@ -12,8 +12,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -79,7 +79,7 @@ public class ApplicationStatusActivity extends AppCompatActivity
         applicationNumber=info.getInt("currentApplication",-1);
         isAccepted=info.getBoolean("isAccepted", false);
 
-        ScrollView parent= (ScrollView) findViewById(R.id.application_status_sc_inflation_target);
+        LinearLayout parent= (LinearLayout) findViewById(R.id.application_status_sc_inflation_target);
         if (isAccepted)
         {
             View child = getLayoutInflater().inflate(R.layout.content_job_status_accepted, null);
@@ -109,6 +109,8 @@ public class ApplicationStatusActivity extends AppCompatActivity
                                     tc.assignApplicantToJob(((Applicant) rm.getLoggedIn()).getApplication(applicationNumber));
                                 }
                                 rm.removeApplication(((Applicant) rm.getLoggedIn()).getApplication(applicationNumber));
+                                ((Applicant) rm.getLoggedIn()).getApplications().size();
+                                PersistenceXStream.saveToXMLwithXStream(rm);
                                 moveTo(CurrentApplicationActivity.class, null);
                             }
                             catch (InvalidInputException e)
@@ -146,13 +148,28 @@ public class ApplicationStatusActivity extends AppCompatActivity
             Button back = (Button) child.findViewById(R.id.job_status_rejected_button_confirm);
             back.setOnClickListener(v ->
             {
-                rm.removeApplication(rm.getApplication(applicationNumber));
-                moveTo(CurrentApplicationActivity.class, null);
+                AlertDialogFragment deletionWarning = new AlertDialogFragment();
+                FragmentManager fm = getFragmentManager();
+                deletionWarning.setArguments(bundleAlertData());
+                deletionWarning.show(fm,"DeletionDialogFragment");
+                deletionWarning.setDeletionListener
+                    (new AlertDialogFragment.DeletionListener()
+                {//DO NOT TURN THIS STATEMENT INTO A LAMBDA!!! THE EXPLICIT OVERRIDE IS NEEDED!
+                    @Override
+                    public void OnDeletionAction(int data)
+                    {
+                        if (data == 1)
+                        {
+                                ((Applicant) rm.getLoggedIn()).getApplication(applicationNumber).delete();
+                                ((Applicant) rm.getLoggedIn()).getApplications().size();
+                                PersistenceXStream.saveToXMLwithXStream(rm);
+                                moveTo(CurrentApplicationActivity.class, null);
+                        }
+                    }
+                });
             });
         }
-
     }
-
     private String getPosition(int position)
     {
        Application a = ((Applicant) rm.getLoggedIn()).getApplication(position);
@@ -189,7 +206,7 @@ public class ApplicationStatusActivity extends AppCompatActivity
         i.putExtra("Title","WARNING");
         i.putExtra("Positive Confirmation","DELETE");
         i.putExtra("Negative Confirmation","CANCEL");
-        i.putExtra("Notification","This action will delete offer. Are you sure of your decision?");
+        i.putExtra("Notification","This action will delete offer and your application. Are you sure of your decision?");
         Bundle ret=i.getExtras();
         return ret;
     }
