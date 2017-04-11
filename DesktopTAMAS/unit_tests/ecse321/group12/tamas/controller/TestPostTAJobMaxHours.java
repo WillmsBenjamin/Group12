@@ -15,7 +15,7 @@ import ecse321.group12.tamas.model.Course;
 import ecse321.group12.tamas.model.ResourceManager;
 import ecse321.group12.tamas.persistence.PersistenceXStream;
 
-public class TestPostTAJobRequiredSkills {
+public class TestPostTAJobMaxHours {
 
 private ResourceManager rm;
 	
@@ -42,7 +42,7 @@ private boolean approval;
 	public void setUp() throws Exception {
 		rm = ResourceManager.getInstance();
 		
-		maxHours = 3;
+		minHours = 3;
 		wage = 100;
 		int year = 2017;
 		int month = 11;
@@ -53,12 +53,11 @@ private boolean approval;
 		calendar.set(Calendar.DAY_OF_MONTH, day);
 		 
 		deadline = new java.sql.Date(calendar.getTimeInMillis());
-		
+		requiredSkills = "None";
 		requiredCourseGPA = "3.00";
 		requiredCourseCGPA = "3.00";
 		requiredExperience = "None";
 		course = new Course("ecse321", 1, 1, 1, 1);
-		minHours = 45;
 		
 		aIsLab = true;
 		approval = true;
@@ -72,24 +71,24 @@ private boolean approval;
 	}
 	
 	
+	
 	@Test
-	public void testRequiredSkillsInputs() {
+	
+	public void testPostTAJobInvalidCGPA5(){
 		
 		TamasController tc = new TamasController(rm);
+		String error = null;
+		maxHours = 0;
 		
-		try {
+		try{
 			tc.postTAJob(maxHours, wage, deadline, requiredSkills, requiredCourseGPA, requiredCourseCGPA, requiredExperience, course, minHours, aIsLab, approval);
-			fail("No invalid input exception for null RequiredSkills!");
-			
-		} catch (InvalidInputException e) {
-			
-			assertEquals("RequiredSkills cannot be null!", e.getMessage());
 		}
-		catch (NullPointerException e){
+		catch (InvalidInputException e){
+			  error = e.getMessage();			
+		}	
 		
-			assertEquals(new NullPointerException(), e);
-		}
-		
+		assertEquals("Maximum hours cannot be 0!", error);	
+		assertEquals(0, rm.getJobs().size());
 	}
 
 }

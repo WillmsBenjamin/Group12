@@ -3,6 +3,8 @@ package ecse321.group12.tamas.controller;
 import static org.junit.Assert.*;
 
 import java.io.File;
+import java.sql.Date;
+import java.util.Calendar;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -58,7 +60,7 @@ private ResourceManager rm;
 			
 		} catch (InvalidInputException e) {
 			
-			assertEquals("Name cannot be null!", e.getMessage());
+			assertEquals("Student name cannot be empty!", e.getMessage());
 		}
 		catch (NullPointerException e){
 		
@@ -66,6 +68,7 @@ private ResourceManager rm;
 		}
 		
 	}
+	
 
 }
 

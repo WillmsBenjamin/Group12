@@ -51,10 +51,12 @@ private ResourceManager rm;
 	}
 
 	
-	@Test
+@Test
+	
 	public void testidInputs() {
 		
 		TamasController tc = new TamasController(rm);
+		id = null;
 		
 		try {
 			tc.registerDepartment(name, id, deadline);
@@ -62,7 +64,7 @@ private ResourceManager rm;
 			
 		} catch (InvalidInputException e) {
 			
-			assertEquals("Id cannot be null!", e.getMessage());
+			assertEquals("Department id cannot be empty!", e.getMessage());
 		}
 		catch (NullPointerException e){
 		
@@ -70,5 +72,40 @@ private ResourceManager rm;
 		}
 		
 	}
+	
+@Test 
+	
+	public void testRegisterDepartmentIDLength(){
+		
+		TamasController tc = new TamasController(rm); 
+		id = "26052977";
+		String error = null;
+		
+		try{
+			tc.registerDepartment(name, id, deadline);
+		}
+		catch (InvalidInputException e){
+			  error = e.getMessage();			
+		}	
+		assertEquals("Department id must be 9 numbers long!", error);	
+	}
+
+@Test 
+
+	public void testRegisterDepartmentIDFormat(){
+	
+		TamasController tc = new TamasController(rm); 
+		id = "2605yas79";
+		String error = null;
+		
+		try{
+			tc.registerDepartment(name, id, deadline);
+		}
+		catch (InvalidInputException e){
+		  error = e.getMessage();			
+		}	
+		assertEquals("Department id must be all numbers!", error);	
+	}
+
 
 }

@@ -3,6 +3,7 @@ package ecse321.group12.tamas.controller;
 import static org.junit.Assert.*;
 
 import java.io.File;
+import java.sql.Date;
 import java.util.Calendar;
 
 import org.junit.After;
@@ -70,25 +71,42 @@ private boolean approval;
 		PersistenceXStream.saveToXMLwithXStream(rm);
 	}
 	
-	
 	@Test
-	public void testDeadlineInputs() {
+	public void testPostTAJobDeadlineNull(){
 		
 		TamasController tc = new TamasController(rm);
+		String error = null;
+		deadline = null;
 		
-		try {
+		try{
 			tc.postTAJob(maxHours, wage, deadline, requiredSkills, requiredCourseGPA, requiredCourseCGPA, requiredExperience, course, minHours, aIsLab, approval);
-			fail("No invalid input exception for null Deadline!");
-			
-		} catch (InvalidInputException e) {
-			
-			assertEquals("Deadline cannot be null!", e.getMessage());
 		}
-		catch (NullPointerException e){
+		catch (InvalidInputException e){
+			  error = e.getMessage();			
+		}	
 		
-			assertEquals(new NullPointerException(), e);
+		assertEquals("Deadline cannot be empty!", error);	
+		assertEquals(0, rm.getJobs().size());
+	}
+	
+	@Test
+	public void testPostTAJobDeadlineBeforeToday(){
+		
+		TamasController tc = new TamasController(rm);
+		String error = null;
+		Calendar c = Calendar.getInstance();
+		c.set(2010,Calendar.SEPTEMBER,15,8,30,0);
+		Date deadline = new Date(c.getTimeInMillis());
+		
+		try{
+			tc.postTAJob(maxHours, wage, deadline, requiredSkills, requiredCourseGPA, requiredCourseCGPA, requiredExperience, course, minHours, aIsLab, approval);
 		}
+		catch (InvalidInputException e){
+			  error = e.getMessage();			
+		}	
 		
+		assertEquals("Deadline cannot be before today!", error);	
+		assertEquals(0, rm.getJobs().size());
 	}
 
 }

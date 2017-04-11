@@ -3,6 +3,7 @@ package ecse321.group12.tamas.controller;
 import static org.junit.Assert.*;
 
 import java.io.File;
+import java.sql.Date;
 import java.util.Calendar;
 
 import org.junit.After;
@@ -83,7 +84,7 @@ private boolean approval;
 			
 		} catch (InvalidInputException e) {
 			
-			assertEquals("RequiredCourseGPA cannot be null!", e.getMessage());
+			assertEquals("Required Course GPA cannot be empty!", e.getMessage());
 		}
 		catch (NullPointerException e){
 		
@@ -92,4 +93,100 @@ private boolean approval;
 		
 	}
 	
+	@Test
+	 
+	public void testPostTAJobInvalidCourseGPA(){
+		
+		TamasController tc = new TamasController(rm);
+		String error = null;
+		String requiredCourseGPA = "3.##";
+		
+		try{
+			tc.postTAJob(maxHours, wage, deadline, requiredSkills, requiredCourseGPA, requiredCourseCGPA, requiredExperience, course, minHours, aIsLab, approval);
+		}
+		catch (InvalidInputException e){
+			  error = e.getMessage();			
+		}	
+		
+		assertEquals("Required Course GPA must be a decimal number!", error);	
+		assertEquals(0, rm.getJobs().size());
+	}
+	
+	@Test
+	
+	public void testPostTAJobInvalidCourseGPA2(){
+		
+		TamasController tc = new TamasController(rm);
+		String error = null;
+		String requiredCourseGPA = "6.65";
+		
+		try{
+			tc.postTAJob(maxHours, wage, deadline, requiredSkills, requiredCourseGPA, requiredCourseCGPA, requiredExperience, course, minHours, aIsLab, approval);
+		}
+		catch (InvalidInputException e){
+			  error = e.getMessage();			
+		}	
+		
+		assertEquals("Required Course GPA cannot be greater than 4.00!", error);	
+		assertEquals(0, rm.getJobs().size());
+	}
+	
+	@Test
+	
+	public void testPostTAJobInvalidCourseGPA3(){
+		
+		TamasController tc = new TamasController(rm);
+		String error = null;
+		String requiredCourseGPA = "3320";
+		
+		
+		try{
+			tc.postTAJob(maxHours, wage, deadline, requiredSkills, requiredCourseGPA, requiredCourseCGPA, requiredExperience, course, minHours, aIsLab, approval);
+		}
+		catch (InvalidInputException e){
+			  error = e.getMessage();
+			  
+		
+		assertEquals("Required Course GPA's second character must be a decimal!", error);	
+		assertEquals(0, rm.getJobs().size());
+	}
+	}
+	
+	@Test
+	
+	public void testPostTAJobInvalidCGPA4(){
+		
+		TamasController tc = new TamasController(rm);
+		String error = null;
+		String requiredCourseGPA = null;
+		
+		try{
+			tc.postTAJob(maxHours, wage, deadline, requiredSkills, requiredCourseGPA, requiredCourseCGPA, requiredExperience, course, minHours, aIsLab, approval);
+		}
+		catch (InvalidInputException e){
+			  error = e.getMessage();			
+		}	
+		
+		assertEquals("Required Course GPA cannot be empty!", error);	
+		assertEquals(0, rm.getJobs().size());
+	}
+	
+@Test
+	
+	public void testPostTAJobInvalidCGPA5(){
+		
+		TamasController tc = new TamasController(rm);
+		String error = null;
+		String requiredCourseGPA = "12345";
+		
+		try{
+			tc.postTAJob(maxHours, wage, deadline, requiredSkills, requiredCourseGPA, requiredCourseCGPA, requiredExperience, course, minHours, aIsLab, approval);
+		}
+		catch (InvalidInputException e){
+			  error = e.getMessage();			
+		}	
+		
+		assertEquals("Required Course GPA must be 4 characters long!", error);	
+		assertEquals(0, rm.getJobs().size());
+	}
 }

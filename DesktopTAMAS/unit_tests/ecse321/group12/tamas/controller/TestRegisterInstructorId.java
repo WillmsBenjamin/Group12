@@ -30,8 +30,7 @@ private ResourceManager rm;
 	
 	@Before
 	public void setUp() throws Exception {
-
-		 name = "None";
+		name = "None";
 	}
 
 	
@@ -42,9 +41,11 @@ private ResourceManager rm;
 
 	
 	@Test
+	
 	public void testidInputs() {
 		
 		TamasController tc = new TamasController(rm);
+		id = null;
 		
 		try {
 			tc.registerInstructor(name, id);
@@ -52,7 +53,7 @@ private ResourceManager rm;
 			
 		} catch (InvalidInputException e) {
 			
-			assertEquals("Id cannot be null!", e.getMessage());
+			assertEquals("Instructor id cannot be empty!", e.getMessage());
 		}
 		catch (NullPointerException e){
 		
@@ -60,5 +61,40 @@ private ResourceManager rm;
 		}
 		
 	}
+	
+@Test 
+	
+	public void testRegisterInstructorIDLength(){
+		
+		TamasController tc = new TamasController(rm); 
+		id = "26052977";
+		String error = null;
+		
+		try{
+			tc.registerInstructor(name, id);
+		}
+		catch (InvalidInputException e){
+			  error = e.getMessage();			
+		}	
+		assertEquals("Instructor id must be 9 numbers long!", error);	
+	}
+
+@Test 
+
+	public void testRegisterInstructorIDFormat(){
+	
+		TamasController tc = new TamasController(rm); 
+		id = "2605yas79";
+		String error = null;
+		
+		try{
+			tc.registerInstructor(name, id);
+		}
+		catch (InvalidInputException e){
+		  error = e.getMessage();			
+		}	
+		assertEquals("Instructor id must be all numbers!", error);	
+	}
+
 
 }
