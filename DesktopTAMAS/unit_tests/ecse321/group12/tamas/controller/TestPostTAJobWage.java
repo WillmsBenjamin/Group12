@@ -3,6 +3,7 @@ package ecse321.group12.tamas.controller;
 import static org.junit.Assert.*;
 
 import java.io.File;
+import java.sql.Date;
 import java.util.Calendar;
 
 import org.junit.After;
