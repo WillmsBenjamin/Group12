@@ -33,7 +33,7 @@ private ResourceManager rm;
 	
 	@Before
 	public void setUp() throws Exception {
-		rm = ResourceManager.getInstance();
+		
 		name = "None";
 		id = "123456789";
 		
@@ -44,7 +44,6 @@ private ResourceManager rm;
 	
 	@After
 	public void tearDown() throws Exception {
-		rm.delete();
 		PersistenceXStream.saveToXMLwithXStream(rm);
 	}
 
@@ -104,7 +103,7 @@ private ResourceManager rm;
 			  error = e.getMessage();			
 		}
 		
-		assertEquals("Student CGPA's second character must be a decimal!", error);	
+		assertEquals("Required CGPA's second character must be a decimal!", error);	
 		assertEquals(0, rm.getJobs().size());
 	}
 	
@@ -143,7 +142,7 @@ private ResourceManager rm;
 			  error = e.getMessage();			
 		}
 		
-		assertEquals("Student CGPA must be 4 characters long!", error);	
+		assertEquals("Student CGPA must be 4 numbers long!", error);	
 		assertEquals(0, rm.getJobs().size());
 	}
 }

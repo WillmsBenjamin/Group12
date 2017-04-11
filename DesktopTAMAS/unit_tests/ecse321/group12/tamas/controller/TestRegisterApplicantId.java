@@ -18,7 +18,7 @@ import ecse321.group12.tamas.persistence.PersistenceXStream;
 
 public class TestRegisterApplicantId {
 
-	private ResourceManager rm;
+private ResourceManager rm;
 	
 	private String name;
 	private String id;
@@ -35,7 +35,7 @@ public class TestRegisterApplicantId {
 	
 	@Before
 	public void setUp() throws Exception {
-		rm = ResourceManager.getInstance();
+		
 		name = "None";
 		
 		cGPA = "3.00";
@@ -46,7 +46,6 @@ public class TestRegisterApplicantId {
 	
 	@After
 	public void tearDown() throws Exception {
-		rm.delete();
 		PersistenceXStream.saveToXMLwithXStream(rm);
 	}
 
