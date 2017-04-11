@@ -122,6 +122,7 @@ class unitTesting extends PHPUnit_Framework_TestCase{
 		$this->rm = $this->ps->loadDataFromStore();
 		$this->assertEquals(1,count($this->rm->getInstructors()));
 	}
+
 	
 	public function testLogin(){
 		
@@ -562,6 +563,24 @@ class unitTesting extends PHPUnit_Framework_TestCase{
 		$this->assertEquals($error,"@5GPA must be specified correctly (x.xx)!");
 	
 	}
+	public function testSendFeedback(){
+		$this->assertEquals(0, $this->rm->numberOfAssignments());
+	
+		$applicant = new Applicant("keven", "1", "4.00", "Java", "No");
+	
+		$ECSE321 = new Course("ECSE321", 2, 0, 200,1000);
+	
+		$job = new GraderJob("100", "15", "2017-04-30", False, "JAVA", "4.00", "4.00", "TA", $ECSE321);
+	
+		$a = new Assignment("Good Job!", $applicant, $job);
+		
+		$this->rm->addAssignment($a);
+		
+		$this->assertEquals(1, $this->rm->numberOfAssignments());
+		
+		
+	}
+	
 	
 
 	

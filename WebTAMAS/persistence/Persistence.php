@@ -3,7 +3,7 @@
 class Persistence{
 	private $filename;
 	
-	function __construct($filename = 'UserData.txt'){
+	function __construct($filename = 'testData.txt'){
 		$this->filename = $filename;
 	}
 
