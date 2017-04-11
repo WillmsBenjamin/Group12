@@ -68,7 +68,7 @@ public class CurrentApplicationActivity extends AppCompatActivity {
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
 
-       int applicationNumber=((Applicant) rm.getLoggedIn()).getApplications().size();
+        int applicationNumber=((Applicant) rm.getLoggedIn()).getApplications().size();
 
         LinearLayout parent= (LinearLayout)findViewById(R.id.current_application_linearlayout_inflation_target);
         if (applicationNumber<=0)
@@ -82,6 +82,22 @@ public class CurrentApplicationActivity extends AppCompatActivity {
 
             for (int i = 0; i < applicationNumber; i++)
             {
+                int year=1994;
+                int month=11;
+                int day = 12;
+
+                Calendar cal = Calendar.getInstance();
+                cal.set(Calendar.YEAR, year);
+                cal.set(Calendar.MONTH, month - 1);
+                cal.set(Calendar.DAY_OF_MONTH, day);
+
+                java.sql.Date date = new java.sql.Date(cal.getTimeInMillis());
+                ((Applicant) rm.getLoggedIn()).getApplication(i).getJob().setDeadline(date);
+                ((Applicant) rm.getLoggedIn()).getApplication(i).setIsOffered(true);
+                PersistenceXStream.saveToXMLwithXStream(rm);
+
+
+
                 if (((Applicant) rm.getLoggedIn()).getApplication(i).getIsOffered() || ((Applicant) rm.getLoggedIn()).getApplication(i).getJob().getDeadline().before(currentDate()))
                 {
                     View child = getLayoutInflater().inflate(R.layout.content_current_application_decision, null);
@@ -92,7 +108,7 @@ public class CurrentApplicationActivity extends AppCompatActivity {
                     childButton.setId(i+1000);
                     childButton.setOnClickListener(v ->
                     {
-                        moveTo(ApplicationStatusActivity.class, intentData( (child.getId()),( (Applicant) rm.getLoggedIn()).getApplication(finalI).getIsAccepted(),true  ));
+                        moveTo(null, intentData( (child.getId()),( (Applicant) rm.getLoggedIn()).getApplication(finalI).getIsAccepted(),ApplicationStatusActivity.class));
                     });
                     drawField(((Applicant) rm.getLoggedIn()).getApplication(i).getJob().getCourse().getName(), R.id.fragment_current_applications_decision_tv_application_position_and_type, child);
 
@@ -106,7 +122,7 @@ public class CurrentApplicationActivity extends AppCompatActivity {
                     childButton.setId(i+1000);
                     childButton.setOnClickListener(v ->
                     {
-                        moveTo(ApplicationStatusActivity.class, intentData( (child.getId()),null,true ) );
+                        moveTo(null, intentData( (child.getId()),null,EditApplicationActivity.class ) );
 
                     });
                     drawField(((Applicant) rm.getLoggedIn()).getApplication(i).getJob().getCourse().getName(), R.id.fragment_current_applications_tv_application_position_and_type, child);
@@ -147,9 +163,9 @@ public class CurrentApplicationActivity extends AppCompatActivity {
         Calendar cal = Calendar.getInstance();
         return cal.getTime();
     }
-    private Intent intentData(int applicationIndex, Boolean isAccepted, boolean fromButton)
+    private Intent intentData(int applicationIndex, Boolean isAccepted, Class target)
     {
-        Intent i = new Intent(getApplicationContext(),EditApplicationActivity.class);
+        Intent i = new Intent(getApplicationContext(),target);
 
         if (applicationIndex!=-1)
         {

@@ -86,6 +86,7 @@ public class EditProfileActivity extends AppCompatActivity
                         TamasController tc = new TamasController(rm);
                         tc.logOut();
                         rm.removeApplicant((Applicant) rm.getLoggedIn());
+                        PersistenceXStream.saveToXMLwithXStream(rm);
                         moveTo(LoginActivity.class);
                     }
                 }
