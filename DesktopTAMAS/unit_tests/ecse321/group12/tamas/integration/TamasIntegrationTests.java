@@ -115,6 +115,7 @@ public class TamasIntegrationTests {
 			assertEquals("",  error);
 	}
 	
+
 	public void registerInstructor() {
 		TamasController tc = new TamasController(rm);
 		String error = "";
@@ -284,15 +285,16 @@ public class TamasIntegrationTests {
 		}
 		assertEquals("", error);
 		
-		
-		
 	}
-		
-		
-	}
-	
-	
-	
+}
+
 	
 
+		
+		
+	
+	
+	
+	
+	
 
