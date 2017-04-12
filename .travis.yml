@@ -1,0 +1,22 @@
+language: java
+jdk: oraclejdk7
+notifications:
+  email:
+    recipients:
+      - kevenliu94@gmail.com
+    on_success: never # default: change
+    on_failure: always # default: always
+script: ant build-desktop
+
+before_deploy: "echo 'ready?'"
+deploy:
+  provider: releases
+  api-key: 475ae556e51b583d764a3d7b5d9b4cd654d2381a
+  file_glob: true
+  file:
+    - DesktopTAMAS/*
+    - WebTAMAS/*
+    - AndroidTAMAS/* 
+  skip_cleanup: true
+  on:
+    tags: true
