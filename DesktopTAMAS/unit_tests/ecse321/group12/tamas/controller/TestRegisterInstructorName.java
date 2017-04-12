@@ -30,7 +30,7 @@ private ResourceManager rm;
 	
 	@Before
 	public void setUp() throws Exception {
-
+		rm = ResourceManager.getInstance();
 	
 	}
 

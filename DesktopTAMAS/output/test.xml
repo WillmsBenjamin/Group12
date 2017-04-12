@@ -1,1 +1,8 @@
-<null/>
+<manager id="1">
+  <applicants id="2"/>
+  <instructors id="3"/>
+  <applications id="4"/>
+  <jobs id="5"/>
+  <courses id="6"/>
+  <assignments id="7"/>
+</manager>

@@ -33,7 +33,7 @@ private ResourceManager rm;
 	
 	@Before
 	public void setUp() throws Exception {
-		
+		rm = ResourceManager.getInstance();	
 		name = "None";
 		id = "123456789";
 		
@@ -103,7 +103,7 @@ private ResourceManager rm;
 			  error = e.getMessage();			
 		}
 		
-		assertEquals("Required CGPA's second character must be a decimal!", error);	
+		assertEquals("Student CGPA's second character must be a decimal!", error);	
 		assertEquals(0, rm.getJobs().size());
 	}
 	
@@ -129,7 +129,7 @@ private ResourceManager rm;
 	
 @Test
 	
-	public void testPostTAJobInvalidCGPALength(){
+	public void testRegisterApllicantCGPALength(){
 		
 		TamasController tc = new TamasController(rm);
 		String error = null;
@@ -142,7 +142,7 @@ private ResourceManager rm;
 			  error = e.getMessage();			
 		}
 		
-		assertEquals("Student CGPA must be 4 numbers long!", error);	
+		assertEquals("Student CGPA must be 4 characters long!", error);	
 		assertEquals(0, rm.getJobs().size());
 	}
 }

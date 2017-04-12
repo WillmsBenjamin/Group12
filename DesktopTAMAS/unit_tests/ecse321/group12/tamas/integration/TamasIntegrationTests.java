@@ -69,6 +69,53 @@ public class TamasIntegrationTests {
 	}
 	
 	@Test
+
+	public void testLoginInstructor() {
+		loginInstructor();
+	}
+	
+	private void loginInstructor() {
+	TamasController tc = new TamasController(rm);
+			String error = "";
+	
+			try {
+				tc.registerInstructor("Joe", "123456789");
+			} catch (InvalidInputException e) {
+				error = e.getMessage();
+			}
+			assertEquals("",  error);
+			try {
+				tc.logIn("123456789");
+			} catch (InvalidInputException e) {
+				error = e.getMessage();
+			}
+			assertEquals("",  error);
+	}
+	
+	@Test
+	public void testLoginApplicant() {
+		loginApplicant();
+	}
+	
+	private void loginApplicant() {
+	TamasController tc = new TamasController(rm);
+			String error = "";
+	
+			try {
+				tc.registerApplicant("Keven", "987654321", "4.00", "Many", true);
+			} catch (InvalidInputException e) {
+				error = e.getMessage();
+			}
+			assertEquals("",  error);
+			try {
+				tc.logIn("987654321");
+			} catch (InvalidInputException e) {
+				error = e.getMessage();
+			}
+			assertEquals("",  error);
+	}
+	
+
 	public void registerInstructor() {
 		TamasController tc = new TamasController(rm);
 		String error = "";
@@ -238,15 +285,16 @@ public class TamasIntegrationTests {
 		}
 		assertEquals("", error);
 		
-		
-		
-		
-		
-		
 	}
+}
+
+	
+
+		
+		
+	
 	
 	
 	
 	
 
-}
