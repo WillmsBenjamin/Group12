@@ -6,7 +6,7 @@ notifications:
       - kevenliu94@gmail.com
     on_success: never # default: change
     on_failure: always # default: always
-script: ant build-desktop
+script: ant build.xml
 
 before_deploy: "echo 'ready?'"
 deploy:
