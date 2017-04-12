@@ -25,6 +25,7 @@
 					if(isset($_SESSION['errorUserName']) && !empty($_SESSION['errorUserName'])){
 						echo " * " . $_SESSION["errorUserName"];
 					}	
+					$_SESSION["errorUserName"] = "";
 					?>
 				</p>
 				
@@ -34,6 +35,7 @@
 					if(isset($_SESSION['errorUserID']) && !empty($_SESSION['errorUserID'])){
 						echo " * " . $_SESSION["errorUserID"];
 					}	
+					$_SESSION["errorUserID"] ="";
 					?>
 				</p>
 				

@@ -81,7 +81,7 @@
 								
 				?>
 				</p>
-				<p>Feeadback <br> <textarea  class="experience" name="feedback" cols="5" rows="10"></textarea></p>
+				<p>Feedback <br> <textarea  class="experience" name="feedback" cols="5" rows="10"></textarea></p>
 				
 				
 				
@@ -99,7 +99,7 @@
 				?>
 				</p>
 				
-				<button type="submit">Post</button>
+				<button type="submit">SEND</button>
 			
 			
 				
