@@ -195,6 +195,8 @@ public class TamasController {
 			throw new InvalidInputException("This job offer has not been accepted!");
 		} else if(!a.getIsOffered()) {
 			throw new InvalidInputException("This application has not been offered the job!");
+		} else if(a.getApplicant().getAssignments().size() == 3) {
+			throw new InvalidInputException("This applicant has been assigned to 3 jobs!");
 		} else {
 			Assignment asmt = new Assignment("", a.getApplicant(), a.getJob());
 			rm.addAssignment(asmt);
@@ -742,7 +744,7 @@ public class TamasController {
 				}
 			}
 			//depending on which applications the applicants made, and their graduate status, and the status of the job offers, add their applications to the corresponding list.
-			if (a.getIsOffered() && a.getIsAccepted() && a.getJob().getAssignment() == null) {
+			if (a.getIsOffered() && a.getIsAccepted()) {
 				if (stud.getIsGraduate()) {
 					if (labApp && tutApp) {
 						tutAndLabGrad.add(a);

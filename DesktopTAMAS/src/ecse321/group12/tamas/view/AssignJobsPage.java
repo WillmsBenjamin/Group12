@@ -407,12 +407,12 @@ public class AssignJobsPage extends JFrame {
 							}
 						} 
 					}
-				} else {
-					try {
-						tc.assignApplicantToJob(applicationLists.get(selectedList).get(selectedApplication));
-					} catch (InvalidInputException e) {
-						error = e.getMessage();
-					}
+				}
+			} else {
+				try {
+					tc.assignApplicantToJob(applicationLists.get(selectedList).get(selectedApplication));
+				} catch (InvalidInputException e) {
+					error = e.getMessage();
 				}
 			} 
 		} 
@@ -460,7 +460,7 @@ public class AssignJobsPage extends JFrame {
 	protected void displayJobInfo() {
 		String jobInfo;
 		if (selectedJob >= 0) {
-			if (rm.getJob(selectedJob) instanceof TAjob) {
+			if (jobList.get(selectedJob) instanceof TAjob) {
 				if (((TAjob) jobList.get(selectedJob)).getIsLab()) {
 					jobInfo ="TA Lab";
 				} else {
