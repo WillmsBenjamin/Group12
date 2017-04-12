@@ -3,6 +3,7 @@ package ecse321.group12.tamas.controller;
 import static org.junit.Assert.*;
 
 import java.io.File;
+import java.sql.Date;
 import java.util.Calendar;
 
 import org.junit.After;
@@ -39,6 +40,7 @@ private ResourceManager rm;
 		 calendar.set(Calendar.YEAR, year);
 		 calendar.set(Calendar.MONTH, month-1);
 		 calendar.set(Calendar.DAY_OF_MONTH, day);
+		 deadline = new java.sql.Date(calendar.getTimeInMillis());
 		 
 		 name = "None";
 		 id = "123456789";
@@ -52,23 +54,43 @@ private ResourceManager rm;
 
 	
 	@Test
-	public void testDeadlineInputs() {
+	public void testRegisterDepartmentDeadlineNull(){
 		
 		TamasController tc = new TamasController(rm);
+		String error = null;
+		deadline = null;
 		
-		try {
+		try{
 			tc.registerDepartment(name, id, deadline);
-			fail("No invalid input exception for null deadline!");
-			
-		} catch (InvalidInputException e) {
-			
-			assertEquals("Deadline cannot be null!", e.getMessage());
 		}
-		catch (NullPointerException e){
+		catch (InvalidInputException e){
+			  error = e.getMessage();			
+		}	
 		
-			fail("No invalid input exception for null deadline!");
+		assertEquals("Deadline cannot be empty!", error);	
+		assertEquals(0, rm.getJobs().size());
+	}
+	
+	@Test
+	public void testRegisterDepartmentDeadlineBeforeToday(){
+		
+		TamasController tc = new TamasController(rm);
+		String error = null;
+		Calendar c = Calendar.getInstance();
+		c.set(2010,Calendar.SEPTEMBER,15,8,30,0);
+		deadline = new Date(c.getTimeInMillis());
+		
+		try{
+			tc.registerDepartment(name, id, deadline);
 		}
+		catch (InvalidInputException e){
+			  error = e.getMessage();			
+		}	
 		
+		assertEquals("Deadline cannot be before today!", error);	
+		assertEquals(0, rm.getJobs().size());
 	}
 
 }
+
+

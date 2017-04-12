@@ -31,7 +31,7 @@ private ResourceManager rm;
 	@Before
 	public void setUp() throws Exception {
 
-		 id = "123456789";
+	
 	}
 
 	
@@ -42,9 +42,11 @@ private ResourceManager rm;
 
 	
 	@Test
+	
 	public void testnameInputs() {
 		
 		TamasController tc = new TamasController(rm);
+		name = null;
 		
 		try {
 			tc.registerInstructor(name, id);
@@ -52,7 +54,7 @@ private ResourceManager rm;
 			
 		} catch (InvalidInputException e) {
 			
-			assertEquals("Name cannot be null!", e.getMessage());
+			assertEquals("Instructor name cannot be empty!", e.getMessage());
 		}
 		catch (NullPointerException e){
 		
