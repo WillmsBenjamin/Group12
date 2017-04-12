@@ -407,14 +407,14 @@ public class AssignJobsPage extends JFrame {
 							}
 						} 
 					}
+				} else {
+					try {
+						tc.assignApplicantToJob(applicationLists.get(selectedList).get(selectedApplication));
+					} catch (InvalidInputException e) {
+						error = e.getMessage();
+					}
 				}
-			} else {
-				try {
-					tc.assignApplicantToJob(applicationLists.get(selectedList).get(selectedApplication));
-				} catch (InvalidInputException e) {
-					error = e.getMessage();
-				}
-			}
+			} 
 		} 
 		//update visuals
 		refreshData();

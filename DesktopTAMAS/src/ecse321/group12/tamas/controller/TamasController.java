@@ -742,7 +742,7 @@ public class TamasController {
 				}
 			}
 			//depending on which applications the applicants made, and their graduate status, and the status of the job offers, add their applications to the corresponding list.
-			if (a.getIsOffered() && a.getIsAccepted()) {
+			if (a.getIsOffered() && a.getIsAccepted() && a.getJob().getAssignment() == null) {
 				if (stud.getIsGraduate()) {
 					if (labApp && tutApp) {
 						tutAndLabGrad.add(a);
