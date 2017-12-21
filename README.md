@@ -7,5 +7,3 @@ It contains all of the source code for the semester's software project.
 The project is a job management system for TAs and Graders at McGill, and is called TAMAS (TA Management System).
 
 The application targets 3 platforms: Personal Computers, Android Devices, and the Web. 
-
-i chang dis su eet sink
